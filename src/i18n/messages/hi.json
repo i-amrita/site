@@ -102,5 +102,6 @@
   "footer_qr": "QR",
   "qr_hint": "मेरा पेज खोलने के लिए स्कैन करें",
   "qr_aria": "amrita.nambiar.my के लिए QR कोड",
-  "keyboard_loading": "ध्वनियाँ लोड हो रही हैं"
+  "keyboard_loading": "ध्वनियाँ लोड हो रही हैं",
+  "keyboard_sound_blocked": "इस डिवाइस पर ध्वनि बंद है। कुंजियाँ फिर भी काम करती हैं।"
 }

@@ -354,6 +354,13 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-18T14:00:00Z"
 
+[entries.keyboard_sound_blocked]
+value = "ഈ ഉപകരണത്തിൽ ശബ്ദം ഓഫാണ്. കീകൾ ഇപ്പോഴും പ്രവർത്തിക്കും."
+source_hash = "07ac82f7c46a94c2cfba6db882eb4b82eb02d403"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T14:19:10Z"
+
 [entries.locale_switch_label]
 value = "ഭാഷ തിരഞ്ഞെടുക്കുക"
 source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"

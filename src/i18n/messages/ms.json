@@ -102,5 +102,6 @@
   "footer_qr": "QR",
   "qr_hint": "Imbas untuk membuka halaman saya",
   "qr_aria": "Kod QR untuk amrita.nambiar.my",
-  "keyboard_loading": "Memuatkan bunyi"
+  "keyboard_loading": "Memuatkan bunyi",
+  "keyboard_sound_blocked": "Bunyi dimatikan pada peranti ini. Kekunci masih berfungsi."
 }
