@@ -1,0 +1,26 @@
+---
+import { FileText, FlaskConical, Link } from '@lucide/astro';
+
+import { CopyEmail } from '@/components/react/CopyEmail';
+import { SOCIALS } from '@/lib/site';
+
+const link =
+  'inline-flex items-center gap-2 rounded-key border border-border bg-surface px-3 py-1.5 text-sm text-fg transition-colors hover:border-brand hover:text-brand';
+---
+
+<ul class="flex flex-wrap gap-2" aria-label="Links">
+  <li>
+    <a class={link} href={SOCIALS.linkedin} rel="noopener" target="_blank"
+      ><Link class="size-4" aria-hidden="true" /> LinkedIn</a
+    >
+  </li>
+  <li>
+    <a class={link} href={SOCIALS.research} rel="noopener" target="_blank"
+      ><FlaskConical class="size-4" aria-hidden="true" /> Research</a
+    >
+  </li>
+  <li><CopyEmail client:load /></li>
+  <li>
+    <a class={link} href={SOCIALS.cv}><FileText class="size-4" aria-hidden="true" /> CV / Resume</a>
+  </li>
+</ul>
