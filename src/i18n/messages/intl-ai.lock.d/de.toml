@@ -1,0 +1,497 @@
+version = 1
+
+[entries.action_about]
+value = "Über"
+source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_close]
+value = "Schließen"
+source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_cmdk]
+value = "Befehlspalette"
+source_hash = "7b6b539e73d9d03f40764fe99b8ec0e594a69d8f"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_copy_email]
+value = "E-Mail kopieren"
+source_hash = "e89e8c5e42169491392a376ac6516e3fcac04dc0"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_locale]
+value = "Sprache wechseln"
+source_hash = "b307cb57ba08af0dbe386cd4d3e88c63d1d39d00"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_log]
+value = "Log"
+source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_mute]
+value = "Tastenklicks stummschalten"
+source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_projects]
+value = "Projekte"
+source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_search]
+value = "Suche"
+source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.action_theme]
+value = "Themen umschalten"
+source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.cmdk_empty]
+value = "Keine Ergebnisse gefunden."
+source_hash = "e9cc6d0e9a61da7cff0e049a68c0ecfd422d901c"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.cmdk_placeholder]
+value = "Tippen Sie einen Befehl ein oder suchen..."
+source_hash = "af381432b21075e75b09489c2cb92f9c20cba274"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.cmdk_section_actions]
+value = "Aktionen"
+source_hash = "c3cd636a585b20c40ac2df5ffb403e83cb2eef51"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.cmdk_section_navigation]
+value = "Navigation"
+source_hash = "cf03cf2e9cdf95a20af09137dfb9071db0c31bf2"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.cmdk_section_projects]
+value = "Projekte"
+source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.error_back_home]
+value = "Zurück zur Startseite"
+source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.error_not_found]
+value = "Seite nicht gefunden"
+source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.footer_license]
+value = "Quellcode unter PolyForm Nonkommerziell 1.0.0"
+source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.hero_greeting]
+value = "Ich bin"
+source_hash = "e3683d0554cb0566d1ea09e88f1975e3362becec"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.hero_hint]
+value = "Drücken Sie eine Taste, oder klicken Sie eine."
+source_hash = "3802f301460737b1f00e4dee668a685f83a4839f"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.hero_name]
+value = "Amrita"
+source_hash = "4a4d78b1fd2fdfd2005f286a74946f7bbeef3c00"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.hero_subtitle]
+value = "Ich entwerfe Produkte, bei denen Menschen und Maschinen gut zusammenarbeiten lernen."
+source_hash = "b11a612a9fefbbb16fdec70d7f63fd2f04af441d"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.hero_title]
+value = "KI × Community × menschenzentriertes Design"
+source_hash = "33be8b71accb2117427be83da042b15ab5d6284f"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T00:44:45Z"
+
+[entries.keyboard_hint]
+value = "Verwenden Sie Ihre Tastatur: drücken Sie {key}, um {action} zu öffnen"
+source_hash = "2bd20ec11a32f4ece56451b81753590508255c2c"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.keyboard_hint_touch]
+value = "Tippen Sie auf eine Taste, um zu erkunden"
+source_hash = "10929c6bb90ee4a25c39ffe648887b9970777618"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.keyboard_label]
+value = "Tastatur"
+source_hash = "6662c40bac78a8fe5e23219b77087fbe7647cb15"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.locale_switch_label]
+value = "Sprache wählen"
+source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.log_empty]
+value = "Noch keine Beiträge."
+source_hash = "8c82b5ea66e2793de3088d71e88d69791ad93b05"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.log_read_more]
+value = "Mehr lesen"
+source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_about]
+value = "Über"
+source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_home]
+value = "Startseite"
+source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_locale]
+value = "Sprache"
+source_hash = "89b86ab0e66f527166d98df92ddbcf5416ed58f6"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_log]
+value = "Log"
+source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_mute]
+value = "Tastenklicks stummschalten"
+source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_projects]
+value = "Projekte"
+source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_search]
+value = "Suche"
+source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.nav_theme]
+value = "Themen umschalten"
+source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.overlay_about_title]
+value = "Über"
+source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.overlay_close]
+value = "Überlay schließen"
+source_hash = "113040593472f11aef44085d6bcd1d2bf6c1e981"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.overlay_log_title]
+value = "Log"
+source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.overlay_projects_title]
+value = "Projekte"
+source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.overlay_search_title]
+value = "Suche"
+source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.projects_empty]
+value = "Noch keine Projekte."
+source_hash = "313557a7de2c8c92ad6245b6f8274c4f9a193127"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.projects_filter_all]
+value = "Alle"
+source_hash = "6a72085653e4c5be8c7640c868ef787cbcf063d1"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.search_empty]
+value = 'Nichts passte "{query}". Versuchen Sie mit weniger oder anderen Wörtern.'
+source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.search_found]
+value = "Hier ist, was ich gefunden habe"
+source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.search_loading]
+value = "Suche laden..."
+source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.search_pill_ai]
+value = "KI-Suche"
+source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.search_pill_keyword]
+value = "Schlüsselwort-Suche"
+source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.search_placeholder]
+value = "Suche Projekte, Beiträge und Notizen"
+source_hash = "ef187a8c1f9afa9e85018b42939d403d66a946a9"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.search_results]
+value = "{count} Ergebnisse für {query}"
+source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:44:10Z"
+
+[entries.settings_highlight]
+value = "Betätigte Tasten markieren"
+source_hash = "9f09c24f9ba7f5f7ea2688046d01e130dd5ca654"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.settings_mute]
+value = "Tastenklicks stummschalten"
+source_hash = "69776754eb1923f72a2214dc68237e09756915a0"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.socials_aria]
+value = "Soziale Links"
+source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.socials_email]
+value = "E-Mail"
+source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.socials_github]
+value = "GitHub"
+source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.socials_linkedin]
+value = "LinkedIn"
+source_hash = "6b6390a4416131f82b6ffb509f6e779e5dd9630f"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.toast_email_copied]
+value = "E-Mail kopiert"
+source_hash = "47a1583c3d749d63ab4b950d434fe8290d897645"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.toast_email_failed]
+value = "Konnte die E-Mail nicht kopieren"
+source_hash = "2842e750ce2697dd0ccc23d908a75374c288ef1d"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.toast_locale]
+value = "Sprache: {language}"
+source_hash = "a99ac5e0e1be53c4f8fa9ffb7574d016dea5aeca"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.toast_muted]
+value = "Tastenklicks stummgeschaltet"
+source_hash = "e5bb3031b9d5b969636b4a0da4c106d6be22ec59"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"
+
+[entries.toast_unmuted]
+value = "Tastenklicks aktiv"
+source_hash = "f1c0eb5895662df78a72b61f87c09d207c92d2e4"
+origin = "ai"
+reviewed = false
+model = "openrouter/free"
+updated_at = "2026-10-18T00:42:39Z"

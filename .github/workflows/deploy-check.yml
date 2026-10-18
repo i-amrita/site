@@ -1,0 +1,50 @@
+name: Deploy check
+
+# Cloudflare's git integration deploys (production branch main, preview branch develop). No deploy happens here.
+# This workflow only verifies the live site after a push to main.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-check
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  SITE: https://amrita.nambiar.my
+
+jobs:
+  verify:
+    name: Verify production
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Wait for the home page (up to 10 minutes)
+        run: |
+          for i in $(seq 1 40); do
+            code=$(curl -s -o /tmp/home.html -w '%{http_code}' --max-time 20 "$SITE/" || echo 000)
+            if [ "$code" = "200" ] && grep -q 'Amrita' /tmp/home.html; then
+              echo "Home is live (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $code, waiting 15s"
+            sleep 15
+          done
+          echo "::error::$SITE did not return 200 with 'Amrita' within 10 minutes"
+          exit 1
+      - name: Check agent-facing endpoints
+        run: |
+          fail=0
+          for path in /llms.txt /about.md; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE$path" || echo 000)
+            echo "$path -> $code"
+            if [ "$code" != "200" ]; then
+              echo "::error::$SITE$path returned $code"
+              fail=1
+            fi
+          done
+          exit $fail
