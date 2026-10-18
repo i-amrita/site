@@ -1,11 +1,12 @@
 ---
+import { m } from '@/lib/i18n';
 import { href } from '@/lib/url-state';
 ---
 
 <footer class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-8 text-xs text-muted-foreground sm:px-6">
   <p>© 2026 Amrita Nambiar</p>
   <p>
-    <a class="hover:text-brand" href={href('/', { overlay: 'about' })}>About</a>
+    <a class="hover:text-brand" href={href('/', { overlay: 'about' })} data-i18n="nav_about">{m.nav_about()}</a>
     ·
     <a class="hover:text-brand" href="/llms.txt">llms.txt</a>
   </p>

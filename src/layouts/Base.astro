@@ -23,7 +23,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,6 +46,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       // URL state first: ?theme=dark|light is applied before paint, no FOUC.
       const t = new URLSearchParams(location.search).get('theme');
       if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+      // i18n:start (locale before paint: html lang from ?locale=; all locales are LTR)
+      const l = new URLSearchParams(location.search).get('locale');
+      if (l && ['ms', 'hi', 'de', 'ml'].includes(l)) document.documentElement.lang = l;
+      document.documentElement.dir = 'ltr';
+      // i18n:end
     </script>
   </head>
   <body>

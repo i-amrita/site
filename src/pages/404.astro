@@ -1,0 +1,14 @@
+---
+import Navbar from '@/components/astro/Navbar.astro';
+import Base from '@/layouts/Base.astro';
+import { m } from '@/lib/i18n';
+---
+
+<Base title="Page not found | Amrita Nambiar">
+  <meta slot="head" name="robots" content="noindex" />
+  <Navbar slot="header" />
+  <main class="mx-auto flex max-w-2xl flex-col items-start gap-4 px-6 py-16">
+    <h1 class="font-display text-4xl" data-i18n="error_not_found">{m.error_not_found()}</h1>
+    <a class="text-brand underline" href="/" data-i18n="error_back_home">{m.error_back_home()}</a>
+  </main>
+</Base>
