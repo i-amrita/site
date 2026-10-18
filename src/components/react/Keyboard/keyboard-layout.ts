@@ -1,90 +1,89 @@
 import { ACTIONS } from '@/lib/actions';
+import { EMAIL, SOCIALS } from '@/lib/site';
 
-import type { KeyBinding, KeyDef, KeyRow, KeyVariant } from './keyboard.types';
+import type { KeyBinding, MacroKeyDef } from './keyboard.types';
 
-const U = 50;
-
-const k = (
-  code: string,
-  label: string | undefined,
-  width = U,
-  variant: KeyVariant = 'letter',
-  extra: Partial<KeyDef> = {},
-): KeyDef => ({ code, label, width, variant, ...extra });
-
-const sym = (code: string, label: string, shift: string): KeyDef =>
-  k(code, label, U, 'letter', { shift });
-const letter = (c: string): KeyDef => k(`Key${c}`, c);
-const letters = (s: string): KeyDef[] => [...s].map(letter);
-
-export const DESIGN_WIDTH = 15 * U;
-
-export const KEY_ROWS: readonly KeyRow[] = [
-  [
-    k('Escape', 'esc', U, 'accent'),
-    k('F1', 'F1'),
-    k('F2', 'F2'),
-    k('F3', 'F3'),
-    k('F4', 'F4'),
-    k('F5', 'F5'),
-    k('F6', 'F6'),
-    k('F7', 'F7', U, 'modifier', { icon: 'SkipBack' }),
-    k('F8', 'F8', U, 'modifier', { icon: 'Play' }),
-    k('F9', 'F9', U, 'modifier', { icon: 'SkipForward' }),
-    k('F10', 'F10', U, 'modifier', { icon: 'VolumeX' }),
-    k('F11', 'F11', U, 'modifier', { icon: 'Volume1' }),
-    k('F12', 'F12', U, 'modifier', { icon: 'Volume2' }),
-    k('Delete', 'del', 100, 'modifier'),
-  ],
-  [
-    sym('Backquote', '`', '~'),
-    sym('Digit1', '1', '!'),
-    sym('Digit2', '2', '@'),
-    sym('Digit3', '3', '#'),
-    sym('Digit4', '4', '$'),
-    sym('Digit5', '5', '%'),
-    sym('Digit6', '6', '^'),
-    sym('Digit7', '7', '&'),
-    sym('Digit8', '8', '*'),
-    sym('Digit9', '9', '('),
-    sym('Digit0', '0', ')'),
-    sym('Minus', '-', '_'),
-    sym('Equal', '=', '+'),
-    k('Backspace', undefined, 100, 'modifier', { icon: 'Delete' }),
-  ],
-  [
-    k('Tab', 'tab', 75, 'modifier'),
-    ...letters('QWERTYUIOP'),
-    sym('BracketLeft', '[', '{'),
-    sym('BracketRight', ']', '}'),
-    k('Backslash', '\\', 75, 'letter', { shift: '|' }),
-  ],
-  [
-    k('CapsLock', 'caps', 87.5, 'modifier'),
-    ...letters('ASDFGHJKL'),
-    sym('Semicolon', ';', ':'),
-    sym('Quote', "'", '"'),
-    k('Enter', 'return', 112.5, 'accent'),
-  ],
-  [
-    k('ShiftLeft', 'shift', 112.5, 'modifier'),
-    ...letters('ZXCVBNM'),
-    sym('Comma', ',', '<'),
-    sym('Period', '.', '>'),
-    sym('Slash', '/', '?'),
-    k('ShiftRight', 'shift', 137.5, 'modifier'),
-  ],
-  [
-    k('ControlLeft', 'ctrl', 62.5, 'modifier'),
-    k('AltLeft', 'option', 62.5, 'accent', { icon: 'Languages' }),
-    k('MetaLeft', undefined, 62.5, 'accent', { icon: 'Command' }),
-    k('Space', undefined, 312.5, 'letter'),
-    k('MetaRight', undefined, 50, 'accent', { icon: 'Command' }),
-    k('AltRight', 'option', 50, 'accent', { icon: 'Languages' }),
-    k('ArrowLeft', undefined, U, 'modifier', { icon: 'ChevronLeft' }),
-    k('ArrowDown', undefined, U, 'modifier', { icon: 'ChevronDown' }),
-    k('ArrowRight', undefined, U, 'modifier', { icon: 'ChevronRight' }),
-  ],
+/** The 12-cell, 4-column macropad. Row order is reading order in the grid. */
+export const PAD_KEYS: readonly MacroKeyDef[] = [
+  { id: 'esc', code: 'Escape', actionId: 'close', variant: 'sage', legendKey: 'key_esc' },
+  { id: 'dial', code: 'Dial', variant: 'cream', kind: 'dial' },
+  {
+    id: 'sound',
+    code: 'F5',
+    actionId: 'mute',
+    variant: 'cream',
+    legendKey: 'key_sound',
+    icon: 'Volume2',
+    kind: 'sound',
+  },
+  {
+    id: 'find',
+    code: 'F4',
+    actionId: 'search',
+    variant: 'rose',
+    legendKey: 'key_find',
+    icon: 'Sparkles',
+    glow: true,
+  },
+  {
+    id: 'work',
+    code: 'F2',
+    actionId: 'projects',
+    variant: 'rose',
+    legendKey: 'key_work',
+    icon: 'LayoutGrid',
+    glow: true,
+  },
+  {
+    id: 'about',
+    code: 'F1',
+    actionId: 'about',
+    variant: 'cream',
+    legendKey: 'key_about',
+    icon: 'Smile',
+    glow: true,
+  },
+  {
+    id: 'research',
+    code: 'Link:research',
+    variant: 'cream',
+    kind: 'link',
+    legendKey: 'key_research',
+    icon: 'Books',
+    href: SOCIALS.research,
+    external: true,
+  },
+  {
+    id: 'log',
+    code: 'F3',
+    actionId: 'log',
+    variant: 'cream',
+    legendKey: 'key_log',
+    icon: 'BookOpen',
+    glow: true,
+  },
+  {
+    id: 'linkedin',
+    code: 'Link:linkedin',
+    variant: 'rose',
+    kind: 'link',
+    legend: 'LinkedIn',
+    icon: 'Linkedin',
+    href: SOCIALS.linkedin,
+    external: true,
+  },
+  {
+    id: 'email',
+    code: 'Link:email',
+    variant: 'cream',
+    kind: 'link',
+    legendKey: 'key_build',
+    nameKey: 'socials_email',
+    icon: 'Sparkles',
+    span: 2,
+    href: `mailto:${EMAIL}`,
+  },
+  { id: 'locale', code: 'AltLeft', actionId: 'locale', variant: 'cream', kind: 'locale' },
 ];
 
 /** Action-key icons come from the registry so keyboard, CmdK and navbar stay in sync. */

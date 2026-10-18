@@ -6,7 +6,6 @@ import { urlStateParsers } from '@/lib/url-state';
 
 import { CmdK, type CmdKProject } from './CmdK';
 import { Providers } from './Providers';
-import { SearchModal } from './SearchModal';
 
 /**
  * Static Astro copy ships as English HTML marked `data-i18n="key"` (or `data-i18n-aria="key"`).
@@ -46,21 +45,25 @@ function CmdKShortcut() {
   return null;
 }
 
-/** The one island for CmdK + the search overlay. Mounted from `Base.astro` so it exists on every page. */
-export function SearchOverlays({
-  projects,
-  searchModal = true,
-}: {
-  projects: CmdKProject[];
-  /** False on `/search`, which renders the same panel inline. */
-  searchModal?: boolean;
-}) {
+/** Old `?overlay=search[&q=..]` links open the unified palette instead (`?cmdk=open`). */
+function LegacySearchRedirect() {
+  const [, setState] = useQueryStates(urlStateParsers);
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('overlay') === 'search') {
+      void setState({ overlay: null, cmdk: 'open' }, { history: 'replace' });
+    }
+  }, [setState]);
+  return null;
+}
+
+/** The one island for the CmdK palette (commands + keyword/AI search). Mounted from `Base.astro` on every page. */
+export function SearchOverlays({ projects }: { projects: CmdKProject[] }) {
   return (
     <Providers toaster={false}>
       <StaticCopy />
       <CmdKShortcut />
+      <LegacySearchRedirect />
       <CmdK projects={projects} />
-      {searchModal && <SearchModal />}
     </Providers>
   );
 }

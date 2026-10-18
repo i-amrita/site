@@ -30,7 +30,7 @@
 - **No hand-edited `llms.txt`.** Generated at build time from content collections.
 - **Use `oxlint`/`oxfmt`.** Never ESLint or Prettier.
 - **Source Available, not OSS.** License is PolyForm Noncommercial 1.0.0. Don't add MIT/Apache headers to new files except where required (keycap CSS attribution, see NOTICE).
-- **Lift `keythm`'s keycap CSS recipe.** Apache-2.0 attribution in NOTICE. Don't lift their sound sprite.
+- **`keythm` keycap CSS recipe and sound are lifted.** Apache-2.0 attribution in NOTICE. The key sound sprite is a trimmed derivative of their `sound.ogg` (explicit owner override of the old "don't lift their sound" rule); never ship the full recording.
 - **Gitflow.** Default branch = `develop`. Feature branches off `develop`. Release branches merge to `main`.
 
 ## Layout

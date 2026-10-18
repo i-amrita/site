@@ -69,7 +69,7 @@ export const ACTIONS: readonly Action[] = [
     labelKey: 'action_search',
     keys: ['F4', 's'],
     icon: 'Search',
-    patch: { overlay: 'search' },
+    patch: { cmdk: 'open' },
     kind: 'navigate',
   },
   { id: 'mute', labelKey: 'action_mute', keys: ['F5'], icon: 'VolumeX', kind: 'toggle' },

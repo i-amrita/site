@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 import { abs, getSitePages, SITE_NAME, SITE_SUMMARY } from '@/lib/content';
 
-const SECTIONS = ['Pages', 'Projects', 'Posts'] as const;
+const SECTIONS = ['Pages', 'Work', 'Log'] as const;
 
 export const GET: APIRoute = async () => {
   const pages = await getSitePages();

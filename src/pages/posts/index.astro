@@ -1,33 +1,24 @@
 ---
-import Base from '@/layouts/Base.astro';
-import { formatDate, getPosts } from '@/lib/content';
+import ListLayout from '@/components/astro/ListLayout.astro';
+import { LogList } from '@/components/react/content-blocks';
+import { getPosts, toPostItem } from '@/lib/content';
+import { m } from '@/lib/i18n';
 
 const posts = await getPosts();
 ---
 
-<Base title="Posts | Amrita Nambiar" description="Writing by Amrita Nambiar." mdHref="/posts/index.md">
-  <main id="main" class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12">
-    <h1 class="font-display text-4xl">Posts</h1>
-    {
-      posts.length === 0 ? (
-        <p class="text-muted-foreground">Nothing here yet. Check back soon.</p>
-      ) : (
-        <ul class="flex flex-col gap-6">
-          {posts.map((p) => (
-            <li class="flex flex-col gap-1">
-              <h2 class="font-display text-xl">
-                <a href={`/posts/${p.id}`} class="hover:text-brand">
-                  {p.data.title}
-                </a>
-              </h2>
-              <time datetime={formatDate(p.data.pubDate)} class="text-sm text-muted-foreground">
-                {formatDate(p.data.pubDate)}
-              </time>
-              <p>{p.data.description}</p>
-            </li>
-          ))}
-        </ul>
-      )
-    }
-  </main>
-</Base>
+<ListLayout
+  title={m.nav_log()}
+  intro={m.log_intro()}
+  description="The log: notes and posts by Amrita Nambiar."
+  mdHref="/posts/index.md"
+  narrow
+>
+  {
+    posts.length === 0 ? (
+      <p class="text-muted-foreground">{m.log_empty()}</p>
+    ) : (
+      <LogList posts={posts.map(toPostItem)} />
+    )
+  }
+</ListLayout>

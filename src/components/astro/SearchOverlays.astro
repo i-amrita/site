@@ -7,7 +7,6 @@ const projects = (await getProjects()).map((p) => ({
   title: p.data.title,
   org: p.data.org,
 }));
-const searchModal = Astro.url.pathname !== '/search';
 ---
 
-<SearchOverlays client:idle projects={projects} searchModal={searchModal} />
+<SearchOverlays client:idle projects={projects} />

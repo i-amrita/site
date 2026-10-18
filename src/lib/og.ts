@@ -30,10 +30,10 @@ let fonts: Promise<Parameters<typeof satori>[1]['fonts']> | null = null;
 const loadFonts = () =>
   (fonts ??= Promise.all([
     fontFile('fraunces', 'fraunces-latin-600-normal.woff'),
-    fontFile('jetbrains-mono', 'jetbrains-mono-latin-500-normal.woff'),
+    fontFile('fraunces', 'fraunces-latin-400-normal.woff'),
   ]).then(([display, mono]) => [
     { name: 'Fraunces', data: display, weight: 600 as const, style: 'normal' as const },
-    { name: 'JetBrains Mono', data: mono, weight: 500 as const, style: 'normal' as const },
+    { name: 'Fraunces', data: mono, weight: 400 as const, style: 'normal' as const },
   ]));
 
 type Node = { type: string; props: Record<string, unknown> };
@@ -59,7 +59,7 @@ const keycaps = (): Node =>
           border: `2px solid ${BORDER}`,
           background: '#ffffff',
           color: BRAND,
-          fontFamily: 'JetBrains Mono',
+          fontFamily: 'Fraunces',
           fontSize: 26,
         },
         label,
@@ -91,7 +91,7 @@ export async function renderOg({ eyebrow, title, subtitle }: OgCard): Promise<Ui
             ? el(
                 'div',
                 {
-                  fontFamily: 'JetBrains Mono',
+                  fontFamily: 'Fraunces',
                   fontSize: 28,
                   color: BRAND,
                   textTransform: 'uppercase',
@@ -104,11 +104,7 @@ export async function renderOg({ eyebrow, title, subtitle }: OgCard): Promise<Ui
         ].filter(Boolean),
       ),
       el('div', { justifyContent: 'space-between', alignItems: 'flex-end' }, [
-        el(
-          'div',
-          { fontFamily: 'JetBrains Mono', fontSize: 26, color: MUTED },
-          'amrita.nambiar.my',
-        ),
+        el('div', { fontFamily: 'Fraunces', fontSize: 26, color: MUTED }, 'amrita.nambiar.my'),
         keycaps(),
       ]),
     ],

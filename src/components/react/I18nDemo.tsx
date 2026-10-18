@@ -9,13 +9,13 @@ function Demo() {
       <div className="flex items-center gap-2">
         <code
           data-testid="locale"
-          className="rounded-key bg-key-light px-2 py-1 font-key text-key-light-fg"
+          className="rounded-key bg-key-cream px-2 py-1 font-key text-key-cream-fg"
         >
           {locale}
         </code>
         <LocaleSwitchButton />
       </div>
-      <h1 className="font-display text-3xl">{m.hero_title()}</h1>
+      <h1 className="font-display text-3xl">{m.hero_greeting()}</h1>
       <p>{m.hero_subtitle()}</p>
       <ul className="list-disc pl-6">
         <li>{m.nav_search()}</li>

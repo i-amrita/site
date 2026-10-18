@@ -1,53 +1,39 @@
-/** Fetch + decode the click sounds once per AudioContext and cache the buffers. */
-export const SOUND_NAMES = { down: 'click-down', up: 'click-up' } as const;
+/** Fetch the sound sprite once and decode it once, without needing a user gesture. */
+import { spriteUrl } from './key-sprite';
 
-export type SoundName = keyof typeof SOUND_NAMES;
+export { type SoundName } from './key-sprite';
 
-/** Ogg Vorbis where the browser can play it, AAC in m4a otherwise (Safari before 18.4). */
-export function soundExtension(): 'ogg' | 'm4a' {
-  const probe = typeof Audio === 'undefined' ? null : new Audio();
-  return probe?.canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'm4a';
-}
+let bytes: Promise<ArrayBuffer | undefined> | null = null;
+let decoded: Promise<AudioBuffer | undefined> | null = null;
 
-export const soundUrl = (name: SoundName) => `/sounds/${SOUND_NAMES[name]}.${soundExtension()}`;
-type Buffers = Partial<Record<SoundName, AudioBuffer>>;
-
-let bytes: Promise<Partial<Record<SoundName, ArrayBuffer>>> | null = null;
-let pending: Promise<Buffers> | null = null;
-let pendingCtx: AudioContext | null = null;
-
-/** Fetch the raw files without an AudioContext, so creating the context can wait for a user gesture. */
-export function fetchSoundBytes(): Promise<Partial<Record<SoundName, ArrayBuffer>>> {
-  bytes ??= Promise.all(
-    (Object.keys(SOUND_NAMES) as SoundName[]).map(async (name) => {
-      try {
-        const res = await fetch(soundUrl(name));
-        return [name, await res.arrayBuffer()] as const;
-      } catch {
-        return [name, undefined] as const;
-      }
-    }),
-  ).then((entries) => Object.fromEntries(entries));
+/** Fetch the raw sprite. Reuses the `<link rel=preload as=fetch>` request injected by Base.astro. */
+export function fetchSoundBytes(): Promise<ArrayBuffer | undefined> {
+  bytes ??= fetch(spriteUrl())
+    .then((res) => (res.ok ? res.arrayBuffer() : undefined))
+    .catch(() => undefined);
   return bytes;
 }
 
-/** Decode the fetched bytes once per AudioContext and cache the buffers. */
-export function loadSounds(ctx: AudioContext): Promise<Buffers> {
-  if (pending && pendingCtx === ctx) return pending;
-  pendingCtx = ctx;
-  pending = fetchSoundBytes().then(async (raw) => {
-    const entries = await Promise.all(
-      (Object.keys(SOUND_NAMES) as SoundName[]).map(async (name) => {
-        try {
-          const data = raw[name];
-          // decodeAudioData detaches its input, so decode a copy and keep the bytes for another context.
-          return [name, data ? await ctx.decodeAudioData(data.slice(0)) : undefined] as const;
-        } catch {
-          return [name, undefined] as const;
-        }
-      }),
-    );
-    return Object.fromEntries(entries) as Buffers;
+/**
+ * Decode the sprite once. An `OfflineAudioContext` can decode without a user gesture and without creating the
+ * (costly, autoplay-gated) realtime context; the resulting `AudioBuffer` plays on any context, resampled as needed.
+ * Browsers without it fall back to `fallback()` (a realtime context). Resolves undefined when fetch or decode fails.
+ */
+export function decodeSprite(
+  fallback: () => AudioContext | null,
+): Promise<AudioBuffer | undefined> {
+  decoded ??= fetchSoundBytes().then(async (raw) => {
+    if (!raw) return undefined;
+    try {
+      const Offline =
+        window.OfflineAudioContext ??
+        (window as unknown as { webkitOfflineAudioContext?: typeof OfflineAudioContext })
+          .webkitOfflineAudioContext;
+      const c: BaseAudioContext | null = Offline ? new Offline(1, 1, 48000) : fallback();
+      return c ? await c.decodeAudioData(raw.slice(0)) : undefined;
+    } catch {
+      return undefined;
+    }
   });
-  return pending;
+  return decoded;
 }

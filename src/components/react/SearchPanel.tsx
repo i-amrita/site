@@ -1,5 +1,6 @@
 import { Search } from 'lucide-react';
 import { useQueryStates } from 'nuqs';
+import type { CSSProperties } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { m, useLocale } from '@/lib/i18n';
@@ -25,7 +26,7 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
         className="flex flex-col gap-3"
         onSubmit={(e) => e.preventDefault()}
       >
-        <div className="flex items-center gap-2 rounded-card border border-border bg-surface px-3 focus-within:border-brand">
+        <div className="relative flex items-center gap-2 overflow-hidden rounded-card border border-border bg-surface px-3 focus-within:border-brand">
           <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
           <input
             name="q"
@@ -38,6 +39,9 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
             onChange={(e) => void setState({ q: e.target.value || null })}
             className="h-11 w-full bg-transparent text-sm text-fg outline-none placeholder:text-muted-foreground"
           />
+          {status === 'warming' && !keywordOnly && (
+            <span className="progress-sweep" aria-hidden="true" />
+          )}
         </div>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <SearchPill status={status} keywordOnly={keywordOnly} />
@@ -76,8 +80,8 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
         <SearchEmpty query={query} indexAvailable={indexAvailable} />
       ) : (
         <ul className="flex flex-col gap-1" data-search-results>
-          {results.map((r) => (
-            <li key={r.url}>
+          {results.map((r, i) => (
+            <li key={r.url} className="item-in" style={{ '--i': Math.min(i, 6) } as CSSProperties}>
               <a
                 href={r.url}
                 className="flex items-start gap-3 rounded-card px-3 py-2 hover:bg-surface-muted focus-visible:bg-surface-muted focus-visible:outline-none"

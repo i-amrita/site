@@ -32,9 +32,8 @@ Model weights come from the Hugging Face CDN on first use and are cached by the 
 
 ## Surfaces
 
-- Search overlay: `/?overlay=search&q=...&mode=ai|keyword` (`SearchModal.tsx`, shared `SearchPanel.tsx`).
-- Standalone page: `/search?q=...` (`search.astro`, same panel inline).
-- CmdK results: see `cmdK.md`.
+- CmdK palette (the only dialog): `/?cmdk=open&q=...&mode=ai|keyword`. Typing 3 or more characters shows results under the actions. The mode bar has AI and Keyword buttons (`aria-pressed`) that write `mode`. `SearchModal` and `?overlay=search` are gone; old `?overlay=search` links are rewritten to `?cmdk=open` by `SearchOverlays.tsx`. See `cmdK.md`.
+- Standalone page: `/search?q=...&mode=...` (`search.astro`, `SearchPanel.tsx` inline). Needs JavaScript; the noscript block links to browse pages.
 
 ## Measured (localhost preview, headless Chromium, 6 project seed content)
 

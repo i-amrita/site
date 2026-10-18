@@ -1,109 +1,72 @@
-import { useQueryStates } from 'nuqs';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore, type CSSProperties } from 'react';
 
+import { getAudioStatus, getServerAudioStatus, subscribeAudioStatus } from '@/lib/audio';
 import { m, useLocale } from '@/lib/i18n';
-import { urlStateParsers } from '@/lib/url-state';
-import { cn } from '@/lib/utils';
 
 import { Providers } from '../Providers';
 import { Key } from './Key';
-import { KeyboardProvider } from './keyboard-context';
-import { DESIGN_WIDTH, KEY_ROWS } from './keyboard-layout';
-import { BED_CLASS, FRAME_CLASS } from './keyboard-themes';
+import { KeyboardProvider, useKeyboard } from './keyboard-context';
+import { PAD_KEYS } from './keyboard-layout';
+import { CHASSIS_CLASS, PLATE_CLASS } from './keyboard-themes';
 
-const FRAME_PAD = 24 + 4; // p-3 on both sides + 2px borders
-const DESIGN_HEIGHT = 6 * 50 - 5 * 4 + 4 + FRAME_PAD; // rows overlap by 4px (-space-y-1), pt-1
-const MAX_SCALE = 1;
-
-/** Scales the fixed-size keyboard to the container width. */
-function Scaler({ children }: { children: React.ReactNode }) {
-  const outer = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0.4);
-  useLayoutEffect(() => {
-    const el = outer.current;
-    if (!el) return;
-    const fit = () => setScale(Math.min(MAX_SCALE, el.clientWidth / (DESIGN_WIDTH + FRAME_PAD)));
-    fit();
-    const ro = new ResizeObserver(fit);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
+/**
+ * Startup indicator: a small pulsing dot under the pad while the sounds load (present in the SSR HTML, so it shows
+ * before hydration too), plus sr-only status text. Once the sprite is decoded it fades out and leaves the DOM, so a
+ * fully loaded pad shows nothing extra. Absolutely positioned: no layout shift. Keys never wait for it.
+ */
+function StartupIndicator() {
+  const status = useSyncExternalStore(subscribeAudioStatus, getAudioStatus, getServerAudioStatus);
+  const [gone, setGone] = useState(false);
+  const ready = status === 'ready';
+  useEffect(() => {
+    if (!ready) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const t = setTimeout(() => setGone(true), reduce ? 0 : 400);
+    return () => clearTimeout(t);
+  }, [ready]);
+  if (gone) return null;
   return (
-    <div ref={outer} className="mx-auto w-full max-w-[950px]">
-      <div
-        style={{
-          height: DESIGN_HEIGHT * scale,
-          width: (DESIGN_WIDTH + FRAME_PAD) * scale,
-          margin: '0 auto',
-        }}
-      >
-        <div
-          style={{
-            transform: `scale(${scale})`,
-            transformOrigin: 'top left',
-            width: DESIGN_WIDTH + FRAME_PAD,
-          }}
-        >
-          {children}
-        </div>
-      </div>
+    <div
+      role="status"
+      aria-live="polite"
+      data-startup-indicator
+      data-state={ready ? 'ready' : 'loading'}
+      className={`pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 transition-opacity duration-300 motion-reduce:transition-none ${ready ? 'opacity-0' : 'opacity-100'}`}
+    >
+      <span className="sr-only">{ready ? '' : m.keyboard_loading()}</span>
+      <span
+        aria-hidden="true"
+        className="block size-1.5 animate-pulse rounded-full bg-brand/60 motion-reduce:animate-none"
+      />
     </div>
-  );
-}
-
-function KeyboardOptions() {
-  useLocale();
-  const [state, setState] = useQueryStates(urlStateParsers);
-  const box = 'size-4 accent-brand';
-  return (
-    <fieldset className="grid gap-2 rounded-[16px] bg-surface-muted p-4 text-sm sm:p-6">
-      <legend className="sr-only">{m.keyboard_options()}</legend>
-      <label className="flex cursor-pointer items-center gap-3">
-        <input
-          type="checkbox"
-          className={box}
-          checked={state.mute === '1'}
-          onChange={(e) =>
-            void setState({ mute: e.target.checked ? '1' : null }, { history: 'replace' })
-          }
-        />
-        {m.settings_mute()}
-      </label>
-      <label className="flex cursor-pointer items-center gap-3">
-        <input
-          type="checkbox"
-          className={box}
-          checked={state.highlight === '1'}
-          onChange={(e) =>
-            void setState({ highlight: e.target.checked ? '1' : null }, { history: 'replace' })
-          }
-        />
-        {m.settings_highlight()}
-      </label>
-    </fieldset>
   );
 }
 
 function KeyboardBody() {
   useLocale();
+  const { highlight } = useKeyboard();
   return (
-    <div className="flex flex-col gap-6">
-      <Scaler>
-        <div className={FRAME_CLASS} role="group" aria-label={m.keyboard_label()}>
-          <div className={cn(BED_CLASS, 'overflow-hidden pt-1')}>
-            <div className="-space-y-1 overflow-hidden rounded-[5px]">
-              {KEY_ROWS.map((row, i) => (
-                <div key={i} className="flex">
-                  {row.map((def) => (
-                    <Key key={def.code} def={def} />
-                  ))}
-                </div>
-              ))}
-            </div>
+    <div className="mx-auto w-full max-w-[342px]">
+      <div className="relative">
+        {/* Soft brand underglow behind the chassis. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-6 -bottom-3 h-10 rounded-full bg-brand/25 blur-2xl"
+        />
+        <div
+          className={CHASSIS_CLASS}
+          role="group"
+          aria-label={m.keyboard_label()}
+          style={{ '--glow': highlight / 100 } as CSSProperties}
+        >
+          <div className={PLATE_CLASS}>
+            {PAD_KEYS.map((def) => (
+              <Key key={def.id} def={def} />
+            ))}
           </div>
         </div>
-      </Scaler>
-      <KeyboardOptions />
+        <StartupIndicator />
+      </div>
     </div>
   );
 }

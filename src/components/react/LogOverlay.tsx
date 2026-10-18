@@ -1,4 +1,5 @@
 import { ActionOverlay } from '@/components/react/ActionOverlay';
+import { LogList } from '@/components/react/content-blocks';
 import type { PostItem } from '@/components/react/overlay-types';
 import { m, useLocale } from '@/lib/i18n';
 
@@ -8,6 +9,7 @@ interface Props {
   onClose: () => void;
 }
 
+/** Log drawer. Same list markup as `/posts` (`LogList`). The Log is the posts collection. */
 export function LogOverlay({ open, posts, onClose }: Props) {
   useLocale();
   return (
@@ -21,24 +23,7 @@ export function LogOverlay({ open, posts, onClose }: Props) {
       {posts.length === 0 ? (
         <p className="text-muted-foreground">{m.log_empty()}</p>
       ) : (
-        <ul role="list" className="flex flex-col gap-4">
-          {posts.map((p) => (
-            <li
-              key={p.id}
-              className="flex flex-col gap-1 rounded-card border border-border bg-surface p-4"
-            >
-              <time dateTime={p.date} className="font-key text-xs text-muted-foreground">
-                {p.date}
-              </time>
-              <h3 className="font-display text-lg">
-                <a href={`/posts/${p.id}`} className="hover:text-brand">
-                  {p.title}
-                </a>
-              </h3>
-              <p>{p.description}</p>
-            </li>
-          ))}
-        </ul>
+        <LogList posts={posts} />
       )}
     </ActionOverlay>
   );

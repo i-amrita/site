@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import Icons from 'unplugin-icons/vite';
 
 const MIME = { '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css' };
 
@@ -40,14 +41,45 @@ const dropOrtWasm = {
 export default defineConfig({
   site: 'https://amrita.nambiar.my',
   output: 'static',
+  // Static meta-refresh pages for the old /projects URLs (no Pages Functions needed).
+  redirects: { '/projects': '/work', '/projects/[slug]': '/work/[slug]' },
   integrations: [
-    react({ include: ['**/react/**', '**/components/ui/**'] }),
+    react({
+      include: ['**/react/**', '**/components/ui/**'],
+      // React Compiler, opt-in per component with 'use memo'. Compiling everything memoized Paraglide `m.*()` calls
+      // (zero args, so the compiler treats them as constants) and froze island text in the first locale.
+      babel: { plugins: [['babel-plugin-react-compiler', { compilationMode: 'annotation' }]] },
+    }),
     mdx(),
     sitemap({ filter: (page) => !page.includes('/dev/') && !page.includes('/404') }),
   ],
   vite: {
+    // Pre-bundle every island dependency up front. When nuqs and friends were discovered lazily, Vite re-optimized mid-session
+    // and produced a second React copy ("Invalid hook call", islands never hydrate, the keypad is dead in dev).
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'nuqs',
+        'nuqs/adapters/react',
+        'sonner',
+        'clsx',
+        'tailwind-merge',
+        'class-variance-authority',
+        'cmdk',
+        'vaul',
+        'radix-ui',
+        'lucide-react',
+      ],
+    },
+    resolve: { dedupe: ['react', 'react-dom'] },
     plugins: [
       tailwindcss(),
+      // `~icons/ph/<name>` imports compile to React components at build time (also used, SSR-only, inside .astro files).
+      Icons({ compiler: 'jsx', jsx: 'react' }),
       searchIndexInDev,
       dropOrtWasm,
       // Compiles src/i18n/messages/*.json into src/i18n/paraglide (gitignored) at dev start and build.

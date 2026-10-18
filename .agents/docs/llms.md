@@ -2,7 +2,7 @@
 
 Every content page has an HTML route and a markdown companion built from the same collection entry via `src/lib/content.ts`.
 
-- `/about.md`, `/now.md`, `/projects/index.md`, `/projects/[slug].md`, `/posts/index.md`, `/posts/[slug].md`: `text/markdown; charset=utf-8`. MDX is reduced to plain markdown by `mdxToMarkdown` (imports, exports, JSX components stripped).
+- `/about.md`, `/now.md`, `/work/index.md`, `/work/[slug].md`, `/posts/index.md`, `/posts/[slug].md`, `/qr.md` (hand-written, not in llms.txt): `text/markdown; charset=utf-8`. MDX is reduced to plain markdown by `mdxToMarkdown` (imports, exports, JSX components stripped).
 - `/llms.txt`: llmstxt.org index (H1, blockquote, H2 sections of `- [Title](absolute .md url): description`). Generated from `getSitePages()`. Never hand-edit.
 - `/llms-full.txt`: every page markdown, each prefixed `# Title (canonical-url)`, separated by `---`.
 - `public/_headers`: global `Link: </llms.txt>; rel="describedby"`, per-page `Link` rel=alternate to the `.md` companion (`::slug` placeholders for collections), and the `.md` content type. Cloudflare Pages ignores underscore-prefixed Astro routes, so this file is static.

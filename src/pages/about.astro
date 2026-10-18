@@ -1,6 +1,8 @@
 ---
 import ProseLayout from '@/components/astro/ProseLayout.astro';
+import { SocialLinks } from '@/components/react/content-blocks';
 import { getSingleton } from '@/lib/content';
+import { m } from '@/lib/i18n';
 import { personJsonLd } from '@/lib/jsonld';
 import { render } from 'astro:content';
 
@@ -14,6 +16,14 @@ const { Content } = await render(entry);
   description={entry.data.description}
   mdHref="/about.md"
   jsonLd={personJsonLd(entry)}
+  back={{ href: '/', label: m.nav_home() }}
 >
   <Content />
+  <section slot="after" data-pagefind-ignore class="flex flex-col gap-3 border-t border-border pt-6">
+    <h2 class="font-key text-xs tracking-wide text-muted-foreground uppercase">{m.about_links_heading()}</h2>
+    <SocialLinks
+      ariaLabel={m.socials_aria()}
+      labels={{ linkedin: m.socials_linkedin(), research: m.socials_research(), cv: m.socials_cv() }}
+    />
+  </section>
 </ProseLayout>
