@@ -10,8 +10,10 @@ interface Props {
   eyebrow?: string;
   /** Link back to a parent listing. */
   back?: { href: string; label: string };
+  /** Pagefind result type. */
+  kind?: 'page' | 'project' | 'post';
 }
-const { title, description, mdHref, jsonLd, eyebrow, back } = Astro.props;
+const { title, description, mdHref, jsonLd, eyebrow, back, kind = 'page' } = Astro.props;
 ---
 
 <Base
@@ -20,8 +22,8 @@ const { title, description, mdHref, jsonLd, eyebrow, back } = Astro.props;
   {...description && { description }}
   {...jsonLd && { jsonLd }}
 >
-  <main class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12">
-    {back && <a href={back.href} class="text-sm text-muted-foreground hover:text-brand">&larr; {back.label}</a>}
+  <main class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12" data-pagefind-body data-pagefind-meta={`type:${kind}`}>
+    {back && <a data-pagefind-ignore href={back.href} class="text-sm text-muted-foreground hover:text-brand">&larr; {back.label}</a>}
     <header class="flex flex-col gap-3">
       {eyebrow && <p class="font-key text-xs uppercase tracking-wide text-muted-foreground">{eyebrow}</p>}
       <h1 class="font-display text-4xl">{title}</h1>

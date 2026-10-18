@@ -3,6 +3,8 @@ allowBuilds:
   esbuild: true
   intl-ai: true
   lefthook: true
+  onnxruntime-node: true
+  protobufjs: true
   sharp: true
   workerd: true
 overrides:
