@@ -67,10 +67,10 @@ test.describe('macropad at 375x667', () => {
     await expect(page).not.toHaveURL(/mute=1/);
   });
 
-  test('tapping Find sets ?overlay=search', async ({ page }) => {
+  test('tapping Find sets ?cmdk=open', async ({ page }) => {
     await openHome(page);
     await key(page, /^Find/).click();
-    await expect(page).toHaveURL(/overlay=search/);
+    await expect(page).toHaveURL(/cmdk=open/);
   });
 
   test('link keys point at mail, LinkedIn and research', async ({ page }) => {
@@ -125,6 +125,41 @@ test.describe('macropad at 375x667', () => {
     await expect(page).not.toHaveURL(/theme=/);
   });
 
+  /* oxlint-disable no-await-in-loop -- sequential mouse moves */
+  test('dial drag is linear: no wrap-around at the stops', async ({ page }) => {
+    await page.goto('/?highlight=100');
+    const dial = padOf(page).getByRole('slider');
+    await expect(dial).toHaveAttribute('aria-valuenow', '100');
+    const box = (await dial.boundingBox())!;
+    const cx = box.x + box.width / 2;
+    const cy = box.y + box.height / 2;
+    const r = 18;
+    const at = (deg: number) =>
+      [cx + r * Math.sin((deg * Math.PI) / 180), cy - r * Math.cos((deg * Math.PI) / 180)] as const;
+    const now = async () => Number(await dial.getAttribute('aria-valuenow'));
+
+    // Grab at the 100 stop (+135deg) and push on clockwise through the dead zone: stays at 100.
+    await page.mouse.move(...at(135));
+    await page.mouse.down();
+    for (const deg of [150, 170, 190, 210, 225]) {
+      await page.mouse.move(...at(deg));
+      expect(await now()).toBe(100);
+    }
+    // Backwards (counter-clockwise) from the stop: value only ever decreases, never jumps up.
+    let prev = 100;
+    for (const deg of [225, 190, 150, 135, 90, 45, 0]) {
+      await page.mouse.move(...at(deg));
+      const v = await now();
+      expect(v).toBeLessThanOrEqual(prev);
+      prev = v;
+    }
+    await page.mouse.up();
+    // The pointer ended 225deg counter-clockwise of the clamped stop: 100 - 225/270*100, about 17.
+    expect(prev).toBeGreaterThan(10);
+    expect(prev).toBeLessThan(25);
+  });
+
+  /* oxlint-enable no-await-in-loop */
   test('physical F2 lights Work', async ({ page }) => {
     await openHome(page);
     // F2 opens the Projects overlay, which hides the pad from role queries, so locate by attribute.

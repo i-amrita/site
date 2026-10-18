@@ -19,12 +19,12 @@ const { Content } = await render(entry);
 
 <ProseLayout
   kind="project"
-  ogImage={`/og/projects/${entry.id}.png`}
+  ogImage={`/og/work/${entry.id}.png`}
   title={d.title}
   description={d.summary}
-  mdHref={`/projects/${entry.id}.md`}
+  mdHref={`/work/${entry.id}.md`}
   eyebrow={d.role}
-  back={{ href: '/projects', label: 'All projects' }}
+  back={{ href: '/work', label: 'All work' }}
 >
   <Fragment slot="meta">
     <p class="text-muted-foreground">

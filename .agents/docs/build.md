@@ -38,4 +38,17 @@ Cloudflare's git integration builds and deploys. Production branch is `main`, pr
 
 ## Open Graph images
 
-`src/lib/og.ts` renders 1200x630 PNG cards with satori (layout) and `@resvg/resvg-js` (raster), using the self-hosted `@fontsource/fraunces` woff files (weights 400 and 600). Static endpoints `src/pages/og/default.png.ts` and `src/pages/og/projects/[slug].png.ts` emit them during `astro build` (about 20ms each), so there is no runtime server. `Base.astro` takes an `ogImage` path (default `/og/default.png`) and writes absolute og:image and twitter:image URLs from `site`. Project pages pass `/og/projects/<slug>.png` through `ProseLayout`.
+`src/lib/og.ts` renders 1200x630 PNG cards with satori (layout) and `@resvg/resvg-js` (raster), using the self-hosted `@fontsource/fraunces` woff files (weights 400 and 600). Static endpoints `src/pages/og/default.png.ts` and `src/pages/og/work/[slug].png.ts` emit them during `astro build` (about 20ms each), so there is no runtime server. `Base.astro` takes an `ogImage` path (default `/og/default.png`) and writes absolute og:image and twitter:image URLs from `site`. Project pages pass `/og/work/<slug>.png` through `ProseLayout`.
+
+## Site configuration (`.env`)
+
+Personal links are read at build time from `PUBLIC_*` variables through `src/lib/site.ts` (`import.meta.env`). Copy `.env.example` to `.env` and fill it in; `.env` is gitignored, `.env.example` is committed and holds no secrets.
+
+| Variable | Used by | Fallback |
+|---|---|---|
+| `PUBLIC_EMAIL` | "Let's build" key, Copy email action | `hello@example.com` |
+| `PUBLIC_LINKEDIN_URL` | LinkedIn key, About links | placeholder LinkedIn URL |
+| `PUBLIC_RESEARCH_URL` | Research key, About links | `https://example.com/research` |
+| `PUBLIC_CV_URL` | About links | empty (link hidden) |
+
+Unset or empty values use the fallback. The values are public and inlined into the client bundle, so never put secrets in them. On Cloudflare, set them as build variables in the project settings. Restart `pnpm dev` after changing `.env`.

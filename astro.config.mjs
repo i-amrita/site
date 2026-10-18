@@ -41,6 +41,8 @@ const dropOrtWasm = {
 export default defineConfig({
   site: 'https://amrita.nambiar.my',
   output: 'static',
+  // Static meta-refresh pages for the old /projects URLs (no Pages Functions needed).
+  redirects: { '/projects': '/work', '/projects/[slug]': '/work/[slug]' },
   integrations: [
     react({ include: ['**/react/**', '**/components/ui/**'] }),
     mdx(),

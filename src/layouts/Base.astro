@@ -5,6 +5,7 @@ import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
 import SearchOverlays from '@/components/astro/SearchOverlays.astro';
+import { SPRITE_HASH } from '@/components/react/Keyboard/key-sprite';
 
 interface Props {
   title: string;
@@ -38,16 +39,14 @@ const description =
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // Same format choice as audio-preloader.ts, so the preload is the request the app reuses.
 const soundPreload = `(() => {
-  const ext = new Audio().canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'm4a';
-  for (const n of ['click-down', 'click-up']) {
-    const l = document.createElement('link');
-    l.rel = 'preload';
-    l.as = 'fetch';
-    l.href = '/sounds/' + n + '.' + ext;
-    l.crossOrigin = 'anonymous';
-    l.fetchPriority = 'low';
-    document.head.append(l);
-  }
+  const ext = new Audio().canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
+  const l = document.createElement('link');
+  l.rel = 'preload';
+  l.as = 'fetch';
+  l.href = '/sounds/keys-${SPRITE_HASH}.' + ext;
+  l.crossOrigin = 'anonymous';
+  l.fetchPriority = 'low';
+  document.head.append(l);
 })();`;
 const ogUrl = new URL(ogImage, Astro.site);
 ---
@@ -58,6 +57,10 @@ const ogUrl = new URL(ogImage, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#f7f3ed" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1d1a1b" media="(prefers-color-scheme: dark)" />
     <slot name="head" />
     {
       // Hero name (Fraunces italic) and body (Jakarta) are first-paint text; preload to avoid late discovery.

@@ -1,4 +1,4 @@
-click-down and click-up (.ogg, with .m4a AAC fallbacks encoded from them) are original sounds generated for this project with ffmpeg (filtered white noise bursts plus a short decaying sine).
-They are released under CC0 1.0 (public domain dedication).
-
+keys-<hash>.ogg (Ogg Opus) and keys-<hash>.m4a (AAC fallback for Safari before 18.4) are a sprite of 16 short key clicks (12 down, 4 up), trimmed, loudness-normalized and packed from keythm's public/sounds/sound.ogg (https://github.com/AayushBharti/keythm, Apache-2.0, see NOTICE).
+Offsets live in src/components/react/Keyboard/key-sprite.ts. The hash in the file name is a content hash, so /sounds/* is served immutable (see public/_headers). Bump both together when the sprite changes.
 Regenerate: see .agents/docs/audio.md.
+dial-<hash>.{ogg,m4a} is the dial detent sprite (3 ticks + 1 stop slice) built from Kenney's CC0 UI Audio pack (https://kenney.nl/assets/ui-audio). To swap it, replace both files and update DIAL_SAMPLE_BASE and DIAL_SPRITE in key-sprite.ts; the synth tick in src/lib/audio.ts is the fallback.

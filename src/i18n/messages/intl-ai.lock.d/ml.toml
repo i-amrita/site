@@ -1,5 +1,12 @@
 version = 1
 
+[entries.about_links_heading]
+value = "മറ്റിടങ്ങളിൽ"
+source_hash = "ebac8c4d9a49145f83661ffc96fc103b390fa3cf"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T12:44:35Z"
+
 [entries.action_about]
 value = "എന്നെക്കുറിച്ച്"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
@@ -57,12 +64,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_projects]
-value = "പ്രോജക്ടുകൾ"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "ai"
+value = "ജോലി"
+source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.action_search]
 value = "തിരയുക"
@@ -113,12 +119,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_go_projects]
-value = "പ്രോജെക്റ്റുകളിലേക്ക് പോവുക"
-source_hash = "19ac0c7e580f8e696729f76bad4c7771b870e222"
-origin = "ai"
+value = "ജോലിയിലേക്ക് പോവുക"
+source_hash = "1c0e4a14f832574bee832d70b2246ab2128dfadc"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.cmdk_open_search]
 value = "തിരയൽ തുറക്കുക"
@@ -351,6 +356,13 @@ reviewed = true
 model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
+[entries.log_intro]
+value = "കുറിപ്പുകളും എഴുത്തുകളും, പുതിയത് ആദ്യം."
+source_hash = "fa8d2bda912c947b20a8fa09fc566b450344fc7b"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T12:44:35Z"
+
 [entries.log_read_more]
 value = "കൂടുതൽ വായിക്കുക"
 source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
@@ -408,12 +420,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_projects]
-value = "പ്രോജക്ടുകൾ"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "ai"
+value = "ജോലി"
+source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.nav_search]
 value = "തിരയുക"
@@ -440,12 +451,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_about_read_more]
-value = "മുഴുവൻ ബയോ വായിക്കുക"
-source_hash = "037b15481d9ab45951db389a1dbf9a07137d28ed"
-origin = "ai"
+value = "മുഴുവൻ പേജ് കാണുക"
+source_hash = "ef80a403560522e5043511bbf95190d8f2b6f88f"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_about_title]
 value = "എന്നെക്കുറിച്ച്"
@@ -472,12 +482,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_log_see_all]
-value = "എല്ലാ പോസ്റ്റുകളും കാണുക"
-source_hash = "91f5b645cd6b514582a0efd651f0665387d54e38"
-origin = "ai"
+value = "എല്ലാ ലോഗ് എൻട്രികളും കാണുക"
+source_hash = "2ac42acc2d747ad0809eb52628b633920e7e4c56"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_log_title]
 value = "ലോഗ്"
@@ -488,28 +497,25 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_projects_description]
-value = "തിരഞ്ഞെടുത്ത പ്രോജക്ടുകൾ. ടാഗ് അനുസരിച്ച് ഫിൽട്ടർ ചെയ്യുക, അല്ലെങ്കിൽ പൂർണ്ണ കഥയ്ക്കായി ഒന്ന് തുറക്കുക."
-source_hash = "714d647c68cc0f85d86a195ddf56bb0fabf02934"
-origin = "ai"
+value = "തിരഞ്ഞെടുത്ത ജോലികൾ. ടാഗ് അനുസരിച്ച് ഫിൽട്ടർ ചെയ്യുക, അല്ലെങ്കിൽ പൂർണ്ണ കഥയ്ക്കായി ഒന്ന് തുറക്കുക."
+source_hash = "53e6e2e0a3c97cd0d7cb89fe82bac6029371e94d"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_projects_see_all]
-value = "എല്ലാ പ്രോജെക്റ്റുകളും കാണുക"
-source_hash = "81895f60b3dacca65adbca0f90f3f615463e6004"
-origin = "ai"
+value = "എല്ലാ ജോലികളും കാണുക"
+source_hash = "ddb6a75b2805115b2fb21b7ffc8be51435e55bd0"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_projects_title]
-value = "പ്രോജക്ടുകൾ"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "ai"
+value = "ജോലി"
+source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_search_title]
 value = "തിരയുക"
@@ -520,12 +526,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_empty]
-value = "ഇതുവരെ പ്രോജക്ടുകൾ ഇല്ല."
-source_hash = "313557a7de2c8c92ad6245b6f8274c4f9a193127"
-origin = "ai"
+value = "ഇതുവരെ ജോലികൾ ഇല്ല."
+source_hash = "158f978309cf1b6976269485c60e6c8d700b14ba"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.projects_empty_filter]
 value = "ഈ ഫിൽട്ടറുമായി പൊരുത്തപ്പെടുന്ന പ്രോജക്ടുകളില്ല."
@@ -544,12 +549,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_filter_aria]
-value = "ടാഗ് അനുസരിച്ച് പ്രോജക്ടുകൾ ഫിൽട്ടർ ചെയ്യുക"
-source_hash = "fa60669dd0af8f76ae2aa1f147bc2d8bc2a4992b"
-origin = "ai"
+value = "ടാഗ് അനുസരിച്ച് ജോലികൾ ഫിൽട്ടർ ചെയ്യുക"
+source_hash = "8e1c06173eb75a229d71a1f2b0d6e12bddbc2b3e"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.projects_read_more]
 value = "കൂടുതൽ വായിക്കുക"
@@ -773,3 +777,10 @@ origin = "ai"
 reviewed = true
 model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
+
+[entries.work_intro]
+value = "AI, സമൂഹം, ഡിസൈൻ എന്നിവയിലെ തിരഞ്ഞെടുത്ത ജോലികൾ."
+source_hash = "d385cba519d81f94830f756632e398b5bb79c9a2"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T12:44:35Z"

@@ -19,7 +19,7 @@ row 3  [LinkedIn] [  LET'S BUILD (2u)  ] [Locale]
 | 1 | `esc` | esc | none | `close` | `Escape` | sage | `Escape` | `?overlay=` and `?cmdk=` removed |
 | 1 | `dial` | none (knurled dial, `kind: 'dial'`, `role=slider`) | none | none | `Dial` | dial | none | `?highlight=0..100` (absent = 0); rotates -135deg to +135deg |
 | 1 | `sound` | Sound | `Volume2` / `VolumeX` | `mute` | `F5` | cream | `F5` | `?mute=1\|0`, icon reflects state |
-| 1 | `find` | Find (with a sparkle) | `Sparkles` | `search` | `F4` | rose | `F4`, `s` | `?overlay=search` |
+| 1 | `find` | Find (with a sparkle) | `Sparkles` | `search` | `F4` | rose | `F4`, `s` | `?cmdk=open` |
 | 2 | `work` | Work | `LayoutGrid` | `projects` | `F2` | rose | `F2`, `p` | `?overlay=projects` |
 | 2 | `about` | About | `Smile` | `about` | `F1` | cream | `F1`, `a` | `?overlay=about` |
 | 2 | `research` | Research | `Books` | none (link) | `Link:research` | cream | none | opens `SOCIALS.research` in a new tab |
@@ -70,7 +70,7 @@ A key press updates its URL param through `nuqs`. The overlay island reads the p
 | tap Work | URL has `?overlay=projects` |
 | tap Sound | URL toggles `?mute=1` |
 | tap dial | `?highlight=` cycles 50, 100, none; ArrowRight on the focused slider adds 5; End sets 100 |
-| tap Find | URL has `?overlay=search` |
+| tap Find | URL has `?cmdk=open` |
 | link keys | `href` is `mailto:`, the LinkedIn URL and the research URL; LinkedIn and Research have `target=_blank` |
 | press `F2` | Work lights while held |
 | tick highlight | URL has `?highlight=1` and nav keys glow |

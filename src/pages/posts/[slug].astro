@@ -22,7 +22,7 @@ const { Content } = await render(entry);
   title={d.title}
   description={d.description}
   mdHref={`/posts/${entry.id}.md`}
-  back={{ href: '/posts', label: 'All posts' }}
+  back={{ href: '/posts', label: 'All log entries' }}
 >
   <Fragment slot="meta">
     <time datetime={formatDate(d.pubDate)} class="text-sm text-muted-foreground">{formatDate(d.pubDate)}</time>

@@ -45,13 +45,30 @@ const LABEL_KEYS = new Map(ACTIONS.map((a) => [a.id, a.labelKey]));
 const DIAL_MIN_DEG = -135;
 const DIAL_MAX_DEG = 135;
 const DRAG_SLOP_PX = 4;
+const DIAL_RANGE_DEG = DIAL_MAX_DEG - DIAL_MIN_DEG;
+
+/** Pointer angle around the dial centre in degrees, 0 = up, clockwise positive, -180..180. */
+function pointerAngle(e: PointerEvent<HTMLElement>) {
+  const r = e.currentTarget.getBoundingClientRect();
+  return (
+    (Math.atan2(e.clientX - (r.left + r.width / 2), -(e.clientY - (r.top + r.height / 2))) * 180) /
+    Math.PI
+  );
+}
 
 /** Rotary highlight control: `?highlight=0..100`, mapped to -135deg..+135deg. */
 function Dial() {
   useLocale();
   const { highlight, setHighlight } = useKeyboard();
   const ref = useRef<HTMLDivElement>(null);
-  const drag = useRef<{ x: number; y: number; moved: boolean; deg: number } | null>(null);
+  const drag = useRef<{
+    x: number;
+    y: number;
+    moved: boolean;
+    start: number;
+    last: number;
+    acc: number;
+  } | null>(null);
   const [active, setActive] = useState(false);
   const valueRef = useRef(highlight);
   valueRef.current = highlight;
@@ -80,17 +97,6 @@ function Dial() {
     return () => el.removeEventListener('wheel', onWheel);
   });
 
-  const degFromPointer = (e: PointerEvent<HTMLElement>, prevDeg: number) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    let deg =
-      (Math.atan2(e.clientX - (r.left + r.width / 2), -(e.clientY - (r.top + r.height / 2))) *
-        180) /
-      Math.PI;
-    // The dead zone at the bottom snaps to whichever end the dial came from.
-    if (deg > DIAL_MAX_DEG || deg < DIAL_MIN_DEG) deg = prevDeg >= 0 ? DIAL_MAX_DEG : DIAL_MIN_DEG;
-    return deg;
-  };
-
   const onPointerDown = (e: PointerEvent<HTMLElement>) => {
     if (e.button !== 0) return;
     try {
@@ -102,7 +108,9 @@ function Dial() {
       x: e.clientX,
       y: e.clientY,
       moved: false,
-      deg: DIAL_MIN_DEG + (valueRef.current / 100) * (DIAL_MAX_DEG - DIAL_MIN_DEG),
+      start: valueRef.current,
+      last: pointerAngle(e),
+      acc: 0,
     };
     setActive(true);
     ref.current?.focus({ preventScroll: true });
@@ -112,8 +120,17 @@ function Dial() {
     if (!d) return;
     if (!d.moved && Math.hypot(e.clientX - d.x, e.clientY - d.y) < DRAG_SLOP_PX) return;
     d.moved = true;
-    d.deg = degFromPointer(e, d.deg);
-    change(((d.deg - DIAL_MIN_DEG) / (DIAL_MAX_DEG - DIAL_MIN_DEG)) * 100);
+    // Linear: accumulate the (unwrapped) angle delta from the grab point and clamp at the stops.
+    // The dead zone at the bottom is crossed continuously, so the value can never jump 90 -> 10.
+    const angle = pointerAngle(e);
+    let delta = angle - d.last;
+    if (delta > 180) delta -= 360;
+    else if (delta < -180) delta += 360;
+    d.last = angle;
+    const lo = (-d.start / 100) * DIAL_RANGE_DEG;
+    const hi = ((100 - d.start) / 100) * DIAL_RANGE_DEG;
+    d.acc = Math.min(hi, Math.max(lo, d.acc + delta));
+    change(d.start + (d.acc / DIAL_RANGE_DEG) * 100);
   };
   const onPointerUp = (e: PointerEvent<HTMLElement>) => {
     const d = drag.current;
@@ -125,7 +142,7 @@ function Dial() {
       const v = valueRef.current;
       change(v < 50 ? 50 : v < 100 ? 100 : 0, false);
       navigator.vibrate?.(12);
-      playClick('down');
+      playClick('down', 'Dial');
     }
   };
   const onKeyDown = (e: KeyboardEvent) => {

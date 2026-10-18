@@ -14,7 +14,7 @@ export interface CorpusChunk {
 const MAX_CHARS = 900;
 
 const typeOf = (section: string): CorpusChunk['type'] =>
-  section === 'Projects' ? 'project' : section === 'Posts' ? 'post' : 'page';
+  section === 'Work' ? 'project' : section === 'Log' ? 'post' : 'page';
 
 /** One head chunk (title + description) plus one chunk per `##` section, capped in length. */
 function chunk(title: string, description: string, markdown: string) {

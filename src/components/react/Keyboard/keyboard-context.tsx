@@ -90,7 +90,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   const press = useCallback(
     (code: string, source: PressSource) => {
       mark(code, true);
-      playClick('down');
+      playClick('down', code);
       if (source === 'pointer') navigator.vibrate?.(12);
       const binding = BINDINGS.get(code);
       // Pointer taps fire on pointerdown; physical modifiers wait for keyup (see below).
@@ -103,7 +103,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   const release = useCallback(
     (code: string, _source: PressSource) => {
       mark(code, false);
-      playClick('up');
+      playClick('up', code);
     },
     [mark],
   );
@@ -124,20 +124,20 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       if (MODIFIER_TAPS.has(e.code)) {
         modTap.current = e.code;
         mark(e.code, true);
-        playClick('down');
+        playClick('down', e.code);
         return;
       }
       // Cmd/Ctrl+K opens the palette; other chorded shortcuts belong to the browser.
       if ((e.metaKey || e.ctrlKey) && e.code === 'KeyK') {
         e.preventDefault();
         mark(e.code, true);
-        playClick('down');
+        playClick('down', e.code);
         runRef.current('cmdk');
         return;
       }
       if (e.metaKey || e.ctrlKey || e.altKey) {
         mark(e.code, true);
-        playClick('down');
+        playClick('down', e.code);
         return;
       }
       if (binding) e.preventDefault();

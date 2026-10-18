@@ -30,7 +30,7 @@ src/
   components/
     react/        islands (Providers.tsx so far)
     ui/           vendored shadcn/ui, never edited
-  content/        about.mdx, posts/ (empty), projects/ (planned)
+  content/        about.mdx, posts/ (empty), projects/ (served at /work)
   content.config.ts  collections: project, post, singletons
   layouts/        Base.astro (head, canonical, theme pre-paint)
   lib/

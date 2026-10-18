@@ -8,16 +8,16 @@ Islands bind the parsers with `nuqs` through `useQueryStates(urlStateParsers)`. 
 
 | Param | Parser | Allowed values | History | Written by | Notes |
 |---|---|---|---|---|---|
-| `overlay` | `parseAsStringLiteral(OVERLAYS)` | `about`, `projects`, `log`, `search` | push | About (F1, A), Projects (F2, P), Log (F3, B), Search (F4, S). Close removes it. | One overlay at a time. Opening another overlay replaces the value. |
-| `scroll` | `parseAsInteger` | integer | replace | Written by the Projects overlay (throttled 200ms): pixel `scrollTop` of the list, restored on open. Cleared when it returns to 0. | Close clears it. |
-| `filter` | `parseAsString` | any string | replace | Written by the Projects overlay tag chips (same tag slug as `/projects`). | Close clears it. |
+| `overlay` | `parseAsStringLiteral(OVERLAYS)` | `about`, `projects`, `log` | push | About (F1, A), Work (F2, P), Log (F3, B). Close removes it. Legacy `search` is rewritten to `cmdk=open`. | One overlay at a time. Opening another overlay replaces the value. |
+| `scroll` | `parseAsInteger` | integer | replace | Written by the Work overlay (throttled 200ms): pixel `scrollTop` of the list, restored on open. Cleared when it returns to 0. | Close clears it. |
+| `filter` | `parseAsString` | any string | replace | Written by the Work overlay tag chips (same tag slug as `/work`). | Close clears it. |
 | `mute` | `parseAsStringLiteral(FLAGS)` | `1`, `0` | replace | Mute (F5). Kind `toggle`, so the value is computed at call time by the consumer. | Mute silences key clicks only. Action keys still fire and still update the URL. |
 | `highlight` | `parseAsInteger.withDefault(0)` | integer 0..100 | replace | The pad dial (`role=slider`). Not an action. | Intensity of the steady glow on action keys (`--glow` = value/100). 0 clears the param. nuqs updates local state at once and throttles the URL write while dragging. |
 | `theme` | `parseAsStringLiteral(THEMES)` | `light`, `dark` | replace | Theme (F6, T). Kind `toggle`. | Applied before paint by the inline script in `Base.astro`, which sets `<html data-theme>`. Absent means OS preference. |
 | `locale` | `parseAsStringLiteral(LOCALES)` | `en`, `ms`, `hi`, `de`, `ml` | replace | Locale (Alt+l, L). Kind `cycle`. | Launch ships `en` only. The other values are reserved for Phase 5 (i18n). |
 | `cmdk` | `parseAsStringLiteral(['open'])` | `open` | push | Command palette (Meta+k, K, Space, Enter). Close removes it. | Only value is `open`. |
 | `q` | `parseAsString` | any string | replace | Not written by any action yet. CmdK input and search. | Close clears it. |
-| `mode` | `parseAsStringLiteral(['ai', 'keyword'])` | `ai`, `keyword` | replace | Not written by any action yet. Phase 4 plan: toggles Pagefind-only vs hybrid search. | Default behavior is keyword. |
+| `mode` | `parseAsStringLiteral(['ai', 'keyword'])` | `ai`, `keyword` | replace | Written by the AI / Keyword toggle in the CmdK mode bar and on `/search`. | Absent means AI (hybrid when the model is warm). `keyword` never loads the model. |
 
 Values outside the allow-list are not valid state. Expected behavior is that the param reads as absent. QA must confirm this on a real page once a consumer exists.
 
@@ -42,7 +42,7 @@ The `close` action (Escape) sets `overlay`, `cmdk`, `q`, `scroll`, and `filter` 
 | `about` | `F1`, `a` | navigate | `overlay: about` |
 | `projects` | `F2`, `p` | navigate | `overlay: projects` |
 | `log` | `F3`, `b` | navigate | `overlay: log` |
-| `search` | `F4`, `s` | navigate | `overlay: search` |
+| `search` | `F4`, `s` | navigate | `cmdk: open` |
 | `mute` | `F5` | toggle | computed at call time, writes `mute` |
 | `theme` | `F6`, `t` | toggle | computed at call time, writes `theme` |
 | `locale` | `Alt`, `l` | cycle | computed at call time, writes `locale` |
@@ -63,14 +63,14 @@ href('/', {}); // "/"
 
 ## Example URLs
 
-- `/?overlay=projects`: Projects overlay open.
-- `/?overlay=projects&scroll=400`: Projects overlay open, list scrolled 400px.
-- `/?overlay=projects&filter=gcp`: Projects overlay filtered to one tag.
+- `/?overlay=projects`: Work overlay open.
+- `/?overlay=projects&scroll=400`: Work overlay open, list scrolled 400px.
+- `/?overlay=projects&filter=gcp`: Work overlay filtered to one tag.
 - `/?theme=dark`: dark theme forced, regardless of OS setting.
 - `/?theme=light&mute=1`: light theme, key clicks muted.
 - `/?highlight=60`: action keys glow at 60% intensity.
 - `/?cmdk=open&q=gdg`: palette open with query.
-- `/?cmdk=open&q=gdg&mode=ai`: palette open, hybrid search (planned).
+- `/?cmdk=open&q=gdg&mode=ai`: palette open, hybrid search. `mode=keyword` pins Pagefind only.
 - `/?locale=ms`: Malay. Reserved, not active at EN-only launch.
 
 ## Known drift between docs and code
@@ -103,3 +103,9 @@ Runnable after Phase 2 and 3:
 9. Locale. Press `Alt+l`. Assert `locale` changes in the URL. Expected at EN-only launch: the value is set but the page stays English.
 
 Each flow writes a single line verdict (pass or fail) plus the failing assertion. Keep Playwright output terse.
+
+## Routes and drawers (Work, Log, About)
+
+Visible names are Work, Log and About. Routes: `/work` and `/work/<slug>` (content collection `project`), `/posts` and `/posts/<slug>` (collection `post`, shown as "Log"), `/about`, `/now`. Each has a `.md` companion (`/work/index.md`, `/posts/index.md`, `/about.md`). `/projects` and `/projects/<slug>` are static meta-refresh redirects to `/work` (Astro `redirects`, no Pages Functions).
+
+The overlay param values stay `projects`, `log` and `about` (`projects` is the Work drawer). The drawers are non-modal: a bottom vaul Drawer below 640px, a right-docked Radix panel from 640px, no scrim, outside clicks never dismiss, so the pad and hotkeys keep working. Escape, the close button and Back close them. Each ends with a See all link to the full page. Drawer and page share `src/components/react/content-blocks.tsx` (`WorkList`, `LogList`, `SocialLinks`, `TagChips`).

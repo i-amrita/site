@@ -1,53 +1,52 @@
-/** Fetch + decode the click sounds once per AudioContext and cache the buffers. */
-export const SOUND_NAMES = { down: 'click-down', up: 'click-up' } as const;
+/** Fetch + decode the key-click sprite once per AudioContext and cache the buffer. */
+import { dialUrl, spriteUrl } from './key-sprite';
 
-export type SoundName = keyof typeof SOUND_NAMES;
+export { type SoundName } from './key-sprite';
 
-/** Ogg Vorbis where the browser can play it, AAC in m4a otherwise (Safari before 18.4). */
-export function soundExtension(): 'ogg' | 'm4a' {
-  const probe = typeof Audio === 'undefined' ? null : new Audio();
-  return probe?.canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'm4a';
-}
-
-export const soundUrl = (name: SoundName) => `/sounds/${SOUND_NAMES[name]}.${soundExtension()}`;
-type Buffers = Partial<Record<SoundName, AudioBuffer>>;
-
-let bytes: Promise<Partial<Record<SoundName, ArrayBuffer>>> | null = null;
-let pending: Promise<Buffers> | null = null;
+let bytes: Promise<ArrayBuffer | undefined> | null = null;
+let pending: Promise<AudioBuffer | undefined> | null = null;
 let pendingCtx: AudioContext | null = null;
 
-/** Fetch the raw files without an AudioContext, so creating the context can wait for a user gesture. */
-export function fetchSoundBytes(): Promise<Partial<Record<SoundName, ArrayBuffer>>> {
-  bytes ??= Promise.all(
-    (Object.keys(SOUND_NAMES) as SoundName[]).map(async (name) => {
-      try {
-        const res = await fetch(soundUrl(name));
-        return [name, await res.arrayBuffer()] as const;
-      } catch {
-        return [name, undefined] as const;
-      }
-    }),
-  ).then((entries) => Object.fromEntries(entries));
+/** Fetch the raw sprite without an AudioContext, so creating the context can wait for a user gesture. */
+export function fetchSoundBytes(): Promise<ArrayBuffer | undefined> {
+  bytes ??= fetch(spriteUrl())
+    .then((res) => (res.ok ? res.arrayBuffer() : undefined))
+    .catch(() => undefined);
   return bytes;
 }
 
-/** Decode the fetched bytes once per AudioContext and cache the buffers. */
-export function loadSounds(ctx: AudioContext): Promise<Buffers> {
+/** Decode the fetched sprite once per AudioContext. Resolves undefined when fetch or decode fails. */
+export function loadSounds(ctx: AudioContext): Promise<AudioBuffer | undefined> {
   if (pending && pendingCtx === ctx) return pending;
   pendingCtx = ctx;
   pending = fetchSoundBytes().then(async (raw) => {
-    const entries = await Promise.all(
-      (Object.keys(SOUND_NAMES) as SoundName[]).map(async (name) => {
-        try {
-          const data = raw[name];
-          // decodeAudioData detaches its input, so decode a copy and keep the bytes for another context.
-          return [name, data ? await ctx.decodeAudioData(data.slice(0)) : undefined] as const;
-        } catch {
-          return [name, undefined] as const;
-        }
-      }),
-    );
-    return Object.fromEntries(entries) as Buffers;
+    try {
+      // decodeAudioData detaches its input, so decode a copy and keep the bytes for another context.
+      return raw ? await ctx.decodeAudioData(raw.slice(0)) : undefined;
+    } catch {
+      return undefined;
+    }
   });
   return pending;
+}
+
+let dialBytes: Promise<ArrayBuffer | undefined> | null = null;
+let dialPending: Promise<AudioBuffer | undefined> | null = null;
+let dialCtx: AudioContext | null = null;
+
+/** Fetch + decode the dial detent sample (separate file, see `DIAL_SAMPLE_BASE`). Undefined on failure. */
+export function loadDialSample(ctx: AudioContext): Promise<AudioBuffer | undefined> {
+  if (dialPending && dialCtx === ctx) return dialPending;
+  dialCtx = ctx;
+  dialBytes ??= fetch(dialUrl())
+    .then((res) => (res.ok ? res.arrayBuffer() : undefined))
+    .catch(() => undefined);
+  dialPending = dialBytes.then(async (raw) => {
+    try {
+      return raw ? await ctx.decodeAudioData(raw.slice(0)) : undefined;
+    } catch {
+      return undefined;
+    }
+  });
+  return dialPending;
 }

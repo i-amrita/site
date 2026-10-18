@@ -1,12 +1,8 @@
-import { FileText, FlaskConical, Link as LinkIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import { ActionOverlay } from '@/components/react/ActionOverlay';
+import { SocialLinks } from '@/components/react/content-blocks';
 import { m, useLocale } from '@/lib/i18n';
-import { SOCIALS } from '@/lib/site';
-
-const link =
-  'inline-flex items-center gap-2 rounded-key border border-border bg-surface px-3 py-1.5 text-sm text-fg transition-colors hover:border-brand hover:text-brand';
 
 interface Props {
   open: boolean;
@@ -26,25 +22,16 @@ export function AboutOverlay({ open, onClose, children }: Props) {
       readMore={{ href: '/about', label: m.overlay_about_read_more() }}
     >
       <div className="[&_p]:leading-relaxed [&_p+p]:mt-4">{children}</div>
-      <ul className="mt-6 flex flex-wrap gap-2" aria-label={m.socials_aria()}>
-        <li>
-          <a className={link} href={SOCIALS.linkedin} rel="noopener" target="_blank">
-            <LinkIcon className="size-4" aria-hidden="true" /> {m.socials_linkedin()}
-          </a>
-        </li>
-        <li>
-          <a className={link} href={SOCIALS.research} rel="noopener" target="_blank">
-            <FlaskConical className="size-4" aria-hidden="true" /> {m.socials_research()}
-          </a>
-        </li>
-        {SOCIALS.cv && (
-          <li>
-            <a className={link} href={SOCIALS.cv}>
-              <FileText className="size-4" aria-hidden="true" /> {m.socials_cv()}
-            </a>
-          </li>
-        )}
-      </ul>
+      <div className="mt-6">
+        <SocialLinks
+          ariaLabel={m.socials_aria()}
+          labels={{
+            linkedin: m.socials_linkedin(),
+            research: m.socials_research(),
+            cv: m.socials_cv(),
+          }}
+        />
+      </div>
     </ActionOverlay>
   );
 }

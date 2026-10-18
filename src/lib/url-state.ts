@@ -5,7 +5,7 @@
  */
 import { parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs';
 
-export const OVERLAYS = ['about', 'projects', 'log', 'search'] as const;
+export const OVERLAYS = ['about', 'projects', 'log'] as const;
 export const LOCALES = ['en', 'ms', 'hi', 'de', 'ml'] as const;
 export const THEMES = ['light', 'dark'] as const;
 export const FLAGS = ['1', '0'] as const;

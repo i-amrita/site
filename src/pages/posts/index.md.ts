@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
 
-import { markdownResponse, postsIndexMarkdown } from '@/lib/content';
+import { logIndexMarkdown, markdownResponse } from '@/lib/content';
 
-export const GET: APIRoute = async () => markdownResponse(await postsIndexMarkdown());
+export const GET: APIRoute = async () => markdownResponse(await logIndexMarkdown());

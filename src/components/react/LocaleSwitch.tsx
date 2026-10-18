@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Languages from '~icons/ph/translate-light';
 
 import { Button } from '@/components/ui/button';
@@ -14,8 +15,9 @@ export const PILL_ITEM =
 /** Bare button, for use inside an existing `<Providers>` tree. `code` renders the current locale code for the navbar pill. */
 export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' }) {
   const { locale, setLocale } = useLocale();
+  const [open, setOpen] = useState(false);
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         {variant === 'code' ? (
           <button
@@ -31,14 +33,17 @@ export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'c
           </Button>
         )}
       </PopoverTrigger>
-      <PopoverContent align="end" className="w-48 p-1">
+      <PopoverContent align="end" className="w-48 border-0 p-1 shadow-lg ring-0">
         <ul role="listbox" aria-label={m.locale_switch_label()} className="flex flex-col">
           {LOCALES.map((code) => (
             <li key={code} role="option" aria-selected={code === locale}>
               <button
                 type="button"
                 lang={code}
-                onClick={() => void setLocale(code)}
+                onClick={() => {
+                  void setLocale(code);
+                  setOpen(false);
+                }}
                 className={cn(
                   'w-full rounded-sm px-2 py-1.5 text-left text-sm hover:bg-accent hover:text-accent-foreground',
                   code === locale && 'bg-accent font-medium text-accent-foreground',

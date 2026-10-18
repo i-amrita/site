@@ -1,27 +1,37 @@
 # Audio
 
-Key clicks are two original sounds, `public/sounds/click-down.{ogg,m4a}` and `click-up.{ogg,m4a}`, generated with ffmpeg (filtered noise burst plus a decaying sine) and released CC0. See `public/sounds/readme.txt`. We do not use keythm's sound sprite.
+Key clicks come from one small sprite, `public/sounds/keys-<hash>.{ogg,m4a}` (about 15KB Ogg Opus, 18KB AAC), holding 12 down-clicks and 4 up-clicks cut from keythm's `sound.ogg` (Apache-2.0, see NOTICE and `public/sounds/readme.txt`). The full recording is never shipped. Offsets and durations live in `src/components/react/Keyboard/key-sprite.ts` (`SPRITE`).
 
 ## Pipeline
 
-- `src/components/react/Keyboard/audio-preloader.ts` fetches the raw bytes once (`fetchSoundBytes`, no context needed) and decodes them once per `AudioContext` (`loadSounds`), caching the `AudioBuffer`s.
+- `src/components/react/Keyboard/audio-preloader.ts` fetches the sprite bytes once (`fetchSoundBytes`, no context needed) and decodes them once per `AudioContext` (`loadSounds`), caching the single `AudioBuffer`.
 - `src/lib/audio.ts` owns the single shared `AudioContext`. `initAudio()` only starts the byte fetch and arms a one-shot unlock on `pointerdown`, `touchend`, `mousedown`, `keydown` (capture, passive). The context itself is created lazily on the first of those gestures, because constructing it at hydration cost about 190ms of main thread on the home page (Lighthouse TBT). The very first click can therefore be silent. Never `touchstart`: iOS does not treat it as user activation.
-- `playClick('down'|'up')` creates an `AudioBufferSourceNode` and calls `start(0, 0, buffer.duration)` with a small playbackRate jitter. No-op while muted, undecoded or suspended.
+- `playClick('down'|'up', id)` picks sample `SPRITE[name][hashId(id) % count]` (FNV-1a of the key code or id, so each key keeps its own voice), then plays it with `start(0, offset, duration)`, playbackRate jitter 0.95..1.05 and gain jitter 0.85..1.1. No-op while muted, undecoded or suspended. If fetch or decode fails, `playSynthClick` plays a short filtered-noise tick instead.
 - `?mute=1` is read by `KeyboardProvider` and pushed into `setMuted`. F5 toggles it via `useActions().run('mute')`.
-- `soundExtension()` in `audio-preloader.ts` picks `ogg` when `canPlayType('audio/ogg; codecs="vorbis"')` is truthy, else `m4a` (AAC). The home page injects matching `<link rel="preload" as="fetch">` tags from an inline script (`preloadSounds` prop on `Base.astro`) using the same check.
+- `soundExtension()` in `key-sprite.ts` picks `ogg` when `canPlayType('audio/ogg; codecs="opus"')` is truthy, else `m4a` (AAC). The home page injects a matching `<link rel="preload" as="fetch">` from an inline script (`preloadSounds` prop on `Base.astro`) using the same check and `SPRITE_HASH`.
+- Caching: the file name carries a content hash and `public/_headers` serves `/sounds/*` as `public, max-age=31536000, immutable`. When the sprite changes, rename the files and bump `SPRITE_HASH` together.
+
+## Dial
+
+The highlight dial is linear and clamped 0..100. Dragging accumulates the unwrapped angle delta from the grab point (270 degrees of travel = 0..100) and clamps at the stops, so crossing the dead zone at the bottom never teleports the value, and dragging back from a stop starts moving immediately. A tap with no movement cycles 0 -> 50 -> 100 -> 0 and plays the normal key click. Wheel and arrow keys also clamp.
 
 ## Dial tick
 
-The highlight dial does not use the samples. `playTick(value, strong)` in `src/lib/audio.ts` synthesizes a detent tick with Web Audio: about 15ms of band-passed noise plus a ~1.5kHz sine blip, pitch rising slightly with the value, louder at the 0 and 100 stops. It fires on every 5-step notch crossed by drag, wheel or arrow keys, at most once per 30ms, and never when the value does not change. It uses the same shared context (created on the first gesture) and respects `?mute=1`. A tap/cycle plays the normal key click instead.
+`playTick(value, strong)` in `src/lib/audio.ts` plays a slice of the dial sprite (`public/sounds/dial-<hash>.{ogg,m4a}`, about 3KB): three detent variants picked at random for each notch and a heavier one for the 0 and 100 stops (`DIAL_SPRITE` in `key-sprite.ts`), with playbackRate rising slightly with the value. The slices come from Kenney's CC0 "UI Audio" pack (click2, click4, click5, switch5): about 22ms, pitched down 3 semitones (`asetrate=44100*0.841`), high-passed at 180Hz, +4dB near 3.5kHz, loudnorm. If the sprite is missing or fails to decode it falls back to a synthesized tick. It fires on every 5-step notch crossed by drag, wheel or arrow keys, at most once per 30ms, and never when the value does not change. Same shared context, respects `?mute=1`.
 
-## Regenerate
+Swap the sample: put `dial-<hash>.ogg` (Opus) and `dial-<hash>.m4a` (AAC) in `public/sounds/`, update `DIAL_SAMPLE_BASE` and `DIAL_SPRITE` offsets in `key-sprite.ts`, and record the source and license in NOTICE. Only use files with a verified license (CC0, Apache, etc.).
 
-Use ffmpeg `anoisesrc` (white) with `highpass`/`lowpass` and `volume='exp(-t*N)':eval=frame`, mixed with a `sine` body, encoded with `-c:a vorbis -strict -2`. Down: 90ms, noise 1.8-7.5kHz decay 110, sine 190Hz. Up: 60ms, noise 3-9kHz decay 180, sine 320Hz.
+## Regenerate the sprite
 
-## Safari fallback
-
-Safari before 18.4 cannot decode Ogg Vorbis, so each sound also ships as AAC in `.m4a`, encoded from the `.ogg` masters (both CC0):
+1. Decode the source to mono 44.1kHz PCM (`ffmpeg -i sound.ogg -ac 1 -ar 44100 -f s16le raw.pcm`) and find keypress onsets with a 5ms peak envelope (an onset is a rise above a threshold after at least 40ms of quiet). Down and up events alternate roughly 130-160ms apart.
+2. Pick isolated, clean onsets. Cut 90ms (down) or 60ms (up) starting 4ms before each onset, remove DC, apply a 15ms fade-out and a 0.7ms fade-in, and normalize each to RMS about 2600 with a peak cap of 26000 (16-bit).
+3. Concatenate with 40ms of silence before each segment and encode:
 
 ```sh
-for f in click-down click-up; do ffmpeg -y -i public/sounds/$f.ogg -c:a aac -b:a 64k public/sounds/$f.m4a; done
+ffmpeg -y -i sprite.wav -c:a libopus -b:a 48k keys.ogg
+ffmpeg -y -i sprite.wav -c:a aac -b:a 48k keys.m4a
 ```
+
+4. Name both `keys-<first 8 hex of sha256 of ogg+m4a>`, update `SPRITE` and `SPRITE_HASH` in `key-sprite.ts`.
+
+Safari before 18.4 cannot decode Ogg Opus, hence the AAC fallback.

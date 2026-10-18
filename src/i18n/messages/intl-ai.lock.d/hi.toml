@@ -1,5 +1,12 @@
 version = 1
 
+[entries.about_links_heading]
+value = "अन्यत्र"
+source_hash = "ebac8c4d9a49145f83661ffc96fc103b390fa3cf"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T12:44:35Z"
+
 [entries.action_about]
 value = "परिचय"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
@@ -57,12 +64,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_projects]
-value = "प्रोजेक्ट्स"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "ai"
+value = "काम"
+source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.action_search]
 value = "खोज"
@@ -113,12 +119,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_go_projects]
-value = "प्रोजेक्ट्स पर जाएँ"
-source_hash = "19ac0c7e580f8e696729f76bad4c7771b870e222"
-origin = "ai"
+value = "काम पर जाएँ"
+source_hash = "1c0e4a14f832574bee832d70b2246ab2128dfadc"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.cmdk_open_search]
 value = "खोज खोलें"
@@ -351,6 +356,13 @@ reviewed = true
 model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
+[entries.log_intro]
+value = "नोट्स और लेखन, सबसे नया पहले।"
+source_hash = "fa8d2bda912c947b20a8fa09fc566b450344fc7b"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T12:44:35Z"
+
 [entries.log_read_more]
 value = "अधिक पढ़ें"
 source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
@@ -408,12 +420,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_projects]
-value = "प्रोजेक्ट्स"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "ai"
+value = "काम"
+source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.nav_search]
 value = "खोज"
@@ -440,12 +451,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_about_read_more]
-value = "पूरा परिचय पढ़ें"
-source_hash = "037b15481d9ab45951db389a1dbf9a07137d28ed"
-origin = "ai"
+value = "पूरा पेज देखें"
+source_hash = "ef80a403560522e5043511bbf95190d8f2b6f88f"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_about_title]
 value = "परिचय"
@@ -472,12 +482,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_log_see_all]
-value = "सभी पोस्ट देखें"
-source_hash = "91f5b645cd6b514582a0efd651f0665387d54e38"
-origin = "ai"
+value = "सभी लॉग प्रविष्टियाँ देखें"
+source_hash = "2ac42acc2d747ad0809eb52628b633920e7e4c56"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_log_title]
 value = "लॉग"
@@ -488,28 +497,25 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_projects_description]
-value = "चुने हुए प्रोजेक्ट। टैग से फ़िल्टर करें, या पूरी कहानी के लिए कोई एक खोलें।"
-source_hash = "714d647c68cc0f85d86a195ddf56bb0fabf02934"
-origin = "ai"
+value = "चुना हुआ काम। टैग से फ़िल्टर करें, या पूरी कहानी के लिए कोई एक खोलें।"
+source_hash = "53e6e2e0a3c97cd0d7cb89fe82bac6029371e94d"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_projects_see_all]
-value = "सभी प्रोजेक्ट देखें"
-source_hash = "81895f60b3dacca65adbca0f90f3f615463e6004"
-origin = "ai"
+value = "सारा काम देखें"
+source_hash = "ddb6a75b2805115b2fb21b7ffc8be51435e55bd0"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_projects_title]
-value = "प्रोजेक्ट्स"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "ai"
+value = "काम"
+source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.overlay_search_title]
 value = "खोज"
@@ -520,12 +526,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_empty]
-value = "अभी तक कोई प्रोजेक्ट नहीं हैं।"
-source_hash = "313557a7de2c8c92ad6245b6f8274c4f9a193127"
-origin = "ai"
+value = "अभी तक कोई काम नहीं है।"
+source_hash = "158f978309cf1b6976269485c60e6c8d700b14ba"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.projects_empty_filter]
 value = "इस फ़िल्टर से कोई प्रोजेक्ट मेल नहीं खाता।"
@@ -544,12 +549,11 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_filter_aria]
-value = "टैग से प्रोजेक्ट फ़िल्टर करें"
-source_hash = "fa60669dd0af8f76ae2aa1f147bc2d8bc2a4992b"
-origin = "ai"
+value = "टैग से काम फ़िल्टर करें"
+source_hash = "8e1c06173eb75a229d71a1f2b0d6e12bddbc2b3e"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:44:35Z"
 
 [entries.projects_read_more]
 value = "और पढ़ें"
@@ -773,3 +777,10 @@ origin = "ai"
 reviewed = true
 model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
+
+[entries.work_intro]
+value = "AI, समुदाय और डिज़ाइन में चुना हुआ काम।"
+source_hash = "d385cba519d81f94830f756632e398b5bb79c9a2"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T12:44:35Z"

@@ -108,3 +108,15 @@
     transition: none !important;
   }
 }
+
+/* Work/Log/About panels are non-modal and docked right from 640px. From `lg` there is room to shift the page so the pad stays uncovered. */
+@media (min-width: 1024px) {
+  html[data-overlay-open] body {
+    padding-right: 27rem;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: padding-right 0.2s ease;
+  }
+}
