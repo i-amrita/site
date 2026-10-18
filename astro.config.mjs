@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import Icons from 'unplugin-icons/vite';
 
 const MIME = { '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css' };
 
@@ -48,6 +49,8 @@ export default defineConfig({
   vite: {
     plugins: [
       tailwindcss(),
+      // `~icons/ph/<name>` imports compile to React components at build time (also used, SSR-only, inside .astro files).
+      Icons({ compiler: 'jsx', jsx: 'react' }),
       searchIndexInDev,
       dropOrtWasm,
       // Compiles src/i18n/messages/*.json into src/i18n/paraglide (gitignored) at dev start and build.

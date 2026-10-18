@@ -1,7 +1,6 @@
 ---
-import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import monoUrl from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2?url';
-import frauncesUrl from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
+import jakartaUrl from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
+import frauncesItalicUrl from '@fontsource/fraunces/files/fraunces-latin-400-italic.woff2?url';
 import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
@@ -61,8 +60,8 @@ const ogUrl = new URL(ogImage, Astro.site);
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <slot name="head" />
     {
-      // The keyboard legends use the mono face; without a preload it is discovered late and delays first paint.
-      [interUrl, frauncesUrl, ...(preloadSounds ? [monoUrl] : [])].map((href) => (
+      // Hero name (Fraunces italic) and body (Jakarta) are first-paint text; preload to avoid late discovery.
+      [jakartaUrl, frauncesItalicUrl].map((href) => (
         <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href={href} />
       ))
     }

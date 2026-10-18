@@ -1,7 +1,8 @@
 @import './tokens.css';
+@import '@fontsource/fraunces/latin-400.css';
+@import '@fontsource/fraunces/latin-400-italic.css';
 @import '@fontsource/fraunces/latin-600.css';
-@import '@fontsource-variable/inter/index.css';
-@import '@fontsource/jetbrains-mono/latin-500.css';
+@import '@fontsource-variable/plus-jakarta-sans/index.css';
 
 /* `dark:` follows ?theme override first, then the OS preference. */
 @custom-variant dark {
@@ -21,25 +22,54 @@
   }
   body {
     @apply min-h-dvh;
+    background-image: radial-gradient(var(--c-dot-grid) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  /* One fixed grain layer above the dot grid; never on a scrolling container. */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   ::selection {
     @apply bg-brand-soft text-fg;
   }
 }
 
-/* Keyboard hero: pulse for `?highlight=1` (1.2s on mount). */
-@theme {
-  --animate-key-glow: key-glow 0.6s ease-in-out 2;
-  @keyframes key-glow {
-    0%,
-    100% {
-      box-shadow: 0 0 0 0 transparent;
-    }
-    50% {
-      box-shadow:
-        0 0 0 3px var(--c-brand-soft),
-        0 0 14px 4px var(--c-brand);
-    }
+/* `?highlight=0..100`: the dial sets `--glow` (0..1) on the pad group. 0 draws nothing, 1 is a strong steady brand glow. */
+@utility key-glow {
+  box-shadow:
+    0 0 0 calc(var(--glow, 0) * 2px)
+      color-mix(in oklab, var(--c-brand-soft) calc(var(--glow, 0) * 100%), transparent),
+    0 0 calc(var(--glow, 0) * 22px) calc(var(--glow, 0) * 4px)
+      color-mix(in oklab, var(--c-brand) calc(var(--glow, 0) * 70%), transparent);
+  filter: brightness(calc(1 + var(--glow, 0) * 0.08));
+}
+
+/* Entry choreography: transform/opacity/filter only, so the layout box never changes. Stagger with style="--i: n". */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+@utility rise {
+  animation: rise 700ms var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
   }
 }
 
