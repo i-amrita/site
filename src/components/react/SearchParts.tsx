@@ -44,7 +44,7 @@ export function SearchPill({
       className={cn(
         'inline-flex animate-pill-in items-center gap-1.5 rounded-key border px-2 py-0.5 font-key text-xs',
         status === 'hybrid' && !keywordOnly
-          ? 'border-brand bg-brand-soft text-fg'
+          ? 'border-brand bg-brand-soft text-brand'
           : 'border-border bg-surface-muted text-muted-foreground',
       )}
       aria-live="polite"
@@ -74,7 +74,7 @@ export function ResultBody({ result }: { result: SearchResult }) {
         </span>
       </span>
       <span
-        className="line-clamp-2 text-xs text-muted-foreground [&_mark]:rounded-sm [&_mark]:bg-brand-soft [&_mark]:text-fg"
+        className="line-clamp-2 text-xs text-muted-foreground [&_mark]:rounded-sm [&_mark]:bg-brand-soft [&_mark]:text-brand"
         // Pagefind excerpts carry <mark>; semantic snippets are HTML-escaped in `semanticSearch`.
         dangerouslySetInnerHTML={{ __html: result.excerpt }}
       />

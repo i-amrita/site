@@ -15,7 +15,7 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
   const { status, results, indexAvailable, ms } = useSearch(query, !keywordOnly);
 
   return (
-    <div className="flex flex-col gap-3" data-search-panel data-status={status}>
+    <div className="flex min-w-0 flex-col gap-3" data-search-panel data-status={status}>
       <form
         action="/search"
         method="get"
@@ -27,7 +27,7 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
           <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
           <input
             name="q"
-            type="search"
+            type="text"
             value={query}
             autoFocus={autoFocus}
             autoComplete="off"
@@ -74,7 +74,7 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
             <li key={r.url}>
               <a
                 href={r.url}
-                className="flex items-start gap-3 rounded-card px-3 py-2 hover:bg-brand-soft focus-visible:bg-brand-soft focus-visible:outline-none"
+                className="flex items-start gap-3 rounded-card px-3 py-2 hover:bg-surface-muted focus-visible:bg-surface-muted focus-visible:outline-none"
               >
                 <ResultIcon
                   type={r.type}

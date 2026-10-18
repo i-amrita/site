@@ -43,6 +43,7 @@ const COPY = {
   commands: 'Commands',
   results: 'Results',
   empty: 'Nothing matches.',
+  searchAll: 'Open full search for',
 } as const;
 
 interface Entry {
@@ -147,8 +148,18 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
           )}
           <CommandList className="max-h-[min(24rem,60dvh)] p-1">
             <CommandEmpty>{COPY.empty}</CommandEmpty>
+            {searching && (
+              <CommandGroup heading={COPY.commands}>
+                <CommandItem
+                  value="cmd-search-all"
+                  onSelect={() => void setState({ cmdk: null, overlay: 'search', q: trimmed })}
+                >
+                  <Search /> {COPY.searchAll} &quot;{trimmed}&quot;
+                </CommandItem>
+              </CommandGroup>
+            )}
             {navigation.length > 0 && (
-              <CommandGroup heading={searching ? COPY.commands : COPY.navigation}>
+              <CommandGroup heading={COPY.navigation}>
                 {navigation.map((e) => (
                   <CommandItem key={e.id} value={`nav-${e.id}`} onSelect={() => select(e)}>
                     <e.Icon /> {e.label}
@@ -157,7 +168,7 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
               </CommandGroup>
             )}
             {actions.length > 0 && (
-              <CommandGroup heading={searching ? COPY.commands : COPY.actions}>
+              <CommandGroup heading={COPY.actions}>
                 {actions.map((e) => (
                   <CommandItem key={e.id} value={`act-${e.id}`} onSelect={() => select(e)}>
                     <e.Icon /> {e.label}
