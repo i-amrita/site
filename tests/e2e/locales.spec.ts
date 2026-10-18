@@ -18,7 +18,7 @@ test('/?locale=ml translates the hero and sets lang', async ({ page }) => {
   await page.goto('/?locale=ml');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ml');
   await expect(page.getByRole('button', { name: 'തിരയുക' }).first()).toBeVisible();
-  await expect(page.getByText('മുൻ TPM')).toBeVisible();
+  await expect(page.getByText('സാങ്കേതിക സങ്കീർണ്ണതയെയും')).toBeVisible();
 });
 
 test('/?locale=hi&overlay=projects translates the overlay', async ({ page }) => {
@@ -38,6 +38,7 @@ test('/?locale=ms&cmdk=open translates the palette', async ({ page }) => {
 
 test('the locale switch keeps the other URL params', async ({ page }) => {
   await page.goto('/?theme=dark&mute=1');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
   await page.getByRole('button', { name: 'Choose language' }).click();
   await page.getByRole('option', { name: 'Deutsch' }).click();
   await expect(page).toHaveURL(/locale=de/);
