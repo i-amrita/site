@@ -14,7 +14,7 @@ const project = defineCollection({
       summary: z.string().max(280),
       tags: z.array(z.string()).default([]),
       cover: image().optional(),
-      links: z.array(z.object({ label: z.string(), href: z.string().url() })).default([]),
+      links: z.array(z.object({ label: z.string(), href: z.url() })).default([]),
       draft: z.boolean().default(false),
       featured: z.boolean().default(false),
       order: z.number().int().default(0),
