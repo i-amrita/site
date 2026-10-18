@@ -98,5 +98,9 @@
   "key_work": "ജോലി",
   "work_intro": "AI, സമൂഹം, ഡിസൈൻ എന്നിവയിലെ തിരഞ്ഞെടുത്ത ജോലികൾ.",
   "log_intro": "കുറിപ്പുകളും എഴുത്തുകളും, പുതിയത് ആദ്യം.",
-  "about_links_heading": "മറ്റിടങ്ങളിൽ"
+  "about_links_heading": "മറ്റിടങ്ങളിൽ",
+  "footer_qr": "QR",
+  "qr_hint": "എന്റെ പേജ് തുറക്കാൻ സ്കാൻ ചെയ്യുക",
+  "qr_aria": "amrita.nambiar.my എന്നതിനുള്ള QR കോഡ്",
+  "keyboard_loading": "ശബ്ദങ്ങൾ ലോഡ് ചെയ്യുന്നു"
 }

@@ -98,5 +98,9 @@
   "key_work": "Arbeit",
   "work_intro": "Ausgewählte Arbeiten aus KI, Community und Design.",
   "log_intro": "Notizen und Texte, neueste zuerst.",
-  "about_links_heading": "Anderswo"
+  "about_links_heading": "Anderswo",
+  "footer_qr": "QR",
+  "qr_hint": "Scannen, um meine Seite zu öffnen",
+  "qr_aria": "QR-Code für amrita.nambiar.my",
+  "keyboard_loading": "Klänge werden geladen"
 }
