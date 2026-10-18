@@ -1,11 +1,11 @@
 ---
-import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import monoUrl from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2?url';
-import frauncesUrl from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
+import jakartaUrl from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
+import frauncesItalicUrl from '@fontsource/fraunces/files/fraunces-latin-400-italic.woff2?url';
 import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
 import SearchOverlays from '@/components/astro/SearchOverlays.astro';
+import { SPRITE_HASH } from '@/components/react/Keyboard/key-sprite';
 
 interface Props {
   title: string;
@@ -39,16 +39,14 @@ const description =
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // Same format choice as audio-preloader.ts, so the preload is the request the app reuses.
 const soundPreload = `(() => {
-  const ext = new Audio().canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'm4a';
-  for (const n of ['click-down', 'click-up']) {
-    const l = document.createElement('link');
-    l.rel = 'preload';
-    l.as = 'fetch';
-    l.href = '/sounds/' + n + '.' + ext;
-    l.crossOrigin = 'anonymous';
-    l.fetchPriority = 'low';
-    document.head.append(l);
-  }
+  const ext = new Audio().canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
+  const l = document.createElement('link');
+  l.rel = 'preload';
+  l.as = 'fetch';
+  l.href = '/sounds/sprite-${SPRITE_HASH}.' + ext;
+  l.crossOrigin = 'anonymous';
+  l.fetchPriority = 'low';
+  document.head.append(l);
 })();`;
 const ogUrl = new URL(ogImage, Astro.site);
 ---
@@ -59,10 +57,14 @@ const ogUrl = new URL(ogImage, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#f7f3ed" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1d1a1b" media="(prefers-color-scheme: dark)" />
     <slot name="head" />
     {
-      // The keyboard legends use the mono face; without a preload it is discovered late and delays first paint.
-      [interUrl, frauncesUrl, ...(preloadSounds ? [monoUrl] : [])].map((href) => (
+      // Hero name (Fraunces italic) and body (Jakarta) are first-paint text; preload to avoid late discovery.
+      [jakartaUrl, frauncesItalicUrl].map((href) => (
         <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href={href} />
       ))
     }
@@ -91,7 +93,16 @@ const ogUrl = new URL(ogImage, Astro.site);
       const t = new URLSearchParams(location.search).get('theme');
       if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
       // i18n:start (locale before paint: html lang from ?locale=; all locales are LTR)
-      const l = new URLSearchParams(location.search).get('locale');
+      const q = new URLSearchParams(location.search);
+      // A locale chosen earlier is restored (replaceState, before islands hydrate) unless the URL already carries one.
+      try {
+        const saved = localStorage.getItem('locale');
+        if (!q.has('locale') && saved && ['ms', 'hi', 'de', 'ml'].includes(saved)) {
+          q.set('locale', saved);
+          history.replaceState(history.state, '', location.pathname + '?' + q + location.hash);
+        }
+      } catch {}
+      const l = q.get('locale');
       if (l && ['ms', 'hi', 'de', 'ml'].includes(l)) document.documentElement.lang = l;
       document.documentElement.dir = 'ltr';
       // i18n:end

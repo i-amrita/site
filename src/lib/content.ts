@@ -4,6 +4,8 @@
  */
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
+import type { PostItem, ProjectItem } from '@/components/react/overlay-types';
+
 export const SITE_URL = 'https://amrita.nambiar.my';
 export const SITE_NAME = 'Amrita Nambiar';
 export const SITE_SUMMARY =
@@ -97,32 +99,32 @@ export function singletonMarkdown(s: SingletonEntry): string {
   return [`# ${s.data.title}`, mdxToMarkdown(s.body)].filter(Boolean).join('\n\n');
 }
 
-export async function projectsIndexMarkdown(): Promise<string> {
+export async function workIndexMarkdown(): Promise<string> {
   const projects = await getProjects();
   const items = projects.map(
     (p) =>
-      `- [${p.data.title}](${abs(`/projects/${p.id}.md`)}): ${p.data.role}, ${p.data.org} (${formatPeriod(p.data.period)}). ${p.data.summary}`,
+      `- [${p.data.title}](${abs(`/work/${p.id}.md`)}): ${p.data.role}, ${p.data.org} (${formatPeriod(p.data.period)}). ${p.data.summary}`,
   );
-  return ['# Projects', items.length ? items.join('\n') : 'No projects yet.'].join('\n\n');
+  return ['# Work', items.length ? items.join('\n') : 'No work yet.'].join('\n\n');
 }
 
-export async function postsIndexMarkdown(): Promise<string> {
+export async function logIndexMarkdown(): Promise<string> {
   const posts = await getPosts();
   const items = posts.map(
     (p) =>
       `- [${p.data.title}](${abs(`/posts/${p.id}.md`)}) (${formatDate(p.data.pubDate)}): ${p.data.description}`,
   );
-  return ['# Posts', items.length ? items.join('\n') : 'No posts yet.'].join('\n\n');
+  return ['# Log', items.length ? items.join('\n') : 'Nothing here yet.'].join('\n\n');
 }
 
 export interface SitePage {
   title: string;
   description: string;
-  /** Canonical HTML path, e.g. `/projects/foo`. */
+  /** Canonical HTML path, e.g. `/work/foo`. */
   path: string;
-  /** Markdown companion path, e.g. `/projects/foo.md`. */
+  /** Markdown companion path, e.g. `/work/foo.md`. */
   mdPath: string;
-  section: 'Pages' | 'Projects' | 'Posts';
+  section: 'Pages' | 'Work' | 'Log';
   markdown: string;
 }
 
@@ -157,9 +159,9 @@ export async function getSitePages(): Promise<SitePage[]> {
     pages.push({
       title: p.data.title,
       description: p.data.summary,
-      path: `/projects/${p.id}`,
-      mdPath: `/projects/${p.id}.md`,
-      section: 'Projects',
+      path: `/work/${p.id}`,
+      mdPath: `/work/${p.id}.md`,
+      section: 'Work',
       markdown: projectMarkdown(p),
     });
   for (const p of posts)
@@ -168,10 +170,36 @@ export async function getSitePages(): Promise<SitePage[]> {
       description: p.data.description,
       path: `/posts/${p.id}`,
       mdPath: `/posts/${p.id}.md`,
-      section: 'Posts',
+      section: 'Log',
       markdown: postMarkdown(p),
     });
   return pages;
+}
+
+const truncate = (s: string, max = 200) =>
+  s.length <= max ? s : `${s.slice(0, max).replace(/\s+\S*$/, '')}…`;
+
+/** JSON-serializable list item shared by the full pages and the drawer overlays. */
+export function toProjectItem(p: ProjectEntry): ProjectItem {
+  return {
+    id: p.id,
+    title: p.data.title,
+    role: p.data.role,
+    org: p.data.org,
+    period: formatPeriod(p.data.period),
+    summary: truncate(p.data.summary),
+    tags: p.data.tags,
+  };
+}
+
+export function toPostItem(p: PostEntry): PostItem {
+  return {
+    id: p.id,
+    title: p.data.title,
+    description: truncate(p.data.description),
+    date: formatDate(p.data.pubDate),
+    tags: p.data.tags,
+  };
 }
 
 export const markdownResponse = (body: string) =>

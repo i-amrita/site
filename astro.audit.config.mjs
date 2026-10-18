@@ -14,8 +14,8 @@ export default defineConfig({
       // Warnings stay visible; only errors fail the build.
       failOn: 'errors',
       rules: {
-        // 404.html is noindex and has no canonical by design.
-        filters: { exclude: ['404.html'] },
+        // 404.html is noindex and has no canonical by design; /projects/* are static redirect stubs to /work/*.
+        filters: { exclude: ['404.html', 'projects/**'] },
         // URL is the state store (AGENTS.md hard rule), so ?filter= and ?overlay= links are intentional.
         links: { forbid_query_params_internal: false },
         // External links are never fetched, so placeholder URLs cannot fail the audit.

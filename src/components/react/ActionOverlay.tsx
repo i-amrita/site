@@ -1,7 +1,17 @@
 import { ArrowRight, X } from 'lucide-react';
-import { useCallback, useEffect, useRef, type ReactNode } from 'react';
+import { Dialog as DialogPrimitive } from 'radix-ui';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from 'react';
+import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogPortal } from '@/components/ui/dialog';
+import { Drawer, DrawerOverlay, DrawerPortal } from '@/components/ui/drawer';
 import { m, useLocale } from '@/lib/i18n';
 
 const SCROLL_THROTTLE_MS = 200;
@@ -20,7 +30,28 @@ interface Props {
   onScrollTop?: (top: number) => void;
 }
 
-/** Shared shell: Radix Dialog as centered modal on desktop and full-height bottom sheet on mobile. */
+const SNAP_POINTS = [0.68, 0.97] as const;
+const DEFAULT_SNAP = 0.68;
+const MOBILE_QUERY = '(max-width: 639.98px)';
+
+function subscribeMobile(cb: () => void) {
+  const mq = window.matchMedia(MOBILE_QUERY);
+  mq.addEventListener('change', cb);
+  return () => mq.removeEventListener('change', cb);
+}
+
+function useIsMobile() {
+  return useSyncExternalStore(
+    subscribeMobile,
+    () => window.matchMedia(MOBILE_QUERY).matches,
+    () => false,
+  );
+}
+
+/**
+ * Shared shell: a bottom vaul Drawer below 640px (grabber, snaps at 68% and 97%, scrim) and a docked Radix Dialog
+ * panel from 640px that leaves the keypad usable. Clicking outside, Escape, the close button, the `close` action and Back all close it.
+ */
 export function ActionOverlay({
   open,
   title,
@@ -51,54 +82,116 @@ export function ActionOverlay({
     });
   }, []);
 
-  return (
-    <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
-      <DialogContent
-        showCloseButton={false}
-        onOpenAutoFocus={(e) => {
-          // Focus the dialog itself so no control shows a focus ring on open.
-          e.preventDefault();
-          (e.target as HTMLElement | null)?.closest<HTMLElement>('[role="dialog"]')?.focus();
+  const isMobile = useIsMobile();
+  const [snap, setSnap] = useState<number | string | null>(DEFAULT_SNAP);
+  useEffect(() => {
+    if (open) setSnap(DEFAULT_SNAP);
+  }, [open]);
+
+  // From `lg`, `global.css` makes room for the docked panel so the pad is not covered.
+  useEffect(() => {
+    if (!open || isMobile) return;
+    document.documentElement.dataset.overlayOpen = '';
+    return () => {
+      delete document.documentElement.dataset.overlayOpen;
+    };
+  }, [open, isMobile]);
+  const onOpenChange = (next: boolean) => !next && onClose();
+
+  const content = (
+    <>
+      <div
+        ref={setScroller}
+        data-overlay-scroll
+        onScroll={(e) => {
+          if (!onScrollTop || timer.current) return;
+          const el = e.currentTarget;
+          timer.current = setTimeout(() => {
+            timer.current = null;
+            onScrollTop(Math.round(el.scrollTop));
+          }, SCROLL_THROTTLE_MS);
         }}
-        className="inset-x-0 top-auto bottom-0 left-0 flex max-h-[92dvh] max-w-full translate-x-0 translate-y-0 flex-col gap-0 rounded-b-none border-border bg-page p-0 text-fg sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[85dvh] sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card"
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5"
       >
-        <header className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
-          <DialogTitle className="font-display text-xl">{title}</DialogTitle>
-          <DialogDescription className="sr-only">{description}</DialogDescription>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-key p-1.5 text-muted-foreground transition-colors hover:bg-surface-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          >
-            <X className="size-5" aria-hidden="true" />
-            <span className="sr-only">{m.overlay_close()}</span>
-          </button>
-        </header>
-        <div
-          ref={setScroller}
-          data-overlay-scroll
-          onScroll={(e) => {
-            if (!onScrollTop || timer.current) return;
-            const el = e.currentTarget;
-            timer.current = setTimeout(() => {
-              timer.current = null;
-              onScrollTop(Math.round(el.scrollTop));
-            }, SCROLL_THROTTLE_MS);
-          }}
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5"
+        {children}
+      </div>
+      <footer className="border-t border-border px-5 py-3">
+        <a
+          href={readMore.href}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >
-          {children}
-        </div>
-        <footer className="border-t border-border px-5 py-3">
-          <a
-            href={readMore.href}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          {readMore.label}
+          <ArrowRight className="size-4" aria-hidden="true" />
+        </a>
+      </footer>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer
+        open={open}
+        onOpenChange={onOpenChange}
+        snapPoints={[...SNAP_POINTS]}
+        activeSnapPoint={snap}
+        setActiveSnapPoint={setSnap}
+      >
+        <DrawerPortal>
+          <DrawerOverlay />
+          <DrawerPrimitive.Content
+            data-slot="drawer-content"
+            data-overlay-panel
+            className="fixed inset-x-0 bottom-0 z-50 flex h-full max-h-[97%] flex-col rounded-t-card border-t border-border bg-page text-fg shadow-[0_-12px_32px_-12px_rgb(28_16_18/0.25)] outline-none"
           >
-            {readMore.label}
-            <ArrowRight className="size-4" aria-hidden="true" />
-          </a>
-        </footer>
-      </DialogContent>
+            <div
+              aria-hidden="true"
+              className="mx-auto mt-3 h-1.5 w-[88px] shrink-0 rounded-full bg-surface-muted"
+            />
+            <header className="flex items-center justify-between gap-4 border-b border-border px-5 py-3 text-left">
+              <DrawerPrimitive.Title className="font-display text-xl">
+                {title}
+              </DrawerPrimitive.Title>
+              <DrawerPrimitive.Description className="sr-only">
+                {description}
+              </DrawerPrimitive.Description>
+            </header>
+            {content}
+          </DrawerPrimitive.Content>
+        </DrawerPortal>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange} modal={false}>
+      <DialogPortal>
+        <DialogPrimitive.Content
+          data-slot="dialog-content"
+          data-overlay-panel
+          onOpenAutoFocus={(e) => {
+            // Focus the panel itself so no control shows a focus ring on open.
+            e.preventDefault();
+            (e.target as HTMLElement | null)?.closest<HTMLElement>('[role="dialog"]')?.focus();
+          }}
+          className="fixed top-16 right-4 bottom-4 z-50 flex w-[22rem] max-w-[calc(100vw-2rem)] flex-col rounded-card border border-border bg-page text-fg shadow-[0_12px_32px_-12px_rgb(28_16_18/0.25)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-right-4 motion-reduce:animate-none lg:w-[26rem]"
+        >
+          <header className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
+            <DialogPrimitive.Title className="font-display text-xl">{title}</DialogPrimitive.Title>
+            <DialogPrimitive.Description className="sr-only">
+              {description}
+            </DialogPrimitive.Description>
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-key p-1.5 text-muted-foreground transition-colors hover:bg-surface-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              <X className="size-5" aria-hidden="true" />
+              <span className="sr-only">{m.overlay_close()}</span>
+            </button>
+          </header>
+          {content}
+        </DialogPrimitive.Content>
+      </DialogPortal>
     </Dialog>
   );
 }

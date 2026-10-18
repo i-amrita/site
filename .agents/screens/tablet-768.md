@@ -1,55 +1,61 @@
-# Screen: tablet landscape (768 × 1024)
+# Screen: tablet (768 x 1024)
 
-> Mid-size breakpoint. Keyboard reaches full 950 × 320 width.
-> Hero fits 3 lines. Socials single row.
+> TARGET state. Same single centered editorial column and macropad as mobile and desktop. At 768 it does not become a two-column layout and the pad does not grow.
+> Column is `max-w-md` (448px), centered. Pad chassis is `max-w-[342px]`.
 
 ```
+768px
 ┌──────────────────────────────────────────────────────────────┐
-│ ⌘K                            i-amrita            🔍  T  ☾   │ ← navbar pill, 80px tall
-├──────────────────────────────────────────────────────────────┤
 │                                                              │
-│  I am Amrita                                                 │
-│  I bridge the gap between technical complexity               │
-│  and real-world impact.                                      │
+│                ┌──────────────────────────────┐              │ mt-3, h-9
+│                │ (home) About | Cmd-K | EN  o │              │
+│                └──────────────────────────────┘              │
 │                                                              │
-│  AI × community × human-centered design.                     │
-│  Currently MIMS '27 @ UC Berkeley · ex-TPM @ Google           │
+│                        I am  Amrita                          │ 60px Fraunces
+│              I bridge the gap between technical              │ 14px
+│              complexity and real-world impact.               │
 │                                                              │
-│  ─────────────────────────────────────────────               │
-│                                                              │
-│  [LinkedIn]  [Research]  [Email]  [CV / Resume]              │
-│                                                              │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ [esc] F1 F2 F3 [⌕] [🎙] [☾] [⏮] [⏯] [⏭] [🔉] [🔊] [🔊+] # del │  │ F1..F4 highlighted
-│  │ ` 1 2 3 4 5 6 7 8 9 0 - = ⌫                                  │  │
-│  │ ⇥ Q W E R T Y U I O P [ ] \                                  │  │
-│  │ ⇪ A S D F G H J K L : ; " ' ⏎                                │  │
-│  │ ⇧ Z X C V B N M < , > . ? / ⇧ ↑                              │  │
-│  │ ⌃ ⌥ ⌘  ────────────  ⌘ fn ⌃  ← ↓ →                          │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                              │
-│  ☐ Mute key clicks                                           │
-│  ☐ Highlight action keys                                     │
-│                                                              │
-│  Action keys: Esc, F1 (About), F2 (Projects), F3 (Log),      │
-│  F4 (Search), F5 (Mute), F6 (Theme), ⌥ (Locale), ⌘ (CmdK)    │
-│                                                              │
+│                                                              │ mt-32 negative space
+│                   ┌────────────────────────┐                 │
+│                   │ [esc][dial][Sound][Find]│                │
+│                   │ [Work][About][CmdK][Log]│                │
+│                   │ [Connect][BUILD][EN]    │                │
+│                   └────────────────────────┘                 │
+│                 Tap a key or press Cmd-K ...                 │
+│                           llms.txt                           │ footer
+│                       (spare ~ 380px)                        │
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## Layout diff vs desktop
+## Layout diff vs mobile
 
-- Navbar: same 80px pill, full width with 24px margins.
-- Hero title: 56px Fraunces 600 (down from 64 desktop).
-- Hero subtitle: 22px Inter 400.
-- Keyboard: 720 × 220 px (down from 950 × 320 desktop, but still proportional).
-- Socials: single row, 4 buttons.
-- Hint block: shown below keyboard at this breakpoint.
+| Aspect | 375 | 768 |
+|---|---|---|
+| column | `max-w-md`, `px-5` gutters | `max-w-md`, centered, wide side margins |
+| h1 | 48px | 60px (from `sm`) |
+| chassis | up to 342px (335px available) | exactly 342px |
+| key | about 69 to 71px wide, `h-14` | 71px wide, `h-14` (no scaling) |
+| pill | `mt-3`, `h-9`, `w-max` | same |
+
+The pad never scales with the viewport. There is no `Scaler`.
 
 ## Breakpoint rules
 
-- `<480px`: mobile-vertical layout
-- `481–767px`: small-tablet (keyboard ~480 × 150)
-- `768–1023px`: tablet (this layout)
-- `1024–1439px`: desktop, keyboard 950 × 320
-- `≥1440px`: wide desktop, keyboard 1100 × 360, content max-width 1280
+- `<640px`: h1 48px.
+- `>=640px` (`sm`): h1 60px. Everything else is unchanged through 1920px.
+- There is no multi-column breakpoint. The content area stays `max-w-md`.
+- Portrait 768 x 1024 and landscape 1024 x 768 both fit without scroll (the column is about 644px tall).
+
+## Fit and checks
+
+- No horizontal scroll at 768.
+- Pad keys are 71px wide and at least 44px tall and wide.
+- Pill is centered horizontally and sticky at `top-0` with `mt-3`.
+- `/?highlight=1`, `/?mute=1`, `/?theme=dark`, `/?locale=ml` all render without cap overflow.
+
+## Overrides of high-end-visual-design
+
+- No `py-24` on `/`. Vertical rhythm comes from the viewport budget (`mobile-vertical.md`), even on a tall tablet where the spare space stays empty.
+- Lucide icons at `strokeWidth={1.5}`. No Phosphor.
+- Body font Plus Jakarta Sans Variable. Display Fraunces. Mono is the dits stack.
+- Editorial Split is deliberately not used at 768. The user chose the macropad at every width, so the layout stays one column.

@@ -1,3 +1,4 @@
+import { useQueryStates } from 'nuqs';
 import {
   createContext,
   useCallback,
@@ -11,6 +12,7 @@ import {
 
 import type { ActionId } from '@/lib/actions';
 import { initAudio, playClick, setMuted } from '@/lib/audio';
+import { clampHighlight, urlStateParsers } from '@/lib/url-state';
 
 import { useActions } from '../use-actions';
 import { BINDINGS } from './keyboard-layout';
@@ -18,7 +20,11 @@ import type { PressSource } from './keyboard.types';
 
 interface KeyboardContextValue {
   pressed: ReadonlySet<string>;
-  highlight: boolean;
+  /** Highlight intensity 0..100 (live while dragging). */
+  highlight: number;
+  setHighlight: (value: number) => void;
+  /** URL state (`mute`, `theme`, `locale`) for keys that mirror it. */
+  urlState: ReturnType<typeof useActions>['state'];
   press: (code: string, source: PressSource) => void;
   release: (code: string, source: PressSource) => void;
   runAction: (id: ActionId) => void;
@@ -38,14 +44,16 @@ const MODIFIER_TAPS = new Set(['AltLeft', 'AltRight', 'MetaLeft', 'MetaRight']);
 function isInteractive(el: EventTarget | null): boolean {
   return (
     el instanceof HTMLElement &&
-    !!el.closest('input, textarea, select, button, a, [contenteditable="true"], [role="dialog"]')
+    !!el.closest(
+      'input, textarea, select, button, a, [role="slider"], [contenteditable="true"], [role="dialog"]',
+    )
   );
 }
 
 export function KeyboardProvider({ children }: { children: ReactNode }) {
   const { run, state } = useActions();
+  const [, setUrl] = useQueryStates(urlStateParsers);
   const [pressed, setPressed] = useState<ReadonlySet<string>>(() => new Set());
-  const [highlight, setHighlight] = useState(false);
   const runRef = useRef(run);
   runRef.current = run;
   // A lone Alt/Meta tap triggers its action on keyup; any key pressed in between cancels it.
@@ -59,13 +67,15 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
     initAudio();
   }, []);
 
-  // `?highlight=1` glow-pulses action keys for 1.2s on mount (or when toggled on).
-  useEffect(() => {
-    if (state.highlight !== '1') return;
-    setHighlight(true);
-    const t = setTimeout(() => setHighlight(false), 1200);
-    return () => clearTimeout(t);
-  }, [state.highlight]);
+  const highlight = clampHighlight(state.highlight);
+  // nuqs applies the state optimistically and throttles the URL write, so dragging stays live without history spam.
+  const setHighlight = useCallback(
+    (value: number) => {
+      const v = clampHighlight(value);
+      void setUrl({ highlight: v === 0 ? null : v }, { history: 'replace' });
+    },
+    [setUrl],
+  );
 
   const mark = useCallback((code: string, on: boolean) => {
     setPressed((prev) => {
@@ -80,7 +90,8 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   const press = useCallback(
     (code: string, source: PressSource) => {
       mark(code, true);
-      playClick('down');
+      playClick('down', code);
+      if (source === 'pointer') navigator.vibrate?.(12);
       const binding = BINDINGS.get(code);
       // Pointer taps fire on pointerdown; physical modifiers wait for keyup (see below).
       if (binding && (source === 'pointer' || !MODIFIER_TAPS.has(code)))
@@ -92,7 +103,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   const release = useCallback(
     (code: string, _source: PressSource) => {
       mark(code, false);
-      playClick('up');
+      playClick('up', code);
     },
     [mark],
   );
@@ -113,20 +124,20 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       if (MODIFIER_TAPS.has(e.code)) {
         modTap.current = e.code;
         mark(e.code, true);
-        playClick('down');
+        playClick('down', e.code);
         return;
       }
       // Cmd/Ctrl+K opens the palette; other chorded shortcuts belong to the browser.
       if ((e.metaKey || e.ctrlKey) && e.code === 'KeyK') {
         e.preventDefault();
         mark(e.code, true);
-        playClick('down');
+        playClick('down', e.code);
         runRef.current('cmdk');
         return;
       }
       if (e.metaKey || e.ctrlKey || e.altKey) {
         mark(e.code, true);
-        playClick('down');
+        playClick('down', e.code);
         return;
       }
       if (binding) e.preventDefault();
@@ -154,8 +165,8 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   }, [press, release, mark]);
 
   const value = useMemo(
-    () => ({ pressed, highlight, press, release, runAction: run }),
-    [pressed, highlight, press, release, run],
+    () => ({ pressed, highlight, setHighlight, urlState: state, press, release, runAction: run }),
+    [pressed, highlight, setHighlight, state, press, release, run],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

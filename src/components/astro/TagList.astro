@@ -3,7 +3,7 @@ import { href } from '@/lib/url-state';
 
 interface Props {
   tags: string[];
-  /** Link each tag to `/projects?filter=<tag>`. */
+  /** Link each tag to `/work?filter=<tag>`. */
   linked?: boolean;
 }
 const { tags, linked = false } = Astro.props;
@@ -16,7 +16,7 @@ const cls = 'rounded-key bg-surface-muted px-2 py-0.5 font-key text-xs text-mute
       {tags.map((t) => (
         <li>
           {linked ? (
-            <a href={href('/projects', { filter: t })} class={`${cls} hover:text-fg`}>
+            <a href={href('/work', { filter: t })} class={`${cls} hover:text-fg`}>
               {t}
             </a>
           ) : (

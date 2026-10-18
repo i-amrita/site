@@ -1,20 +1,32 @@
 /*
   Link: </llms.txt>; rel="describedby"
 
+/sounds/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
 /*.md
   Content-Type: text/markdown; charset=utf-8
 
 /about
   Link: </about.md>; rel="alternate"; type="text/markdown"
 
+/qr
+  Link: </qr.md>; rel="alternate"; type="text/markdown"
+
 /now
   Link: </now.md>; rel="alternate"; type="text/markdown"
 
-/projects
-  Link: </projects/index.md>; rel="alternate"; type="text/markdown"
+/work
+  Link: </work/index.md>; rel="alternate"; type="text/markdown"
 
-/projects/:slug
-  Link: </projects/::slug.md>; rel="alternate"; type="text/markdown"
+/work/:slug
+  Link: </work/::slug.md>; rel="alternate"; type="text/markdown"
 
 /posts
   Link: </posts/index.md>; rel="alternate"; type="text/markdown"

@@ -3,7 +3,7 @@
  * The active locale is URL state (`?locale=ms|hi|de|ml|en`, default `en`). Contract: `.agents/docs/i18n.md`.
  */
 import { useQueryState } from 'nuqs';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import * as paraglideMessages from '@/i18n/paraglide/messages.js';
 import {
@@ -62,6 +62,12 @@ export function useLocale() {
   const [raw, setRaw] = useQueryState('locale', urlStateParsers.locale);
   const locale: Locale = raw ?? 'en';
   active = locale;
+  // Persist the choice; `Base.astro` restores it on the next visit when the URL has no `?locale=`.
+  useEffect(() => {
+    try {
+      localStorage.setItem('locale', locale);
+    } catch {}
+  }, [locale]);
   const setLocale = useCallback(
     (next: Locale) => {
       active = next;

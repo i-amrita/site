@@ -32,7 +32,7 @@ test.describe('agent-facing endpoints', () => {
   });
 });
 
-for (const path of ['/projects', '/about', '/now', '/posts', '/404']) {
+for (const path of ['/work', '/about', '/now', '/posts', '/qr', '/404']) {
   for (const theme of ['light', 'dark']) {
     test(`${path} has no critical or serious axe violations (${theme})`, async ({ page }) => {
       await page.goto(`${path}?theme=${theme}`);

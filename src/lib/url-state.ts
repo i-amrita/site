@@ -5,7 +5,7 @@
  */
 import { parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs';
 
-export const OVERLAYS = ['about', 'projects', 'log', 'search'] as const;
+export const OVERLAYS = ['about', 'projects', 'log'] as const;
 export const LOCALES = ['en', 'ms', 'hi', 'de', 'ml'] as const;
 export const THEMES = ['light', 'dark'] as const;
 export const FLAGS = ['1', '0'] as const;
@@ -14,13 +14,16 @@ export type Overlay = (typeof OVERLAYS)[number];
 export type Locale = (typeof LOCALES)[number];
 export type Theme = (typeof THEMES)[number];
 
+export const clampHighlight = (n: number) => Math.min(100, Math.max(0, Math.round(n) || 0));
+
 /** nuqs parsers keyed by query param. Pass to `useQueryStates(urlStateParsers)`. */
 export const urlStateParsers = {
   overlay: parseAsStringLiteral(OVERLAYS),
   scroll: parseAsInteger,
   filter: parseAsString,
   mute: parseAsStringLiteral(FLAGS),
-  highlight: parseAsStringLiteral(FLAGS),
+  /** Action-key highlight intensity, 0..100. Absent = 0. Clamp on read with `clampHighlight`. */
+  highlight: parseAsInteger.withDefault(0),
   theme: parseAsStringLiteral(THEMES),
   locale: parseAsStringLiteral(LOCALES),
   cmdk: parseAsStringLiteral(['open'] as const),

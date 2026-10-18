@@ -18,14 +18,14 @@ test('/?locale=ml translates the hero and sets lang', async ({ page }) => {
   await page.goto('/?locale=ml');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ml');
   await expect(page.getByRole('button', { name: 'തിരയുക' }).first()).toBeVisible();
-  await expect(page.getByText('മുൻ TPM')).toBeVisible();
+  await expect(page.getByText('സാങ്കേതിക സങ്കീർണ്ണതയെയും')).toBeVisible();
 });
 
 test('/?locale=hi&overlay=projects translates the overlay', async ({ page }) => {
   await page.goto('/?locale=hi&overlay=projects');
   await expect(page.locator('html')).toHaveAttribute('lang', 'hi');
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('सभी प्रोजेक्ट देखें')).toBeVisible();
+  await expect(dialog.getByText('सारा काम देखें')).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'सभी' })).toBeVisible();
 });
 
@@ -33,16 +33,29 @@ test('/?locale=ms&cmdk=open translates the palette', async ({ page }) => {
   await page.goto('/?locale=ms&cmdk=open');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ms');
   await expect(page.getByPlaceholder('Ketik perintah atau carian...')).toBeVisible();
-  await expect(page.getByText('Buka carian')).toBeVisible();
+  await expect(page.getByText('Pergi ke kerja')).toBeVisible();
 });
 
 test('the locale switch keeps the other URL params', async ({ page }) => {
   await page.goto('/?theme=dark&mute=1');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
   await page.getByRole('button', { name: 'Choose language' }).click();
   await page.getByRole('option', { name: 'Deutsch' }).click();
   await expect(page).toHaveURL(/locale=de/);
   await expect(page).toHaveURL(/theme=dark/);
   await expect(page).toHaveURL(/mute=1/);
+});
+
+test('a chosen locale is persisted and restored on the next visit', async ({ page }) => {
+  await page.goto('/?locale=de');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('locale'))).toBe('de');
+  await page.goto('/');
+  await expect(page).toHaveURL(/locale=de/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+  // An explicit param wins over the stored choice.
+  await page.goto('/?locale=ms');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ms');
 });
 
 test.fixme('Alt+L cycles the locale in the URL', async ({ page }) => {

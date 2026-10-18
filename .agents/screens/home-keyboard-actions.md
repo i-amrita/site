@@ -1,80 +1,84 @@
-# Screen: keyboard action-keys map
+# Screen: macropad action keys map
 
-> Each non-typing key on the keyboard maps to either a URL-state change or an in-page action.
-> "Action keys" — keys that don't represent a character — are visually marked with the brand accent.
+> TARGET state. The 75-key keyboard is replaced by an 11-key, 4-column macropad (12 grid cells, the Let's build key is 2u). Eight keys are real buttons bound to an `actionId`. Three (Research, LinkedIn, Let's build) are real anchors (`kind: 'link'`) with an `href` and no action.
+> Physical hotkeys stay live because the listeners are window-level. A pad key shows pressed when any pressed code maps to its `actionId`.
 
-## Action key bindings
+## Layout
 
-| Key | Glyph | Action | URL state change | Modal? |
-|---|---|---|---|---|
-| `Escape` | esc | Close overlay / clear focus | `?overlay=` removed | — |
-| `F1` | F1 | About overlay | `?overlay=about` | Dialog |
-| `F2` | F2 | Projects overlay | `?overlay=projects` | Dialog |
-| `F3` | F3 | Log overlay | `?overlay=log` | Dialog |
-| `F4` | F4 / ⌕ | Search overlay | `?overlay=search` | Dialog (Pagefind) |
-| `F5` | F5 / 🎙 | Mute toggle | `?mute=1\|0` | — |
-| `F6` | F6 / ☾ | Theme toggle | `?theme=dark\|light` | — |
-| `F7` | F7 / ⏮ | (skip) | — | — |
-| `F8` | F8 / ⏯ | (skip) | — | — |
-| `F9` | F9 / ⏭ | (skip) | — | — |
-| `F10` | F10 / 🔉 | (skip) | — | — |
-| `F11` | F11 / 🔊 | (skip) | — | — |
-| `F12` | F12 / 🔊+ | (skip) | — | — |
-| `Tab` | ⇥ | (default tab behavior) | — | — |
-| `Caps Lock` | ⇪ | (toggle caps indicator) | `?caps=1` | — |
-| `Shift L/R` | ⇧ | (modifier) | — | — |
-| `Ctrl L/R` | ⌃ | (modifier) | — | — |
-| `Option L` | ⌥ | Locale cycle | `?locale=ms\|hi\|de\|ml\|en` | — |
-| `Cmd L/R` | ⌘ | Open CmdK palette | `?cmdk=open` | Dialog (cmdk) |
-| `fn` | fn | (modifier) | — | — |
-| `Space` | ─────────── | Open CmdK palette (alias) | `?cmdk=open` | — |
-| `Return` | ⏎ | Open CmdK palette (alias) | `?cmdk=open` | — |
-| `Delete` | del | (default delete behavior) | — | — |
-| `←` `→` `↑` `↓` | arrows | Navigate overlay items / scroll | depends | — |
-| `pgup` `pgdn` | ⇞ ⇟ | Scroll overlay | — | — |
-| `home` `end` | ⇱ ⇲ | Scroll to top/bottom | — | — |
-| `T` (alpha) | T | Theme toggle (alias of F6) | `?theme=dark\|light` | — |
-| `L` (alpha) | L | Locale cycle (alias of ⌥) | `?locale=...` | — |
-| `A` (alpha) | A | About overlay (alias of F1) | `?overlay=about` | — |
-| `P` (alpha) | P | Projects overlay (alias of F2) | `?overlay=projects` | — |
-| `B` (alpha) | B | Log overlay (alias of F3) | `?overlay=log` | — |
-| `S` (alpha) | S | Search overlay (alias of F4) | `?overlay=search` | — |
-| `C` (alpha) | C | Copy email to clipboard | — | toast |
-| `K` (alpha) | K | CmdK palette (alias of ⌘) | `?cmdk=open` | — |
+```
+cols:   1         2         3         4
+row 1  [ esc  ] [ dial  ] [Sound ] [ Find ]
+row 2  [ Work ] [ About ] [Research] [ Log  ]
+row 3  [LinkedIn] [  LET'S BUILD (2u)  ] [Locale]
+```
 
-## Visual treatment
+## Key mapping (PAD_KEYS in `keyboard-layout.ts`)
 
-Action keys render with:
+| Row | Key id | Legend (en) | Icon (lucide, stroke 1.5) | Action id | Rep. code (`press()`) | Variant | Also lit by physical keys | URL state change |
+|---|---|---|---|---|---|---|---|---|
+| 1 | `esc` | esc | none | `close` | `Escape` | sage | `Escape` | `?overlay=` and `?cmdk=` removed |
+| 1 | `dial` | none (knurled dial, `kind: 'dial'`, `role=slider`) | none | none | `Dial` | dial | none | `?highlight=0..100` (absent = 0); rotates -135deg to +135deg |
+| 1 | `sound` | Sound | `Volume2` / `VolumeX` | `mute` | `F5` | cream | `F5` | `?mute=1\|0`, icon reflects state |
+| 1 | `find` | Find (with a sparkle) | `Sparkles` | `search` | `F4` | rose | `F4`, `s` | `?cmdk=open` |
+| 2 | `work` | Work | `LayoutGrid` | `projects` | `F2` | rose | `F2`, `p` | `?overlay=projects` |
+| 2 | `about` | About | `Smile` | `about` | `F1` | cream | `F1`, `a` | `?overlay=about` |
+| 2 | `research` | Research | `Books` | none (link) | `Link:research` | cream | none | opens `SOCIALS.research` in a new tab |
+| 2 | `log` | Log | `BookOpen` | `log` | `F3` | cream | `F3`, `b` | `?overlay=log` |
+| 3 | `linkedin` | LinkedIn (brand, not translated) | `Linkedin` | none (link) | `Link:linkedin` | rose | none | opens `SOCIALS.linkedin` in a new tab |
+| 3 | `email` (2u, `span: 2`) | Let's build (sparkle on each side) | `Sparkles` x2 | none (link) | `Link:email` | cream | none | `mailto:<EMAIL>`, same tab |
+| 3 | `locale` | current code (`EN`, `DE`, `MS`, `HI`, `ML`) | none | `locale` | `AltLeft` | cream | `AltLeft`, `AltRight`, `l` | `?locale=ms\|hi\|de\|ml\|en` (cycle) |
 
-- bg = `--color-key-accent` (off-white `#E1E1E1` light / `#2D2A3F` dark)
-- fg = `--color-key-accent-fg` (`#8F4246` light / `#F5C8CA` dark)
-- 2px border-bottom in `--color-brand` for visual "this is different"
+Notes:
 
-Typing keys keep the standard keythm scarlet theme (light = letter keys, dark = modifiers).
+- Link keys have `data-action` equal to their id (`research`, `linkedin`, `email`), their own non-bound press codes, and are never lit by physical keys. They still animate, click and vibrate on press.
+- No pad key maps to `cmdk`. The palette stays reachable by Cmd/Ctrl+K, the navbar button and `?cmdk=open`. Physical `Space`, `Enter` and `Meta` keep their `cmdk` binding but light no pad key. Search from the pad is the Find key.
+- Legends use short i18n keys: `key_esc`, `key_sound`, `key_find`, `key_work`, `key_about`, `key_research`, `key_log`, `key_build` (LinkedIn is a literal brand name). Each legend is at most about 8 characters so it fits a 71px cap.
+- F7 to F12, Tab, Caps, arrows and the rest of the old typing keys no longer have pad keys. Hotkeys without a pad key (arrows in overlays, scroll keys) keep their overlay behavior and light nothing.
+
+## Variants and legend contrast
+
+| Variant | Used by | Tokens | Legend |
+|---|---|---|---|
+| cream | Sound, About, Research, Log, Let's build, Locale | `key-cream` gradient, `key-cream-side`, `key-cream-fg` | `#3c262a` |
+| rose | Find, Work, LinkedIn | `key-rose` gradient, `key-rose-side`, `key-rose-fg` | `#fffaf6`, at least 4.5:1 |
+| sage | esc | `key-sage` gradient, `key-sage-side`, `key-sage-fg` | `#36443c` |
+| dial | highlight | knurled knob on the plate, brand pip | none |
+
+Keycaps keep the same colors in light and dark. Only the chassis surround, page and text follow the theme (the chassis stays dark in both).
+
+## Interaction contract
+
+- Pointer: act on `pointerdown`. A `click` with `detail === 0` (keyboard Enter or Space on a focused key) also acts. Never both for one gesture. Link keys are native anchors: the browser activates them on click and Enter.
+- Press visual: cap moves down 4px, side sliver collapses, 60ms on `--ease-key`. Reduced motion: color change only.
+- Haptics: `navigator.vibrate?.(12)` on pointer press.
+- Audio: click plays unless `?mute=1`. The first tap unlocks the AudioContext.
+- Focus: each key is tabbable. Accessible name starts with the visible legend (WCAG 2.5.3), for example "Work Projects", "Sound Mute sounds", "Let's build Email" (link keys without a name suffix, such as LinkedIn and Research, expose just the legend).
+- Minimum key width 44px (actual about 71px, 152px for 2u).
+
+## Highlight
+
+The dial (slider named "Highlight action keys", 0 to 100) writes `?highlight=` with history `replace`. Drag around its center, scroll over it, or use ArrowUp/Right +5, ArrowDown/Left -5, PageUp/Down +-20, Home 0, End 100. A plain tap cycles 0, 50, 100, 0. A detent tick plays every 5 steps (synthesized, see `.agents/docs/audio.md`). The intensity sets `--glow` (0..1) on the pad group and the navigation keys (Find, Work, About, Log) glow in proportion (steady, no pulse, no mount animation). At 0, no key glows except the transient pressed state. Sound, dial, esc, Locale and the three link keys are never glowed by the highlight.
 
 ## Keyboard-driven overlays
 
-When the user presses an action key, the corresponding URL query param updates via `nuqs`. The page hydrates the overlay island which reads the param and opens. URL becomes the source of truth — back button closes overlay, shareable, agent-replayable.
+A key press updates its URL param through `nuqs`. The overlay island reads the param and opens. The URL is the source of truth: Back closes the overlay, URLs are shareable and agent-replayable. With `?mute=1` actions still trigger but no click audio plays.
 
-If a user prefers to **not** type-to-act, the muted checkbox at the bottom of the keyboard section toggles `?mute=1`. With mute on:
+## Test hooks (e2e at 375 x 667)
 
-- Action keys still trigger (URL updates)
-- But no audio click plays
-- A subtle toast confirms each action ("Opened About")
+| Step | Expect |
+|---|---|
+| tap Work | URL has `?overlay=projects` |
+| tap Sound | URL toggles `?mute=1` |
+| tap dial | `?highlight=` cycles 50, 100, none; ArrowRight on the focused slider adds 5; End sets 100 |
+| tap Find | URL has `?cmdk=open` |
+| link keys | `href` is `mailto:`, the LinkedIn URL and the research URL; LinkedIn and Research have `target=_blank` |
+| press `F2` | Work lights while held |
+| tick highlight | URL has `?highlight=1` and nav keys glow |
+| every pad control (8 buttons + 3 links) | bounding width at least 44px |
 
-When `?highlight=1` is set (the "Highlight action keys" checkbox), action keys additionally animate a 1.2s glow pulse on every mount to make discoverability obvious on first visit. URL persists so agents can replay the discoverability demo.
+## Overrides of high-end-visual-design
 
-## Layout detail
-
-```
-Row 0: [esc]  F1  F2  F3  [⌕ F4]  [🎙 F5]  [☾ F6]  ⏮  ⏯  ⏭  🔉  🔊  🔊+  [#]  [del]
-                              ^^^^^                                  ^^^^
-                              action                                  icon
-Row 1: ` 1 2 3 4 5 6 7 8 9 0 - =  [⌫ backspace]                          [pgup]
-Row 2: [⇥ tab]  Q W E R T Y U I O P { [ } ] \                              [pgdn]
-Row 3: [⇪ caps]  A S D F G H J K L : ; " '  [⏎ return]                     [home]
-Row 4: [⇧ shift]  Z X C V B N M < , > . ? /  [⇧ shift] [↑] [end]
-Row 5: [⌃ ctrl] [⌥ option] [⌘ cmd] [────── space ──────] [⌘ cmd] [fn] [⌃ ctrl] [← ↓ →]
-```
-
-Brackets `[X]` indicate action keys visually styled with `--color-key-accent`. The function row has F1–F4 highlighted (action keys), F5–F12 muted (legacy), with F6 (theme toggle) shown as the universally familiar moon icon.
+- No `py-24` on `/`. Vertical rhythm is fixed by the viewport budget in `mobile-vertical.md`.
+- Lucide icons at `strokeWidth={1.5}`. No Phosphor.
+- Body font Plus Jakarta Sans Variable. Key legends use the mono stack.
+- Keycap CSS keeps the keythm recipe with Apache-2.0 attribution (NOTICE, header in `keyboard-themes.ts`). The sound sprite is not lifted.
