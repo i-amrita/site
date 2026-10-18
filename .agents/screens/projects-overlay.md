@@ -35,15 +35,17 @@
 - `?overlay=projects` opens it. Any other overlay (`about`, `log`, `search`) closes it via state substitution.
 - ESC, click outside, click `[×]`, click `[See all →]` all close the dialog.
 - Back button removes the param.
-- Scroll position persists via `?overlay=projects&scroll=2` (card index 2 in view).
+- Scroll position persists via `?overlay=projects&scroll=400` (pixel scrollTop of the list, throttled, `replace`).
+- Tag chips set `?filter=<tag>` (same slugs as `/projects`).
+- Mobile (<640px) renders as a bottom sheet (Radix Dialog restyled, not vaul) up to 92dvh; desktop is a centered modal.
 - Each card uses real content from `src/content/projects/<slug>.mdx` (project schema).
 - Lazy-load: each card body truncated to first 200 chars; full content on the dedicated page.
 
 ## URL state contract
 
 - `overlay` — `projects | log | about | search | null` (none closes)
-- `scroll` — `int` (card index in view)
-- `filter` — string (search within overlay items)
+- `scroll` — `int` (pixels)
+- `filter` — string (tag)
 
 These live in `nuqs` with `parseAsString`, `parseAsInteger`, `parseAsString.withDefault("")` and `history: 'replace'` to avoid bloating history with every scroll tick.
 

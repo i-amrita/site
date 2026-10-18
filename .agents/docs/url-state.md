@@ -9,8 +9,8 @@ Islands bind the parsers with `nuqs` through `useQueryStates(urlStateParsers)`. 
 | Param | Parser | Allowed values | History | Written by | Notes |
 |---|---|---|---|---|---|
 | `overlay` | `parseAsStringLiteral(OVERLAYS)` | `about`, `projects`, `log`, `search` | push | About (F1, A), Projects (F2, P), Log (F3, B), Search (F4, S). Close removes it. | One overlay at a time. Opening another overlay replaces the value. |
-| `scroll` | `parseAsInteger` | integer | replace | Not written by any action yet. Projects overlay plan: card index in view. | Close clears it. |
-| `filter` | `parseAsString` | any string | replace | Not written by any action yet. Projects overlay plan: text filter for overlay items. | Close clears it. |
+| `scroll` | `parseAsInteger` | integer | replace | Written by the Projects overlay (throttled 200ms): pixel `scrollTop` of the list, restored on open. Cleared when it returns to 0. | Close clears it. |
+| `filter` | `parseAsString` | any string | replace | Written by the Projects overlay tag chips (same tag slug as `/projects`). | Close clears it. |
 | `mute` | `parseAsStringLiteral(FLAGS)` | `1`, `0` | replace | Mute (F5). Kind `toggle`, so the value is computed at call time by the consumer. | Mute silences key clicks only. Action keys still fire and still update the URL. |
 | `highlight` | `parseAsStringLiteral(FLAGS)` | `1`, `0` | replace | No action in `actions.ts`. Keyboard screen spec: "Highlight action keys" checkbox. | When `1`, action keys pulse for 1.2 s on mount. |
 | `theme` | `parseAsStringLiteral(THEMES)` | `light`, `dark` | replace | Theme (F6, T). Kind `toggle`. | Applied before paint by the inline script in `Base.astro`, which sets `<html data-theme>`. Absent means OS preference. |
@@ -64,8 +64,8 @@ href('/', {}); // "/"
 ## Example URLs
 
 - `/?overlay=projects`: Projects overlay open.
-- `/?overlay=projects&scroll=2`: Projects overlay open, card index 2 in view (planned).
-- `/?overlay=projects&filter=gcp`: Projects overlay with a text filter (planned).
+- `/?overlay=projects&scroll=400`: Projects overlay open, list scrolled 400px.
+- `/?overlay=projects&filter=gcp`: Projects overlay filtered to one tag.
 - `/?theme=dark`: dark theme forced, regardless of OS setting.
 - `/?theme=light&mute=1`: light theme, key clicks muted.
 - `/?highlight=1`: action keys pulse on mount.
