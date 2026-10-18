@@ -12,22 +12,42 @@ export function soundExtension(): 'ogg' | 'm4a' {
 export const soundUrl = (name: SoundName) => `/sounds/${SOUND_NAMES[name]}.${soundExtension()}`;
 type Buffers = Partial<Record<SoundName, AudioBuffer>>;
 
+let bytes: Promise<Partial<Record<SoundName, ArrayBuffer>>> | null = null;
 let pending: Promise<Buffers> | null = null;
 let pendingCtx: AudioContext | null = null;
 
-export function loadSounds(ctx: AudioContext): Promise<Buffers> {
-  if (pending && pendingCtx === ctx) return pending;
-  pendingCtx = ctx;
-  pending = Promise.all(
+/** Fetch the raw files without an AudioContext, so creating the context can wait for a user gesture. */
+export function fetchSoundBytes(): Promise<Partial<Record<SoundName, ArrayBuffer>>> {
+  bytes ??= Promise.all(
     (Object.keys(SOUND_NAMES) as SoundName[]).map(async (name) => {
       try {
         const res = await fetch(soundUrl(name));
-        const data = await res.arrayBuffer();
-        return [name, await ctx.decodeAudioData(data)] as const;
+        return [name, await res.arrayBuffer()] as const;
       } catch {
         return [name, undefined] as const;
       }
     }),
-  ).then((entries) => Object.fromEntries(entries) as Buffers);
+  ).then((entries) => Object.fromEntries(entries));
+  return bytes;
+}
+
+/** Decode the fetched bytes once per AudioContext and cache the buffers. */
+export function loadSounds(ctx: AudioContext): Promise<Buffers> {
+  if (pending && pendingCtx === ctx) return pending;
+  pendingCtx = ctx;
+  pending = fetchSoundBytes().then(async (raw) => {
+    const entries = await Promise.all(
+      (Object.keys(SOUND_NAMES) as SoundName[]).map(async (name) => {
+        try {
+          const data = raw[name];
+          // decodeAudioData detaches its input, so decode a copy and keep the bytes for another context.
+          return [name, data ? await ctx.decodeAudioData(data.slice(0)) : undefined] as const;
+        } catch {
+          return [name, undefined] as const;
+        }
+      }),
+    );
+    return Object.fromEntries(entries) as Buffers;
+  });
   return pending;
 }

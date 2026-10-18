@@ -1,4 +1,7 @@
 ---
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import monoUrl from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2?url';
+import frauncesUrl from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
 import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
@@ -43,6 +46,7 @@ const soundPreload = `(() => {
     l.as = 'fetch';
     l.href = '/sounds/' + n + '.' + ext;
     l.crossOrigin = 'anonymous';
+    l.fetchPriority = 'low';
     document.head.append(l);
   }
 })();`;
@@ -54,7 +58,14 @@ const ogUrl = new URL(ogImage, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <slot name="head" />
+    {
+      // The keyboard legends use the mono face; without a preload it is discovered late and delays first paint.
+      [interUrl, frauncesUrl, ...(preloadSounds ? [monoUrl] : [])].map((href) => (
+        <link rel="preload" as="font" type="font/woff2" crossorigin="anonymous" href={href} />
+      ))
+    }
     <title>{title}</title>
     <meta name="description" content={description} />
     {withCanonical && <link rel="canonical" href={canonical} />}
