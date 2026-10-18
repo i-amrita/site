@@ -10,6 +10,10 @@ Key clicks are two original sounds, `public/sounds/click-down.{ogg,m4a}` and `cl
 - `?mute=1` is read by `KeyboardProvider` and pushed into `setMuted`. F5 toggles it via `useActions().run('mute')`.
 - `soundExtension()` in `audio-preloader.ts` picks `ogg` when `canPlayType('audio/ogg; codecs="vorbis"')` is truthy, else `m4a` (AAC). The home page injects matching `<link rel="preload" as="fetch">` tags from an inline script (`preloadSounds` prop on `Base.astro`) using the same check.
 
+## Dial tick
+
+The highlight dial does not use the samples. `playTick(value, strong)` in `src/lib/audio.ts` synthesizes a detent tick with Web Audio: about 15ms of band-passed noise plus a ~1.5kHz sine blip, pitch rising slightly with the value, louder at the 0 and 100 stops. It fires on every 5-step notch crossed by drag, wheel or arrow keys, at most once per 30ms, and never when the value does not change. It uses the same shared context (created on the first gesture) and respects `?mute=1`. A tap/cycle plays the normal key click instead.
+
 ## Regenerate
 
 Use ffmpeg `anoisesrc` (white) with `highpass`/`lowpass` and `volume='exp(-t*N)':eval=frame`, mixed with a `sine` body, encoded with `-c:a vorbis -strict -2`. Down: 90ms, noise 1.8-7.5kHz decay 110, sine 190Hz. Up: 60ms, noise 3-9kHz decay 180, sine 320Hz.

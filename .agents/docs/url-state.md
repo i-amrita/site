@@ -12,7 +12,7 @@ Islands bind the parsers with `nuqs` through `useQueryStates(urlStateParsers)`. 
 | `scroll` | `parseAsInteger` | integer | replace | Written by the Projects overlay (throttled 200ms): pixel `scrollTop` of the list, restored on open. Cleared when it returns to 0. | Close clears it. |
 | `filter` | `parseAsString` | any string | replace | Written by the Projects overlay tag chips (same tag slug as `/projects`). | Close clears it. |
 | `mute` | `parseAsStringLiteral(FLAGS)` | `1`, `0` | replace | Mute (F5). Kind `toggle`, so the value is computed at call time by the consumer. | Mute silences key clicks only. Action keys still fire and still update the URL. |
-| `highlight` | `parseAsStringLiteral(FLAGS)` | `1`, `0` | replace | No action in `actions.ts`. Keyboard screen spec: "Highlight action keys" checkbox. | When `1`, action keys pulse for 1.2 s on mount. |
+| `highlight` | `parseAsInteger.withDefault(0)` | integer 0..100 | replace | The pad dial (`role=slider`). Not an action. | Intensity of the steady glow on action keys (`--glow` = value/100). 0 clears the param. nuqs updates local state at once and throttles the URL write while dragging. |
 | `theme` | `parseAsStringLiteral(THEMES)` | `light`, `dark` | replace | Theme (F6, T). Kind `toggle`. | Applied before paint by the inline script in `Base.astro`, which sets `<html data-theme>`. Absent means OS preference. |
 | `locale` | `parseAsStringLiteral(LOCALES)` | `en`, `ms`, `hi`, `de`, `ml` | replace | Locale (Alt+l, L). Kind `cycle`. | Launch ships `en` only. The other values are reserved for Phase 5 (i18n). |
 | `cmdk` | `parseAsStringLiteral(['open'])` | `open` | push | Command palette (Meta+k, K, Space, Enter). Close removes it. | Only value is `open`. |
@@ -68,7 +68,7 @@ href('/', {}); // "/"
 - `/?overlay=projects&filter=gcp`: Projects overlay filtered to one tag.
 - `/?theme=dark`: dark theme forced, regardless of OS setting.
 - `/?theme=light&mute=1`: light theme, key clicks muted.
-- `/?highlight=1`: action keys pulse on mount.
+- `/?highlight=60`: action keys glow at 60% intensity.
 - `/?cmdk=open&q=gdg`: palette open with query.
 - `/?cmdk=open&q=gdg&mode=ai`: palette open, hybrid search (planned).
 - `/?locale=ms`: Malay. Reserved, not active at EN-only launch.

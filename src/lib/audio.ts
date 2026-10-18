@@ -73,3 +73,42 @@ export function playClick(name: SoundName): void {
     src.start(0, 0, buffer.duration);
   });
 }
+
+let lastTick = 0;
+
+/**
+ * Dial detent tick, synthesized (no sample): ~15ms filtered noise burst plus a ~1.5kHz sine blip,
+ * pitch rising slightly with `value` (0..100). `strong` is used at the 0 and 100 stops.
+ * Respects mute, needs the unlocked context, and is rate-limited to one tick per 30ms.
+ */
+export function playTick(value: number, strong = false): void {
+  if (muted || !ctx || ctx.state !== 'running') return;
+  const now = performance.now();
+  if (now - lastTick < 30) return;
+  lastTick = now;
+  const t0 = ctx.currentTime;
+  const dur = 0.015;
+  const gain = ctx.createGain();
+  const peak = strong ? 0.5 : 0.28;
+  gain.gain.setValueAtTime(peak, t0);
+  gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+  gain.connect(ctx.destination);
+
+  const osc = ctx.createOscillator();
+  osc.frequency.value = 1500 * (0.9 + (Math.min(100, Math.max(0, value)) / 100) * 0.2);
+  osc.connect(gain);
+  osc.start(t0);
+  osc.stop(t0 + dur);
+
+  const frames = Math.max(1, Math.floor(ctx.sampleRate * dur));
+  const noise = ctx.createBuffer(1, frames, ctx.sampleRate);
+  const data = noise.getChannelData(0);
+  for (let i = 0; i < frames; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource();
+  src.buffer = noise;
+  const band = ctx.createBiquadFilter();
+  band.type = 'bandpass';
+  band.frequency.value = 3500;
+  src.connect(band).connect(gain);
+  src.start(t0);
+}

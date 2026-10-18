@@ -1,7 +1,8 @@
 import { ArrowRight, X } from 'lucide-react';
-import { useCallback, useEffect, useRef, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useSyncExternalStore, type ReactNode } from 'react';
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from '@/components/ui/drawer';
 import { m, useLocale } from '@/lib/i18n';
 
 const SCROLL_THROTTLE_MS = 200;
@@ -20,7 +21,23 @@ interface Props {
   onScrollTop?: (top: number) => void;
 }
 
-/** Shared shell: Radix Dialog as centered modal on desktop and full-height bottom sheet on mobile. */
+const MOBILE_QUERY = '(max-width: 639.98px)';
+
+function subscribeMobile(cb: () => void) {
+  const mq = window.matchMedia(MOBILE_QUERY);
+  mq.addEventListener('change', cb);
+  return () => mq.removeEventListener('change', cb);
+}
+
+function useIsMobile() {
+  return useSyncExternalStore(
+    subscribeMobile,
+    () => window.matchMedia(MOBILE_QUERY).matches,
+    () => false,
+  );
+}
+
+/** Shared shell: vaul Drawer (grabber, drag-down, no X) on mobile, centered Radix Dialog on desktop. */
 export function ActionOverlay({
   open,
   title,
@@ -51,8 +68,54 @@ export function ActionOverlay({
     });
   }, []);
 
+  const isMobile = useIsMobile();
+  const onOpenChange = (next: boolean) => !next && onClose();
+
+  const content = (
+    <>
+      <div
+        ref={setScroller}
+        data-overlay-scroll
+        onScroll={(e) => {
+          if (!onScrollTop || timer.current) return;
+          const el = e.currentTarget;
+          timer.current = setTimeout(() => {
+            timer.current = null;
+            onScrollTop(Math.round(el.scrollTop));
+          }, SCROLL_THROTTLE_MS);
+        }}
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5"
+      >
+        {children}
+      </div>
+      <footer className="border-t border-border px-5 py-3">
+        <a
+          href={readMore.href}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          {readMore.label}
+          <ArrowRight className="size-4" aria-hidden="true" />
+        </a>
+      </footer>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange}>
+        <DrawerContent className="max-h-[92dvh] border-border bg-page text-fg">
+          <header className="border-b border-border px-5 py-3 text-left">
+            <DrawerTitle className="font-display text-xl">{title}</DrawerTitle>
+            <DrawerDescription className="sr-only">{description}</DrawerDescription>
+          </header>
+          {content}
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
   return (
-    <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
         onOpenAutoFocus={(e) => {
@@ -60,7 +123,7 @@ export function ActionOverlay({
           e.preventDefault();
           (e.target as HTMLElement | null)?.closest<HTMLElement>('[role="dialog"]')?.focus();
         }}
-        className="inset-x-0 top-auto bottom-0 left-0 flex max-h-[92dvh] max-w-full translate-x-0 translate-y-0 flex-col gap-0 rounded-b-none border-border bg-page p-0 text-fg sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[85dvh] sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card"
+        className="flex max-h-[85dvh] max-w-2xl flex-col gap-0 rounded-card border-border bg-page p-0 text-fg"
       >
         <header className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
           <DialogTitle className="font-display text-xl">{title}</DialogTitle>
@@ -74,30 +137,7 @@ export function ActionOverlay({
             <span className="sr-only">{m.overlay_close()}</span>
           </button>
         </header>
-        <div
-          ref={setScroller}
-          data-overlay-scroll
-          onScroll={(e) => {
-            if (!onScrollTop || timer.current) return;
-            const el = e.currentTarget;
-            timer.current = setTimeout(() => {
-              timer.current = null;
-              onScrollTop(Math.round(el.scrollTop));
-            }, SCROLL_THROTTLE_MS);
-          }}
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5"
-        >
-          {children}
-        </div>
-        <footer className="border-t border-border px-5 py-3">
-          <a
-            href={readMore.href}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          >
-            {readMore.label}
-            <ArrowRight className="size-4" aria-hidden="true" />
-          </a>
-        </footer>
+        {content}
       </DialogContent>
     </Dialog>
   );
