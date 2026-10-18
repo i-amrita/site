@@ -1,9 +1,12 @@
 /**
- * Manifest for the single sound sprite in `public/sounds/sprite-<hash>.{ogg,m4a}`: 16 key clicks (keythm's sound.ogg, Apache-2.0)
+ * Manifest for the single sound sprite in `public/sounds/sprite-<hash>.m4a`: 16 key clicks (keythm's sound.ogg, Apache-2.0)
  * followed by 4 dial ticks (Kenney UI Audio, CC0), see NOTICE. Offsets and durations are in seconds.
  * The file name carries a content hash, so /sounds/* can be cached immutably. Details: `.agents/docs/audio.md`.
+ *
+ * Format choice: AAC-LC in `.m4a`, mono, 32 kbps. One format plays everywhere; no `canPlayType` branch
+ * and no `.ogg` fallback. See `.agents/docs/audio.md` for the measurement note (encoder delay, iOS caveat).
  */
-export const SPRITE_HASH = 'f17e74f3';
+export const SPRITE_HASH = '5fd10328';
 
 export type SoundName = 'down' | 'up';
 
@@ -31,28 +34,7 @@ export const SPRITE: Record<SoundName, ReadonlyArray<readonly [number, number]>>
   ],
 };
 
-export type SoundExt = 'ogg' | 'm4a';
-
-/** Any WebKit engine: Safari and every iOS browser (CriOS/FxiOS wrap WebKit), but not Blink-based Chrome/Edge. */
-export function isWebKit(
-  ua = typeof navigator === 'undefined' ? '' : navigator.userAgent,
-): boolean {
-  return /AppleWebKit/.test(ua) && !/(Chrome|Chromium|Edg|OPR)\//.test(ua) && !/Android/.test(ua);
-}
-
-/**
- * AAC in m4a on WebKit, Ogg Opus elsewhere (AAC when Opus is unplayable). WebKit gets m4a even when `canPlayType`
- * claims Opus: that probe describes `<audio>` and has been optimistic where `decodeAudioData` is not, and m4a is
- * the one format every iOS version decodes. `audio-preloader.ts` also retries the other format if decode fails.
- * Base.astro repeats this rule inline for the head preload; keep them in sync.
- */
-export function soundExtension(): SoundExt {
-  if (typeof Audio === 'undefined' || isWebKit()) return 'm4a';
-  return new Audio().canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
-}
-
-export const spriteUrl = (ext: SoundExt = soundExtension()) =>
-  `/sounds/sprite-${SPRITE_HASH}.${ext}`;
+export const spriteUrl = () => `/sounds/sprite-${SPRITE_HASH}.m4a`;
 
 /** Deterministic string hash (FNV-1a), so a key id always maps to the same sample. */
 export function hashId(id: string): number {
