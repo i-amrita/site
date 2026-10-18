@@ -9,7 +9,7 @@ Key clicks and dial ticks come from one small sprite, `public/sounds/sprite-<has
 - `getAudioStatus()` / `subscribeAudioStatus()` expose `loading | ready` (ready also when fetch or decode failed) for the startup indicator in `Keyboard.tsx`.
 - `playClick('down'|'up', id)` is synchronous: it picks sample `SPRITE[name][hashId(id) % count]` (FNV-1a of the key code or id, so each key keeps its own voice) and plays it with `start(0, offset, duration)`, playbackRate jitter 0.95..1.05 and gain jitter 0.85..1.1. No-op while muted or not yet decoded (never queued, so there is no burst of late clicks). It plays when the context is running, or suspended within 120ms of the unlocking gesture (the first tap is audible). If fetch or decode failed, `playSynthClick` plays a short filtered-noise tick instead.
 - `?mute=1` is read by `KeyboardProvider` and pushed into `setMuted`. F5 toggles it via `useActions().run('mute')`.
-- `soundExtension()` in `key-sprite.ts` picks `ogg` when `canPlayType('audio/ogg; codecs="opus"')` is truthy, else `m4a` (AAC). The home page injects a matching `<link rel="preload" as="fetch">` from an inline script (`preloadSounds` prop on `Base.astro`) using the same check and `SPRITE_HASH`.
+- `soundExtension()` in `key-sprite.ts` picks `m4a` (AAC) on any WebKit engine (every iOS browser; `canPlayType` is optimistic about Opus there), else `ogg` when `canPlayType('audio/ogg; codecs="opus"')` is truthy, else `m4a`. `decodeSprite` retries the other format if the first fails to fetch or decode. The home page injects a matching `<link rel="preload" as="fetch">` from an inline script (`preloadSounds` prop on `Base.astro`) using the same check and `SPRITE_HASH`.
 - Caching: the file name carries a content hash and `public/_headers` serves `/sounds/*` (and `/_astro/*`, `/fonts/*`) as `public, max-age=31536000, immutable`. When the sprite changes, rename the files and bump `SPRITE_HASH` together.
 
 ## Dial
@@ -36,3 +36,11 @@ ffmpeg -y -i sprite.wav -c:a aac -b:a 32k -movflags +faststart sprite.m4a
 4. Name both `sprite-<first 8 hex of sha256 of ogg+m4a>`, update `SPRITE` and `SPRITE_HASH` in `key-sprite.ts`.
 
 Safari before 18.4 cannot decode Ogg Opus, hence the AAC fallback.
+
+## iOS and failure behavior
+
+- The keypad never waits for audio. All sound calls swallow errors; fetch, decode, context creation and resume can each fail and the keys, haptics, visuals and URL state keep working.
+- The unlock listeners stay armed for the page's life (cheap early return while running), so an `interrupted` or `suspended` context is resumed by the next gesture. The gesture also sets `navigator.audioSession.type = 'playback'` (so the hardware silent switch does not mute Web Audio; note it can interrupt other apps' audio) and plays a one-frame silent buffer.
+- Startup UI (`StartupSkeleton` in `Keyboard.tsx`): a light sweep over the plate plus a "Loading sounds" pill, only until the sprite is decoded, failed, or 8s passed. Loaded pads show nothing extra.
+- If a gesture happened and the context is still not running 1.5s later (or Web Audio is missing), `getAudioBlocked()` flips and `SoundHint` shows `keyboard_sound_blocked` once for 6s.
+- e2e: `tests/e2e/home-audio-resilience.spec.ts` runs on chromium and on a small WebKit project.
