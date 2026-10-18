@@ -80,13 +80,13 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
-      - name: Install Chromium with system deps
+          key: playwright-v2-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Install Chromium and WebKit with system deps
         if: steps.pw-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Install system deps only (browser cached)
+        run: pnpm exec playwright install --with-deps chromium webkit
+      - name: Install system deps only (browsers cached)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps chromium
+        run: pnpm exec playwright install-deps chromium webkit
       # Playwright starts `pnpm preview` on :4322 against the downloaded dist/ (webServer in tests/playwright.config.ts).
       - run: pnpm test:e2e
       - uses: actions/upload-artifact@v7

@@ -89,6 +89,25 @@
   }
 }
 
+/* Keypad startup skeleton: a soft light sweep over the plate while sounds load. Never intercepts input. */
+@theme {
+  --animate-sheen: sheen 1600ms ease-in-out infinite;
+  @keyframes sheen {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-startup-sheen] {
+    animation: none !important;
+  }
+}
+
 /* Search pill: fades and lifts in when its label changes. */
 @theme {
   --animate-pill-in: pill-in 300ms var(--ease-spring) both;

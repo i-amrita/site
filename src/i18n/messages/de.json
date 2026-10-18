@@ -111,5 +111,6 @@
   "footer_qr": "QR",
   "qr_hint": "Scannen, um meine Seite zu öffnen",
   "qr_aria": "QR-Code für amrita.nambiar.my",
-  "keyboard_loading": "Klänge werden geladen"
+  "keyboard_loading": "Klänge werden geladen",
+  "keyboard_sound_blocked": "Der Ton ist auf diesem Gerät aus. Die Tasten funktionieren weiterhin."
 }

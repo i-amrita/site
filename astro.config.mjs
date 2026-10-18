@@ -46,9 +46,10 @@ export default defineConfig({
   integrations: [
     react({
       include: ['**/react/**', '**/components/ui/**'],
-      // React Compiler, opt-in per component with 'use memo'. Compiling everything memoized Paraglide `m.*()` calls
-      // (zero args, so the compiler treats them as constants) and froze island text in the first locale.
-      babel: { plugins: [['babel-plugin-react-compiler', { compilationMode: 'annotation' }]] },
+      // React Compiler (Oxc-based in @astrojs/react 7), opt-in per component with 'use memo'. Compiling everything
+      // memoized Paraglide `m.*()` calls (zero args, so the compiler treats them as constants) and froze island text
+      // in the first locale.
+      compiler: { compilationMode: 'annotation' },
     }),
     mdx(),
     sitemap({ filter: (page) => !page.includes('/dev/') && !page.includes('/404') }),
