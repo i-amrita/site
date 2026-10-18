@@ -129,12 +129,12 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_placeholder]
-value = "ഒരു കമാൻഡ് ടൈപ്പ് ചെയ്യുക അല്ലെങ്കിൽ തിരയുക..."
+value = "കമാൻഡ് ടൈപ്പ് ചെയ്യുക അല്ലെങ്കിൽ തിരയുക..."
 source_hash = "af381432b21075e75b09489c2cb92f9c20cba274"
-origin = "ai"
+origin = "human"
 reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T01:33:28Z"
 
 [entries.cmdk_search_all]
 value = '"{query}" എന്നതിനായി പൂർണ്ണ തിരയൽ തുറക്കുക'
