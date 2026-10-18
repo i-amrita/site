@@ -216,14 +216,6 @@ reviewed = true
 model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
-[entries.hero_affiliation]
-value = "Derzeit MIMS '27 @ UC Berkeley · ehem. TPM @ Google (Singapore)"
-source_hash = "5dafdc10303ed2969705dba5b35f59889b30e348"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
 [entries.hero_greeting]
 value = "Ich bin"
 source_hash = "e3683d0554cb0566d1ea09e88f1975e3362becec"
@@ -249,48 +241,95 @@ model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_subtitle]
-value = "Ich überbrücke die Lücke zwischen technischer Komplexität und realer Wirkung."
-source_hash = "7d2ed84c8e1b8fce8d8ebdfa0ccd7d3ae212b68b"
-origin = "ai"
+value = "Ich verbinde technische Komplexität und reale Wirkung durch KI, Community und menschzentriertes Design."
+source_hash = "dc4825482d89f724b14c1cca650ffd6a4f58926b"
+origin = "human"
 reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T12:14:10Z"
 
-[entries.hero_title]
-value = "KI × Community × menschzentriertes Design."
-source_hash = "ed88d00e98129df97f377f5459be5989b6454378"
+[entries.key_about]
+value = "Über"
+source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
 origin = "ai"
 reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T11:29:44Z"
+
+[entries.key_build]
+value = "Bauen"
+source_hash = "732ee62de9b3194d43e3e267ec9637b791231580"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T11:29:44Z"
+
+[entries.key_esc]
+value = "Esc"
+source_hash = "abb761d9af1c9fd2af06a695bd4b727fac141af8"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T11:29:44Z"
+
+[entries.key_find]
+value = "Finden"
+source_hash = "df251b06eefdaa932e97b54fbe9a74d3e606fa61"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T11:29:44Z"
+
+[entries.key_log]
+value = "Log"
+source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T11:29:44Z"
+
+[entries.key_research]
+value = "Studien"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T11:56:51Z"
+
+[entries.key_sound]
+value = "Ton"
+source_hash = "b4e3efeba10e84f7148da9f7efe85e07057d7c7a"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T11:29:44Z"
+
+[entries.key_work]
+value = "Arbeit"
+source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T11:29:44Z"
 
 [entries.keyboard_hint]
-value = "Aktionstasten: Esc (schließen), F1 Über mich, F2 Projekte, F3 Log, F4 Suche, F5 Stumm, F6 Design, Option Sprache, Cmd Befehlspalette."
-source_hash = "9ebabf87e3dd5a2c322f6c4e066499037ecf7993"
+value = "Tippe auf eine Taste oder drücke ⌘K, um das Befehlsmenü zu öffnen"
+source_hash = "d7f0b71301a8766ed460e32cf16c16757cd479ae"
 origin = "ai"
 reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T11:35:03Z"
 
 [entries.keyboard_hint_touch]
-value = "Tippe auf die Aktionstasten (Esc, F1, Cmd), um zu navigieren. Tippe auf das Suchsymbol, um zu suchen."
-source_hash = "cd9cde8d693f5c0b43b51bc8c8d1ff3a63d6de74"
+value = "Tippe auf eine Taste zum Erkunden oder öffne das Befehlsmenü"
+source_hash = "12407600125e68f8419e5e0be0e24ba8ebc8bdf0"
 origin = "ai"
 reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T11:35:03Z"
 
 [entries.keyboard_label]
 value = "Tastatur"
 source_hash = "6662c40bac78a8fe5e23219b77087fbe7647cb15"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.keyboard_options]
-value = "Tastaturoptionen"
-source_hash = "192f34867896c1d84b8d4fb5d625c9ba9f7efa49"
 origin = "ai"
 reviewed = true
 model = "openrouter/free"
@@ -656,14 +695,6 @@ reviewed = true
 model = "openrouter/free"
 updated_at = "2026-10-18T01:24:57Z"
 
-[entries.settings_mute]
-value = "Tastentöne stummschalten"
-source_hash = "69776754eb1923f72a2214dc68237e09756915a0"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
 [entries.socials_aria]
 value = "Soziale Links"
 source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
@@ -683,18 +714,9 @@ updated_at = "2026-10-18T01:24:57Z"
 [entries.socials_email]
 value = "E-Mail"
 source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
-origin = "ai"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.socials_github]
-value = "GitHub"
-source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-18T11:56:51Z"
 
 [entries.socials_linkedin]
 value = "LinkedIn"
