@@ -49,3 +49,11 @@
     animation: none !important;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot='dialog-overlay'],
+  [data-slot='dialog-content'] {
+    animation: none !important;
+    transition: none !important;
+  }
+}
