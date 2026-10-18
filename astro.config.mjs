@@ -43,7 +43,7 @@ export default defineConfig({
   integrations: [
     react({ include: ['**/react/**', '**/components/ui/**'] }),
     mdx(),
-    sitemap({ filter: (page) => !page.includes('/dev/') }),
+    sitemap({ filter: (page) => !page.includes('/dev/') && !page.includes('/404') }),
   ],
   vite: {
     plugins: [

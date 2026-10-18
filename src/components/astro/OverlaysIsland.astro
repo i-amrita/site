@@ -40,6 +40,6 @@ const posts: PostItem[] = postEntries.map((p) => ({
 const AboutContent = about ? (await render(about)).Content : null;
 ---
 
-<OverlaysRoot client:load projects={projects} tags={tags} posts={posts}>
+<OverlaysRoot client:idle projects={projects} tags={tags} posts={posts}>
   {AboutContent && <div slot="about"><AboutContent /></div>}
 </OverlaysRoot>

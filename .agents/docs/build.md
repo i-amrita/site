@@ -35,3 +35,7 @@ Cloudflare's git integration builds and deploys. Production branch is `main`, pr
 - `BASE_URL=https://amrita.nambiar.my pnpm test:e2e` runs against a deployed site with no local server.
 - Each `tests/e2e/*.md` is a flow definition with a sibling `*.spec.ts` (enforced by `headings-sync.spec.ts`). Specs for unbuilt features use `test.fixme` with a `TODO(feature)` note; flip them to `test` as features land.
 - `tests/fixtures/axe.ts` exports `expectNoSeriousA11y(page)`.
+
+## Open Graph images
+
+`src/lib/og.ts` renders 1200x630 PNG cards with satori (layout) and `@resvg/resvg-js` (raster), using the self-hosted `@fontsource/fraunces` and `@fontsource/jetbrains-mono` woff files. Static endpoints `src/pages/og/default.png.ts` and `src/pages/og/projects/[slug].png.ts` emit them during `astro build` (about 20ms each), so there is no runtime server. `Base.astro` takes an `ogImage` path (default `/og/default.png`) and writes absolute og:image and twitter:image URLs from `site`. Project pages pass `/og/projects/<slug>.png` through `ProseLayout`.

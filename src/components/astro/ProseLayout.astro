@@ -11,18 +11,22 @@ interface Props {
   /** Link back to a parent listing. */
   back?: { href: string; label: string };
   /** Pagefind result type. */
-  kind?: 'page' | 'project' | 'post';
+  kind?: "page" | "project" | "post";
+  /** Open Graph image path. */
+  ogImage?: string;
 }
-const { title, description, mdHref, jsonLd, eyebrow, back, kind = 'page' } = Astro.props;
+const { title, description, mdHref, jsonLd, eyebrow, back, kind = "page", ogImage } = Astro.props;
 ---
 
 <Base
   title={`${title} | Amrita Nambiar`}
   mdHref={mdHref}
+  {...ogImage && { ogImage }}
+  ogType={kind === "post" ? "article" : "website"}
   {...description && { description }}
   {...jsonLd && { jsonLd }}
 >
-  <main class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12" data-pagefind-body data-pagefind-meta={`type:${kind}`}>
+  <main id="main" class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12" data-pagefind-body data-pagefind-meta={`type:${kind}`}>
     {back && <a data-pagefind-ignore href={back.href} class="text-sm text-muted-foreground hover:text-brand">&larr; {back.label}</a>}
     <header class="flex flex-col gap-3">
       {eyebrow && <p class="font-key text-xs uppercase tracking-wide text-muted-foreground">{eyebrow}</p>}

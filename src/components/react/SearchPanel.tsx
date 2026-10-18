@@ -63,6 +63,10 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
             </Button>
           </div>
         </div>
+        {/* Enter submits via the input; the explicit control satisfies form audits and AT. */}
+        <button type="submit" className="sr-only">
+          Submit search
+        </button>
       </form>
       {status === 'idle' ? (
         <p className="px-1 text-sm text-muted-foreground">{COPY.hint}</p>
