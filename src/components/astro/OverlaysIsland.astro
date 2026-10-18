@@ -1,0 +1,45 @@
+---
+import { render } from 'astro:content';
+
+import type { PostItem, ProjectItem } from '@/components/react/overlay-types';
+import { OverlaysRoot } from '@/components/react/Overlays';
+import {
+  formatDate,
+  formatPeriod,
+  getAllTags,
+  getPosts,
+  getProjects,
+  getSingleton,
+} from '@/lib/content';
+
+const truncate = (s: string, max = 200) =>
+  s.length <= max ? s : `${s.slice(0, max).replace(/\s+\S*$/, '')}…`;
+
+const [projectEntries, postEntries, tags, about] = await Promise.all([
+  getProjects(),
+  getPosts(),
+  getAllTags(),
+  getSingleton('about'),
+]);
+const projects: ProjectItem[] = projectEntries.map((p) => ({
+  id: p.id,
+  title: p.data.title,
+  role: p.data.role,
+  org: p.data.org,
+  period: formatPeriod(p.data.period),
+  summary: truncate(p.data.summary),
+  tags: p.data.tags,
+}));
+const posts: PostItem[] = postEntries.map((p) => ({
+  id: p.id,
+  title: p.data.title,
+  description: truncate(p.data.description),
+  date: formatDate(p.data.pubDate),
+  tags: p.data.tags,
+}));
+const AboutContent = about ? (await render(about)).Content : null;
+---
+
+<OverlaysRoot client:load projects={projects} tags={tags} posts={posts}>
+  {AboutContent && <div slot="about"><AboutContent /></div>}
+</OverlaysRoot>

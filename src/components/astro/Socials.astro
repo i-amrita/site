@@ -20,7 +20,11 @@ const link =
     >
   </li>
   <li><CopyEmail client:load /></li>
-  <li>
-    <a class={link} href={SOCIALS.cv}><FileText class="size-4" aria-hidden="true" /> CV / Resume</a>
-  </li>
+  {
+    SOCIALS.cv && (
+      <li>
+        <a class={link} href={SOCIALS.cv}><FileText class="size-4" aria-hidden="true" /> CV / Resume</a>
+      </li>
+    )
+  }
 </ul>

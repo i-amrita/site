@@ -13,5 +13,5 @@ export const SOCIALS = {
   // TODO(amrita): confirm research page URL
   research: 'https://example.com/research',
   // TODO(amrita): confirm CV / resume URL
-  cv: '/cv.pdf',
+  cv: '' as string,
 } as const;

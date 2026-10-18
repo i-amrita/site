@@ -4,6 +4,7 @@ import Hero from '@/components/astro/Hero.astro';
 import KeyboardFrame from '@/components/astro/KeyboardFrame.astro';
 import KeyboardHint from '@/components/astro/KeyboardHint.astro';
 import Navbar from '@/components/astro/Navbar.astro';
+import OverlaysIsland from '@/components/astro/OverlaysIsland.astro';
 import Socials from '@/components/astro/Socials.astro';
 import Base from '@/layouts/Base.astro';
 ---
@@ -16,6 +17,9 @@ import Base from '@/layouts/Base.astro';
     <Socials />
     <KeyboardFrame />
     <KeyboardHint />
+    <!-- overlays:start -->
+    <OverlaysIsland />
+    <!-- overlays:end -->
   </main>
   <Footer slot="footer" />
 </Base>
