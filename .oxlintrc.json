@@ -1,18 +1,21 @@
 {
-  "rules": {
+  "categories": {
     "correctness": "error",
     "suspicious": "error",
     "perf": "warn",
-    "style": "warn",
-    "nursery": "warn",
+    "style": "off",
+    "nursery": "off",
     "restriction": "off"
   },
   "ignorePatterns": [
     "node_modules",
+    "src/env.d.ts",
     ".astro",
     "dist",
     "public/pagefind",
     ".agents/plans",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    "src/components/ui/**",
+    "src/i18n/paraglide/**"
   ]
 }
