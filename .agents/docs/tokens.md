@@ -1,6 +1,6 @@
 # Design tokens
 
-Source of truth: `src/styles/tokens.css`. Components use semantic class names only, for example `bg-page`, `text-fg`, `text-brand`, `bg-key-light`. Never write `bg-[var(--...)]` or `var(--c-...)` in component markup. If a token is missing, add it to `tokens.css` first, then use the class.
+Source of truth: `src/styles/tokens.css`. Components use semantic class names only, for example `bg-page`, `text-fg`, `text-brand`, `bg-key-light`. Never write arbitrary-value utilities that wrap a CSS variable, or raw `var(--c-...)`, in component markup. If a token is missing, add it to `tokens.css` first, then use the class.
 
 ## How the pieces connect
 

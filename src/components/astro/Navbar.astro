@@ -9,7 +9,7 @@ import { SITE_NAME } from '@/lib/site';
     aria-label="Primary"
   >
     <NavbarActions side="left" client:load />
-    <a href="/" class="font-display text-lg text-fg">{SITE_NAME}</a>
+    <a href="/" class="font-display text-lg text-fg" aria-current={Astro.url.pathname === "/" ? "page" : undefined}>{SITE_NAME}</a>
     <NavbarActions side="right" client:load />
   </nav>
 </header>

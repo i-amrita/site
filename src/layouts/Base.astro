@@ -1,5 +1,7 @@
 ---
 import '@/styles/global.css';
+import Footer from '@/components/astro/Footer.astro';
+import Navbar from '@/components/astro/Navbar.astro';
 import SearchOverlays from '@/components/astro/SearchOverlays.astro';
 
 interface Props {
@@ -11,15 +13,28 @@ interface Props {
   preloadSounds?: boolean;
   /** schema.org JSON-LD object, serialized into the head. */
   jsonLd?: object;
+  /** Path of the Open Graph image, e.g. `/og/default.png`. Defaults to the site card. */
+  ogImage?: string;
+  /** Open Graph type. */
+  ogType?: 'website' | 'article';
+  /** Set false for pages that have no canonical URL (404). */
+  canonical?: boolean;
 }
 const {
   title,
-  description = 'Amrita Nambiar: AI × community × human-centered design.',
+  description: rawDescription = 'Amrita Nambiar: AI × community × human-centered design.',
   mdHref,
   preloadSounds = false,
   jsonLd,
+  ogImage = '/og/default.png',
+  ogType = 'website',
+  canonical: withCanonical = true,
 } = Astro.props;
+// Search engines cut descriptions near 160 chars; trim at a word boundary.
+const description =
+  rawDescription.length <= 160 ? rawDescription : `${rawDescription.slice(0, 159).replace(/\s+\S*$/, '')}…`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogUrl = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -30,7 +45,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <slot name="head" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {withCanonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:site_name" content="Amrita Nambiar" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {withCanonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
     {
@@ -49,9 +77,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
-    <slot name="header" />
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-key focus:bg-brand focus:px-4 focus:py-2 focus:text-brand-fg"
+    >
+      Skip to content
+    </a>
+    <slot name="header"><Navbar /></slot>
     <slot />
-    <slot name="footer" />
+    <slot name="footer"><Footer /></slot>
     <SearchOverlays />
   </body>
 </html>

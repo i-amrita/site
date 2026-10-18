@@ -19,6 +19,7 @@ const { Content } = await render(entry);
 
 <ProseLayout
   kind="project"
+  ogImage={`/og/projects/${entry.id}.png`}
   title={d.title}
   description={d.summary}
   mdHref={`/projects/${entry.id}.md`}

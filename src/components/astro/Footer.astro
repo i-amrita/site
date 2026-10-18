@@ -1,12 +1,25 @@
 ---
-import { href } from '@/lib/url-state';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [
+  { to: '/projects', label: 'Projects' },
+  { to: '/posts', label: 'Posts' },
+  { to: '/about', label: 'About' },
+  { to: '/now', label: 'Now' },
+  { to: '/search', label: 'Search' },
+];
+const link = 'hover:text-brand aria-[current=page]:text-fg aria-[current=page]:underline';
 ---
 
 <footer class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-8 text-xs text-muted-foreground sm:px-6">
   <p>© 2026 Amrita Nambiar</p>
-  <p>
-    <a class="hover:text-brand" href={href('/', { overlay: 'about' })}>About</a>
-    ·
-    <a class="hover:text-brand" href="/llms.txt">llms.txt</a>
-  </p>
+  <nav aria-label="Footer" class="flex flex-wrap gap-x-3 gap-y-1">
+    {
+      links.map((l) => (
+        <a class={link} href={l.to} aria-current={path === l.to || path.startsWith(`${l.to}/`) ? 'page' : undefined}>
+          {l.label}
+        </a>
+      ))
+    }
+    <a class={link} href="/llms.txt">llms.txt</a>
+  </nav>
 </footer>

@@ -1,0 +1,21 @@
+---
+import { ArrowLeft } from '@lucide/astro';
+
+import { m } from '@/i18n/paraglide/messages.js';
+import Base from '@/layouts/Base.astro';
+---
+
+<Base canonical={false} title={`${m.error_not_found()} | Amrita Nambiar`} description="This page does not exist.">
+  <meta slot="head" name="robots" content="noindex" />
+  <main id="main" class="mx-auto flex max-w-2xl flex-col items-start gap-6 px-6 py-24">
+    <p class="font-key text-sm uppercase tracking-wide text-muted-foreground">404</p>
+    <h1 class="font-display text-5xl leading-tight sm:text-6xl">{m.error_not_found()}</h1>
+    <a
+      href="/"
+      class="inline-flex items-center gap-2 rounded-key bg-brand px-4 py-2 text-brand-fg hover:bg-brand-hover"
+    >
+      <ArrowLeft class="size-4" aria-hidden="true" />
+      {m.error_back_home()}
+    </a>
+  </main>
+</Base>
