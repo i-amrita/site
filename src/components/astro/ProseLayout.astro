@@ -1,0 +1,36 @@
+---
+import Base from '@/layouts/Base.astro';
+
+interface Props {
+  title: string;
+  description?: string | undefined;
+  mdHref: string;
+  jsonLd?: object | undefined;
+  /** Small label above the title, e.g. a section name. */
+  eyebrow?: string;
+  /** Link back to a parent listing. */
+  back?: { href: string; label: string };
+}
+const { title, description, mdHref, jsonLd, eyebrow, back } = Astro.props;
+---
+
+<Base
+  title={`${title} | Amrita Nambiar`}
+  mdHref={mdHref}
+  {...description && { description }}
+  {...jsonLd && { jsonLd }}
+>
+  <main class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12">
+    {back && <a href={back.href} class="text-sm text-muted-foreground hover:text-brand">&larr; {back.label}</a>}
+    <header class="flex flex-col gap-3">
+      {eyebrow && <p class="font-key text-xs uppercase tracking-wide text-muted-foreground">{eyebrow}</p>}
+      <h1 class="font-display text-4xl">{title}</h1>
+      <slot name="meta" />
+    </header>
+    <div
+      class="flex flex-col gap-4 leading-relaxed [&_a]:text-brand [&_a]:underline [&_a:hover]:text-brand-hover [&_h2]:mt-4 [&_h2]:font-display [&_h2]:text-2xl [&_h3]:mt-2 [&_h3]:font-display [&_h3]:text-xl [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6 [&_blockquote]:border-l-2 [&_blockquote]:border-brand [&_blockquote]:pl-4 [&_code]:rounded-key [&_code]:bg-surface-muted [&_code]:px-1 [&_code]:font-key [&_pre]:overflow-x-auto [&_pre]:rounded-card [&_pre]:bg-surface-muted [&_pre]:p-4 [&_img]:rounded-card"
+    >
+      <slot />
+    </div>
+  </main>
+</Base>
