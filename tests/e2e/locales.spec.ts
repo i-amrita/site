@@ -46,6 +46,18 @@ test('the locale switch keeps the other URL params', async ({ page }) => {
   await expect(page).toHaveURL(/mute=1/);
 });
 
+test('a chosen locale is persisted and restored on the next visit', async ({ page }) => {
+  await page.goto('/?locale=de');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('locale'))).toBe('de');
+  await page.goto('/');
+  await expect(page).toHaveURL(/locale=de/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+  // An explicit param wins over the stored choice.
+  await page.goto('/?locale=ms');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ms');
+});
+
 test.fixme('Alt+L cycles the locale in the URL', async ({ page }) => {
   await page.goto('/');
   await page.keyboard.press('Alt+l');
