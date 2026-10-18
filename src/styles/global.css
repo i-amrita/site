@@ -41,6 +41,15 @@
 }
 
 /* `?highlight=0..100`: the dial sets `--glow` (0..1) on the pad group. 0 draws nothing, 1 is a strong steady brand glow. */
+/* Non-action keys recede as the dial turns up, so the lit action keys read much stronger. */
+@utility key-dim {
+  opacity: calc(1 - var(--glow, 0) * 0.55);
+  filter: saturate(calc(1 - var(--glow, 0) * 0.6));
+  transition:
+    opacity 300ms var(--ease-spring),
+    filter 300ms var(--ease-spring);
+}
+
 @utility key-glow {
   box-shadow:
     0 0 0 calc(var(--glow, 0) * 2px)

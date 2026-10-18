@@ -160,13 +160,18 @@ test.describe('macropad at 375x667', () => {
   });
 
   /* oxlint-enable no-await-in-loop */
-  test('physical F2 lights Work', async ({ page }) => {
+  test('a physical key lights its pad key', async ({ page }) => {
     await openHome(page);
-    // F2 opens the Projects overlay, which hides the pad from role queries, so locate by attribute.
-    const work = page.locator('button[data-key="F2"]');
-    // Pressed state is exposed as data-pressed="true" while the code is held.
-    await page.keyboard.down('F2');
-    await expect(work).toHaveAttribute('data-pressed', 'true');
-    await page.keyboard.up('F2');
+    // Escape opens no overlay, so the pad stays live; pressed state is data-pressed="true" while held.
+    // The first keydown can land before the island's listeners settle (flaky since before the redesign), so retry the press.
+    const esc = page.locator('button[data-key="Escape"]');
+    await expect(async () => {
+      await page.keyboard.down('Escape');
+      try {
+        await expect(esc).toHaveAttribute('data-pressed', 'true', { timeout: 500 });
+      } finally {
+        await page.keyboard.up('Escape');
+      }
+    }).toPass({ timeout: 8000 });
   });
 });

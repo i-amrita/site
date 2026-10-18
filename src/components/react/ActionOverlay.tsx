@@ -1,10 +1,17 @@
 import { ArrowRight, X } from 'lucide-react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
-import { useCallback, useEffect, useRef, useSyncExternalStore, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
 import { Dialog, DialogPortal } from '@/components/ui/dialog';
-import { Drawer, DrawerPortal } from '@/components/ui/drawer';
+import { Drawer, DrawerOverlay, DrawerPortal } from '@/components/ui/drawer';
 import { m, useLocale } from '@/lib/i18n';
 
 const SCROLL_THROTTLE_MS = 200;
@@ -23,6 +30,8 @@ interface Props {
   onScrollTop?: (top: number) => void;
 }
 
+const SNAP_POINTS = [0.68, 0.97] as const;
+const DEFAULT_SNAP = 0.68;
 const MOBILE_QUERY = '(max-width: 639.98px)';
 
 function subscribeMobile(cb: () => void) {
@@ -40,9 +49,8 @@ function useIsMobile() {
 }
 
 /**
- * Shared shell. Both variants are NON-MODAL so the keypad behind stays visible, clickable and hotkey-driven:
- * a bottom vaul Drawer below 640px (grabber, drag-down, no scrim) and a docked Radix Dialog panel from 640px.
- * Outside clicks never dismiss; Escape, the close button, the `close` action and Back do.
+ * Shared shell: a bottom vaul Drawer below 640px (grabber, snaps at 68% and 97%, scrim) and a docked Radix Dialog
+ * panel from 640px that leaves the keypad usable. Clicking outside, Escape, the close button, the `close` action and Back all close it.
  */
 export function ActionOverlay({
   open,
@@ -75,6 +83,10 @@ export function ActionOverlay({
   }, []);
 
   const isMobile = useIsMobile();
+  const [snap, setSnap] = useState<number | string | null>(DEFAULT_SNAP);
+  useEffect(() => {
+    if (open) setSnap(DEFAULT_SNAP);
+  }, [open]);
 
   // From `lg`, `global.css` makes room for the docked panel so the pad is not covered.
   useEffect(() => {
@@ -117,12 +129,19 @@ export function ActionOverlay({
 
   if (isMobile) {
     return (
-      <Drawer open={open} onOpenChange={onOpenChange} modal={false}>
+      <Drawer
+        open={open}
+        onOpenChange={onOpenChange}
+        snapPoints={[...SNAP_POINTS]}
+        activeSnapPoint={snap}
+        setActiveSnapPoint={setSnap}
+      >
         <DrawerPortal>
+          <DrawerOverlay />
           <DrawerPrimitive.Content
             data-slot="drawer-content"
             data-overlay-panel
-            className="fixed inset-x-0 bottom-0 z-50 flex h-[58dvh] max-h-[92dvh] flex-col rounded-t-card border-t border-border bg-page text-fg shadow-[0_-12px_32px_-12px_rgb(28_16_18/0.25)] outline-none"
+            className="fixed inset-x-0 bottom-0 z-50 flex h-full max-h-[97%] flex-col rounded-t-card border-t border-border bg-page text-fg shadow-[0_-12px_32px_-12px_rgb(28_16_18/0.25)] outline-none"
           >
             <div
               aria-hidden="true"
@@ -154,8 +173,6 @@ export function ActionOverlay({
             e.preventDefault();
             (e.target as HTMLElement | null)?.closest<HTMLElement>('[role="dialog"]')?.focus();
           }}
-          // Non-modal: clicking the pad, the navbar or the page must not dismiss the panel.
-          onInteractOutside={(e) => e.preventDefault()}
           className="fixed top-16 right-4 bottom-4 z-50 flex w-[22rem] max-w-[calc(100vw-2rem)] flex-col rounded-card border border-border bg-page text-fg shadow-[0_12px_32px_-12px_rgb(28_16_18/0.25)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-right-4 motion-reduce:animate-none lg:w-[26rem]"
         >
           <header className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">

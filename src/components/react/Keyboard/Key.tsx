@@ -175,7 +175,7 @@ function Dial() {
       aria-valuetext={`${highlight}%`}
       data-key="Dial"
       data-action="highlight"
-      data-pressed={active || undefined}
+      data-pressed={active ? 'true' : undefined}
       className={cn(
         'relative flex h-14 w-full cursor-grab touch-none items-center justify-center',
         active && 'cursor-grabbing',
@@ -282,11 +282,11 @@ export function Key({ def }: { def: MacroKeyDef }) {
       aria-pressed={def.kind === 'sound' ? muted : undefined}
       data-key={def.code}
       data-action={def.actionId ?? def.id}
-      data-pressed={isDown || undefined}
+      data-pressed={isDown ? 'true' : undefined}
       className={cn(
         'group relative block h-14 w-full cursor-pointer touch-none rounded-t-[12px] rounded-b-[6px] border-0 bg-transparent p-0',
         wide && 'col-span-2',
-        def.glow && 'key-glow',
+        def.glow ? 'key-glow' : 'key-dim',
         FOCUS,
       )}
       {...handlers}

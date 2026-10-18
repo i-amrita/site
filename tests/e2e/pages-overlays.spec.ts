@@ -49,14 +49,12 @@ for (const s of SURFACES) {
   });
 }
 
-test('the pad stays interactive while the Work panel is open', async ({ page }) => {
+test('clicking outside the panel closes it and removes the param', async ({ page }) => {
   await openHome(page, '/?overlay=projects');
-  await page
-    .getByRole('group', { name: /keyboard/i })
-    .getByRole('button', { name: /^Sound/ })
-    .click();
-  await expect(page).toHaveURL(/mute=1/);
   await expect(page.getByRole('dialog')).toBeVisible();
+  await page.mouse.click(5, 5);
+  await expect(page.getByRole('dialog')).toBeHidden();
+  await expect(page).not.toHaveURL(/overlay=/);
 });
 
 test('Escape closes the panel and removes the param', async ({ page }) => {
