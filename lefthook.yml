@@ -1,39 +1,30 @@
-# lefthook config — runs on every commit + push.
+# lefthook config: runs on every commit + push.
 # Pre-commit = fast feedback on staged files.
-# Pre-push = full gate (build, test, link audit, intl-ai check).
+# Pre-push = full gate (build + pagefind; e2e, link audit and intl-ai check join as they land).
 
 pre-commit:
-  piped: true
   parallel: true
   commands:
     oxfmt:
-      glob: "**/*.{ts,tsx,js,jsx,astro,md,mdx,json,css,yaml,yml,toml}"
-      run: "pnpm exec oxfmt --write {staged_files}"
+      glob: '**/*.{ts,tsx,js,jsx,astro,json,css,yaml,yml,toml}'
+      exclude: '(^|/)(mise\.toml|pnpm-lock\.yaml)$|^src/components/ui/|^src/i18n/paraglide/'
+      run: 'pnpm exec oxfmt --write {staged_files}'
       stage_fixed: true
     oxlint:
-      glob: "**/*.{ts,tsx,js,jsx,astro}"
-      run: "pnpm exec oxlint {staged_files}"
+      glob: '**/*.{ts,tsx,js,jsx,astro}'
+      exclude: '^src/components/ui/|^src/i18n/paraglide/'
+      run: 'pnpm exec oxlint {staged_files}'
     astro-check:
-      glob: "**/*.{astro,ts,tsx}"
-      run: "pnpm exec astro check"
+      glob: '**/*.{astro,ts,tsx}'
+      run: 'pnpm exec astro check'
+
+commit-msg:
+  commands:
     commitlint:
-      run: "pnpm exec commitlint --edit {1}"
+      run: 'pnpm exec commitlint --edit {1}'
 
 pre-push:
   parallel: true
   commands:
     build:
-      run: "pnpm exec astro build"
-    pagefind:
-      run: "pnpm exec pagefind --site dist"
-    intl-check:
-      run: "pnpm exec intl-ai check"
-    e2e:
-      run: "pnpm exec playwright test"
-    link-audit:
-      run: "pnpm exec static-link-sentinel scan --dir dist"
-
-commit-msg:
-  commands:
-    commitlint:
-      run: "pnpm exec commitlint --edit {1}"
+      run: 'pnpm build'

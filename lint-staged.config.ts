@@ -2,5 +2,5 @@
 // oxlint + oxfmt cover everything we need. Both are fast.
 export default {
   '*.{ts,tsx,js,jsx,astro}': ['oxlint --fix', 'oxfmt'],
-  '*.{md,mdx,json,css,yaml,yml,toml}': 'oxfmt',
+  '*.{json,css,yaml,yml}': 'oxfmt',
 };

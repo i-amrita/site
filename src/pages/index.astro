@@ -1,0 +1,19 @@
+---
+import { Sparkles } from '@lucide/astro';
+
+import Base from '@/layouts/Base.astro';
+---
+
+<Base title="Amrita Nambiar">
+  <main class="mx-auto flex max-w-xl flex-col gap-4 p-6">
+    <h1 class="font-display text-4xl">I am <span class="text-brand">Amrita</span></h1>
+    <p class="flex items-center gap-2">
+      <Sparkles class="size-4 text-brand" /> Scaffold placeholder. Token sample below.
+    </p>
+    <div class="flex gap-2">
+      <span class="rounded-key bg-key-light px-3 py-2 font-key text-key-light-fg">key</span>
+      <span class="rounded-key bg-key-dark px-3 py-2 font-key text-key-dark-fg">mod</span>
+      <span class="rounded-key border-b-2 border-brand bg-key-accent px-3 py-2 font-key text-key-accent-fg">esc</span>
+    </div>
+  </main>
+</Base>

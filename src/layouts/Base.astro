@@ -1,0 +1,37 @@
+---
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Path of the markdown companion, e.g. `/about.md`. */
+  mdHref?: string;
+}
+const {
+  title,
+  description = 'Amrita Nambiar: AI × community × human-centered design.',
+  mdHref,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
+    <script is:inline>
+      // URL state first: ?theme=dark|light is applied before paint, no FOUC.
+      const t = new URLSearchParams(location.search).get('theme');
+      if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

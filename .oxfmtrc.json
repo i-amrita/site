@@ -12,6 +12,12 @@
     "dist",
     "public/pagefind",
     ".agents/plans",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    "src/components/ui/**",
+    "src/i18n/paraglide/**",
+    "**/*.md",
+    "**/*.mdx",
+    "mise.toml",
+    "AGENTS.md"
   ]
 }
