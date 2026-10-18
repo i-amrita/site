@@ -70,6 +70,9 @@ export function Key({ def }: { def: KeyDef }) {
   const variant = binding?.primary ? 'accent' : def.variant;
   const theme = KEY_THEMES[variant];
   const w = def.width;
+  const name = binding ? labelFor(binding.actionId, def.code) : def.code;
+  // WCAG 2.5.3: the accessible name starts with the visible legend ("F1 About").
+  const ariaLabel = def.label && binding ? `${def.label} ${name}` : name;
 
   const onPointerDown = (e: PointerEvent<HTMLButtonElement>) => {
     if (e.button !== 0) return;
@@ -88,7 +91,7 @@ export function Key({ def }: { def: KeyDef }) {
   return (
     <button
       type="button"
-      aria-label={binding ? labelFor(binding.actionId, def.code) : def.code}
+      aria-label={ariaLabel}
       aria-hidden={binding?.primary ? undefined : true}
       tabIndex={binding?.primary ? 0 : -1}
       data-key={def.code}
@@ -119,7 +122,7 @@ export function Key({ def }: { def: KeyDef }) {
           )}
           style={{ width: w - 13 }}
         >
-          {def.shift && <span className="text-[9px] opacity-70">{def.shift}</span>}
+          {def.shift && <span className="text-[9px]">{def.shift}</span>}
           {Icon && <Icon className="size-[11px]" aria-hidden />}
           {def.label && <span className={cn(Icon && 'text-[9px]')}>{def.label}</span>}
         </span>

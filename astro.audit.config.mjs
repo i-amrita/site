@@ -11,11 +11,18 @@ export default defineConfig({
     ...(base.integrations ?? []),
     postAudit({
       preset: 'standard',
-      // Warnings (landmarks, OG tags) stay visible; only errors fail the build.
+      // Warnings stay visible; only errors fail the build.
       failOn: 'errors',
-      // External links are never fetched, so placeholder URLs cannot fail the audit.
-      // @astrojs/sitemap emits sitemap-index.xml, which the sitemap rule does not look for.
-      rules: { external_links: { enabled: false }, sitemap: { require: false } },
+      rules: {
+        // 404.html is noindex and has no canonical by design.
+        filters: { exclude: ['404.html'] },
+        // URL is the state store (AGENTS.md hard rule), so ?filter= and ?overlay= links are intentional.
+        links: { forbid_query_params_internal: false },
+        // External links are never fetched, so placeholder URLs cannot fail the audit.
+        external_links: { enabled: false },
+        // @astrojs/sitemap emits sitemap-index.xml, which the sitemap rule does not look for.
+        sitemap: { require: false },
+      },
     }),
   ],
 });
