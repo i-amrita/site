@@ -1,6 +1,14 @@
 # Audio
 
-Key clicks and dial ticks come from one small sprite, `public/sounds/sprite-<hash>.{ogg,m4a}` (about 12KB each, mono, Opus 32k / AAC 32k): 12 down-clicks and 4 up-clicks cut from keythm's `sound.ogg` (Apache-2.0, see NOTICE and `public/sounds/readme.txt`), then 4 dial ticks from Kenney's CC0 UI Audio at 2.12s onward. The full recording is never shipped. Offsets and durations live in `src/components/react/Keyboard/key-sprite.ts` (`SPRITE`, `DIAL_SPRITE`). Measurements and rationale: `.agents/docs/perf-first-load.md`.
+Key clicks and dial ticks come from one small sprite, `public/sounds/sprite-<hash>.m4a` (about 11.5 KB, mono, AAC-LC 32 kbps): 12 down-clicks and 4 up-clicks cut from keythm's `sound.ogg` (Apache-2.0, see NOTICE and `public/sounds/readme.txt`), then 4 dial ticks from Kenney's CC0 UI Audio at 2.12s onward. The full recording is never shipped. Offsets and durations live in `src/components/react/Keyboard/key-sprite.ts` (`SPRITE`, `DIAL_SPRITE`). The single m4a decodes everywhere — no Ogg/Opus fallback, no `canPlayType` branch, no `<audio>`/`<audio decoded>` split — so an `.ogg` source isn't shipped. Measurements and rationale...
+
+## Format choice
+
+AAC-in-m4a is the lone format. The previous `.ogg`/`.m4a` pair existed for Safari before 18.4 (no Ogg Opus) and for iOS browsers in general (same engine). Measured in Playwright Chromium and WebKit on macOS, the 32 kbps mono m4a comes out at ~11.5 KB; Ogg Opus at the same quality is within ~2 KB. iOS-specific claims about Opus support remain unverified on real iPhones, and AAC is the one codec iOS has shipped decoders for across every version we still need to support. Trade-off is one extra file shipped is exchanged for one branch removed from the runtime.
+
+Caveats recorded:
+- The m4a was re-encoded from the already-compressed source (the original WAV isn't in the repo). Two lossy passes; not measurable from this PR.
+- iOS-Safari-on-iPhone behaviour of `decodeAudioData` for this m4a was not exercised; only macOS WebKit was.
 
 ## Pipeline
 
@@ -9,8 +17,8 @@ Key clicks and dial ticks come from one small sprite, `public/sounds/sprite-<has
 - `getAudioStatus()` / `subscribeAudioStatus()` expose `loading | ready` (ready also when fetch or decode failed) for the startup indicator in `Keyboard.tsx`.
 - `playClick('down'|'up', id)` is synchronous: it picks sample `SPRITE[name][hashId(id) % count]` (FNV-1a of the key code or id, so each key keeps its own voice) and plays it with `start(0, offset, duration)`, playbackRate jitter 0.95..1.05 and gain jitter 0.85..1.1. No-op while muted or not yet decoded (never queued, so there is no burst of late clicks). It plays when the context is running, or suspended within 120ms of the unlocking gesture (the first tap is audible). If fetch or decode failed, `playSynthClick` plays a short filtered-noise tick instead.
 - `?mute=1` is read by `KeyboardProvider` and pushed into `setMuted`. F5 toggles it via `useActions().run('mute')`.
-- `soundExtension()` in `key-sprite.ts` picks `m4a` (AAC) on any WebKit engine (every iOS browser; `canPlayType` is optimistic about Opus there), else `ogg` when `canPlayType('audio/ogg; codecs="opus"')` is truthy, else `m4a`. `decodeSprite` retries the other format if the first fails to fetch or decode. The home page injects a matching `<link rel="preload" as="fetch">` from an inline script (`preloadSounds` prop on `Base.astro`) using the same check and `SPRITE_HASH`.
-- Caching: the file name carries a content hash and `public/_headers` serves `/sounds/*` (and `/_astro/*`, `/fonts/*`) as `public, max-age=31536000, immutable`. When the sprite changes, rename the files and bump `SPRITE_HASH` together.
+- One format only (`m4a`), so there is no `soundExtension()`, no `canPlayType` branch, and no decode-time retry. `spriteUrl()` in `key-sprite.ts` returns the single URL. The home page injects a matching `<link rel="preload" as="fetch">` from an inline script (`preloadSounds` prop on `Base.astro`) using `SPRITE_HASH`.
+- Caching: the file name carries a content hash and `public/_headers` serves `/sounds/*` (and `/_astro/*`, `/fonts/*`) as `public, max-age=31536000, immutable`. When the sprite changes, rename the file and bump `SPRITE_HASH`.
 
 ## Dial
 
@@ -29,13 +37,10 @@ Swap the dial sample: re-pack it after the key clicks in the sprite, update `DIA
 3. Concatenate with 40ms of silence before each segment, pad the key part to 2.1s, append the dial slices (so `DIAL_SPRITE` starts at 2.12s), and encode:
 
 ```sh
-ffmpeg -y -i sprite.wav -c:a libopus -b:a 32k -application audio sprite.ogg
-ffmpeg -y -i sprite.wav -c:a aac -b:a 32k -movflags +faststart sprite.m4a
+ffmpeg -y -i sprite.wav -ac 1 -ar 44100 -c:a aac -b:a 32k -movflags +faststart sprite.m4a
 ```
 
-4. Name both `sprite-<first 8 hex of sha256 of ogg+m4a>`, update `SPRITE` and `SPRITE_HASH` in `key-sprite.ts`.
-
-Safari before 18.4 cannot decode Ogg Opus, hence the AAC fallback.
+4. Name the file `sprite-<first 8 hex of sha256 of the m4a bytes>`, update `SPRITE` and `SPRITE_HASH` in `key-sprite.ts`.
 
 ## iOS and failure behavior
 

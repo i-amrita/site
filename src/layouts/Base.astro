@@ -37,15 +37,12 @@ const {
 const description =
   rawDescription.length <= 160 ? rawDescription : `${rawDescription.slice(0, 159).replace(/\s+\S*$/, '')}…`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-// Same format choice as soundExtension() in key-sprite.ts (m4a on WebKit), so the preload is the request the app reuses.
+// Single format (AAC in `.m4a`, plays everywhere), so the preload is the request the app reuses.
 const soundPreload = `(() => {
-  const ua = navigator.userAgent;
-  const webkit = /AppleWebKit/.test(ua) && !/(Chrome|Chromium|Edg|OPR)\\//.test(ua) && !/Android/.test(ua);
-  const ext = !webkit && new Audio().canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
   const l = document.createElement('link');
   l.rel = 'preload';
   l.as = 'fetch';
-  l.href = '/sounds/sprite-${SPRITE_HASH}.' + ext;
+  l.href = '/sounds/sprite-${SPRITE_HASH}.m4a';
   l.crossOrigin = 'anonymous';
   l.fetchPriority = 'low';
   document.head.append(l);
