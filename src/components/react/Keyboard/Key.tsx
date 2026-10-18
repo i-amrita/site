@@ -9,9 +9,9 @@ import {
   type SVGProps,
 } from 'react';
 import BookOpen from '~icons/ph/book-open-light';
-import Books from '~icons/ph/books-light';
 import Mail from '~icons/ph/envelope-simple-light';
 import Linkedin from '~icons/ph/linkedin-logo-light';
+import Rocket from '~icons/ph/rocket-launch-light';
 import Smile from '~icons/ph/smiley-light';
 import Sparkles from '~icons/ph/sparkle-light';
 import Volume2 from '~icons/ph/speaker-high-light';
@@ -30,10 +30,10 @@ import type { MacroKeyDef } from './keyboard.types';
 
 const ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   BookOpen,
-  Books,
   LayoutGrid,
   Linkedin,
   Mail,
+  Rocket,
   Smile,
   Sparkles,
   Volume2,
