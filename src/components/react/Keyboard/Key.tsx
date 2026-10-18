@@ -117,7 +117,7 @@ export function Key({ def }: { def: KeyDef }) {
           )}
           style={{ width: w - 13 }}
         >
-          {def.shift && <span className="text-[9px] opacity-70">{def.shift}</span>}
+          {def.shift && <span className="text-[9px]">{def.shift}</span>}
           {Icon && <Icon className="size-[11px]" aria-hidden />}
           {def.label && <span className={cn(Icon && 'text-[9px]')}>{def.label}</span>}
         </span>
