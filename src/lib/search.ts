@@ -42,11 +42,11 @@ interface EmbeddingItem {
   v: number[];
 }
 
-export const normalizeUrl = (url: string) =>
-  url
-    .replace(/[?#].*$/, '')
-    .replace(/(\/index)?\.html$/, '')
-    .replace(/(?<=.)\/$/, '') || '/';
+export const normalizeUrl = (url: string) => {
+  // No lookbehind: Safari <16.4 fails the whole chunk at parse time.
+  const clean = url.replace(/[?#].*$/, '').replace(/(\/index)?\.html$/, '');
+  return (clean.length > 1 ? clean.replace(/\/$/, '') : clean) || '/';
+};
 
 let pagefind: Promise<PagefindApi | null> | undefined;
 /** Resolves `null` when no index exists (dev server before `pnpm build`). */
@@ -142,7 +142,7 @@ export async function semanticSearch(query: string): Promise<SearchResult[]> {
   }
   return [...best.values()]
     .filter((b) => b.score >= MIN_SIMILARITY)
-    .toSorted((a, b) => b.score - a.score)
+    .sort((a, b) => b.score - a.score)
     .slice(0, MAX_RESULTS)
     .map(({ item }) => ({
       url: normalizeUrl(item.url),
@@ -169,5 +169,5 @@ export function rrf(lists: SearchResult[][], k = RRF_K): SearchResult[] {
       }
     });
   }
-  return [...merged.values()].toSorted((a, b) => b.score - a.score).map((m) => m.result);
+  return [...merged.values()].sort((a, b) => b.score - a.score).map((m) => m.result);
 }

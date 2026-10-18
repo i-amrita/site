@@ -7,6 +7,10 @@
     "nursery": "off",
     "restriction": "off"
   },
+  "rules": {
+    // toSorted() is unavailable before iOS 16 / Safari 16 — plain sort on fresh copies instead.
+    "unicorn/no-array-sort": "off"
+  },
   "ignorePatterns": [
     "node_modules",
     "src/env.d.ts",

@@ -313,7 +313,7 @@ export function LogList({ posts, linkBase = '/posts' }: { posts: PostItem[]; lin
     byYear.set(year, [...(byYear.get(year) ?? []), p]);
   }
   const order = new Map(posts.map((p, i) => [p.id, i]));
-  const years = [...byYear.keys()].toSorted((a, b) => Number(b) - Number(a));
+  const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
   return (
     <div className="flex flex-col gap-8">
       {years.map((year) => (
