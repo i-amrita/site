@@ -8,7 +8,8 @@ Islands bind the parsers with `nuqs` through `useQueryStates(urlStateParsers)`. 
 
 | Param | Parser | Allowed values | History | Written by | Notes |
 |---|---|---|---|---|---|
-| `overlay` | `parseAsStringLiteral(OVERLAYS)` | `about`, `projects`, `log` | push | About (F1, A), Work (F2, P), Log (F3, B). Close removes it. Legacy `search` is rewritten to `cmdk=open`. | One overlay at a time. Opening another overlay replaces the value. |
+| `overlay` | `parseAsStringLiteral(OVERLAYS)` | `about`, `projects`, `log` | push | About (F1, A), Work (F2, W), Projects (P), Log (F3, B). Close removes it. Legacy `search` is rewritten to `cmdk=open`. | One overlay at a time. Opening another overlay replaces the value. |
+| `kind` | `parseAsStringLiteral(KINDS)` | `work`, `projects`, `research` | replace | Work (F2, W) writes `work`, Projects (P) writes `projects`, both with `overlay=projects`. The drawer type chips and the `/work` type chips write it too. | Absent means all types. The overlay keeps the name `projects` so old links work. `/work?kind=` is the static equivalent. Close clears it. |
 | `scroll` | `parseAsInteger` | integer | replace | Written by the Work overlay (throttled 200ms): pixel `scrollTop` of the list, restored on open. Cleared when it returns to 0. | Close clears it. |
 | `filter` | `parseAsString` | any string | replace | Written by the Work overlay tag chips (same tag slug as `/work`). | Close clears it. |
 | `mute` | `parseAsStringLiteral(FLAGS)` | `1`, `0` | replace | Mute (F5). Kind `toggle`, so the value is computed at call time by the consumer. | Mute silences key clicks only. Action keys still fire and still update the URL. |
@@ -32,7 +33,7 @@ Rule: high-frequency or cosmetic state uses `replace`. Anything a user would exp
 
 ## Close patch
 
-The `close` action (Escape) sets `overlay`, `cmdk`, `q`, `scroll`, and `filter` to `null`. It leaves `theme`, `locale`, `mute`, `highlight`, and `mode` alone, so preferences survive closing an overlay.
+The `close` action (Escape) sets `overlay`, `cmdk`, `q`, `scroll`, `filter`, and `kind` to `null`. It leaves `theme`, `locale`, `mute`, `highlight`, and `mode` alone, so preferences survive closing an overlay.
 
 ## Action patches
 
@@ -40,7 +41,8 @@ The `close` action (Escape) sets `overlay`, `cmdk`, `q`, `scroll`, and `filter` 
 |---|---|---|---|
 | `close` | `Escape` | navigate | `overlay: null, cmdk: null, q: null, scroll: null, filter: null` |
 | `about` | `F1`, `a` | navigate | `overlay: about` |
-| `projects` | `F2`, `p` | navigate | `overlay: projects` |
+| `projects` | `F2`, `w` | navigate | `overlay: projects`, `kind: work` |
+| `side-projects` | `p` | navigate | `overlay: projects`, `kind: projects` |
 | `log` | `F3`, `b` | navigate | `overlay: log` |
 | `search` | `F4`, `s` | navigate | `cmdk: open` |
 | `mute` | `F5` | toggle | computed at call time, writes `mute` |

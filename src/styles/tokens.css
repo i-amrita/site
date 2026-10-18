@@ -44,7 +44,7 @@
   --color-secondary: var(--c-surface-muted);
   --color-secondary-foreground: var(--c-fg);
   --color-muted: var(--c-surface-muted);
-  --color-muted-foreground: light-dark(#544243, #b4a6a3);
+  --color-muted-foreground: var(--c-muted-fg);
   --color-accent: var(--c-surface-muted);
   --color-accent-foreground: var(--c-fg);
   --color-destructive: #b3261e;
@@ -69,21 +69,23 @@
   --shadow-lift: 0 24px 60px -12px rgb(28 16 18 / 0.35);
 }
 
+/* Theme values are duplicated under light defaults + dark overrides instead of `light-dark()`,
+   which Safari only learned in 17.5 — unsupported it makes every token var() unset and the
+   whole site renders unstyled on iOS. */
 :root {
   color-scheme: light dark;
-  --c-page: light-dark(#fcf9f4, oklch(0.16 0.008 15));
-  --c-fg: light-dark(#1c1c19, #f1ede8);
-  --c-surface: light-dark(#ffffff, #1a1718);
-  --c-surface-muted: light-dark(#f0ede9, #232021);
-  --c-border: light-dark(#dac1c1, #3a3335);
-
-  /* Retire after macropad lands (current Keyboard still reads these). */
+  --c-page: #fcf9f4;
+  --c-fg: #1c1c19;
+  --c-surface: #ffffff;
+  --c-surface-muted: #f0ede9;
+  --c-border: #dac1c1;
+  --c-muted-fg: #544243;
 
   /* One rose hue (~15 OKLCH), lightness mirrored between themes. */
-  --c-brand: light-dark(#8b3a42, #c4767e);
-  --c-brand-strong: light-dark(#6d232c, #e3a3a9);
-  --c-brand-soft: light-dark(#ffdada, #4a2a2e);
-  --c-brand-fg: light-dark(#ffffff, #1c1012);
+  --c-brand: #8b3a42;
+  --c-brand-strong: #6d232c;
+  --c-brand-soft: #ffdada;
+  --c-brand-fg: #ffffff;
 
   --c-key-cream: #f7f3ed;
   --c-key-cream-lo: #eae4dc;
@@ -98,16 +100,55 @@
   --c-key-sage-side: #9fae9d;
   --c-key-sage-fg: #36443c;
 
-  --c-chassis: light-dark(#2a2627, #2a2c31);
-  --c-chassis-lo: light-dark(#1d1a1b, #151619);
-  --c-plate: light-dark(#141213, #121316);
-  --c-dot-grid: light-dark(rgb(0 0 0 / 0.05), rgb(255 255 255 / 0.05));
+  --c-chassis: #2a2627;
+  --c-chassis-lo: #1d1a1b;
+  --c-plate: #141213;
+  --c-dot-grid: rgb(0 0 0 / 0.05);
 }
 
-/* URL-driven theme override (?theme=dark|light) set on <html data-theme> before paint */
+/* Dark follows the OS preference unless the URL pins ?theme=light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --c-page: oklch(0.16 0.008 15);
+    --c-fg: #f1ede8;
+    --c-surface: #1a1718;
+    --c-surface-muted: #232021;
+    --c-border: #3a3335;
+    --c-muted-fg: #b4a6a3;
+
+    --c-brand: #c4767e;
+    --c-brand-strong: #e3a3a9;
+    --c-brand-soft: #4a2a2e;
+    --c-brand-fg: #1c1012;
+
+    --c-chassis: #2a2c31;
+    --c-chassis-lo: #151619;
+    --c-plate: #121316;
+    --c-dot-grid: rgb(255 255 255 / 0.05);
+  }
+}
+
+/* URL-driven theme override (?theme=dark|light) set on <html data-theme> before paint.
+   Must come after the media query so an explicit dark wins over an OS-light device. */
 :root[data-theme='light'] {
   color-scheme: light;
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --c-page: oklch(0.16 0.008 15);
+  --c-fg: #f1ede8;
+  --c-surface: #1a1718;
+  --c-surface-muted: #232021;
+  --c-border: #3a3335;
+  --c-muted-fg: #b4a6a3;
+
+  --c-brand: #c4767e;
+  --c-brand-strong: #e3a3a9;
+  --c-brand-soft: #4a2a2e;
+  --c-brand-fg: #1c1012;
+
+  --c-chassis: #2a2c31;
+  --c-chassis-lo: #151619;
+  --c-plate: #121316;
+  --c-dot-grid: rgb(255 255 255 / 0.05);
 }

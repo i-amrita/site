@@ -10,6 +10,7 @@ export type ActionId =
   | 'close'
   | 'about'
   | 'projects'
+  | 'side-projects'
   | 'log'
   | 'search'
   | 'mute'
@@ -37,7 +38,7 @@ export const ACTIONS: readonly Action[] = [
     labelKey: 'action_close',
     keys: ['Escape'],
     icon: 'X',
-    patch: { overlay: null, cmdk: null, q: null, scroll: null, filter: null },
+    patch: { overlay: null, cmdk: null, q: null, scroll: null, filter: null, kind: null },
     kind: 'navigate',
   },
   {
@@ -51,9 +52,17 @@ export const ACTIONS: readonly Action[] = [
   {
     id: 'projects',
     labelKey: 'action_projects',
-    keys: ['F2', 'p'],
+    keys: ['F2', 'w'],
     icon: 'FolderKanban',
-    patch: { overlay: 'projects' },
+    patch: { overlay: 'projects', kind: 'work', filter: null, scroll: null },
+    kind: 'navigate',
+  },
+  {
+    id: 'side-projects',
+    labelKey: 'action_side_projects',
+    keys: ['p'],
+    icon: 'Rocket',
+    patch: { overlay: 'projects', kind: 'projects', filter: null, scroll: null },
     kind: 'navigate',
   },
   {

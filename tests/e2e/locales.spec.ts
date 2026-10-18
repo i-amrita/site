@@ -25,8 +25,8 @@ test('/?locale=hi&overlay=projects translates the overlay', async ({ page }) => 
   await page.goto('/?locale=hi&overlay=projects');
   await expect(page.locator('html')).toHaveAttribute('lang', 'hi');
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('सारा काम देखें')).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'सभी' })).toBeVisible();
+  await expect(dialog.getByText('सभी देखें')).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'सभी', exact: true }).first()).toBeVisible();
 });
 
 test('/?locale=ms&cmdk=open translates the palette', async ({ page }) => {
