@@ -34,6 +34,18 @@ const {
 const description =
   rawDescription.length <= 160 ? rawDescription : `${rawDescription.slice(0, 159).replace(/\s+\S*$/, '')}…`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Same format choice as audio-preloader.ts, so the preload is the request the app reuses.
+const soundPreload = `(() => {
+  const ext = new Audio().canPlayType('audio/ogg; codecs="vorbis"') ? 'ogg' : 'm4a';
+  for (const n of ['click-down', 'click-up']) {
+    const l = document.createElement('link');
+    l.rel = 'preload';
+    l.as = 'fetch';
+    l.href = '/sounds/' + n + '.' + ext;
+    l.crossOrigin = 'anonymous';
+    document.head.append(l);
+  }
+})();`;
 const ogUrl = new URL(ogImage, Astro.site);
 ---
 
@@ -61,15 +73,8 @@ const ogUrl = new URL(ogImage, Astro.site);
     <meta name="twitter:image" content={ogUrl} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
-    {
-      preloadSounds && (
-        <>
-          <link rel="preload" as="fetch" href="/sounds/click-down.ogg" type="audio/ogg" crossorigin="anonymous" />
-          <link rel="preload" as="fetch" href="/sounds/click-up.ogg" type="audio/ogg" crossorigin="anonymous" />
-        </>
-      )
-    }
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {preloadSounds && <script is:inline set:html={soundPreload} />}
     <script is:inline>
       // URL state first: ?theme=dark|light is applied before paint, no FOUC.
       const t = new URLSearchParams(location.search).get('theme');
