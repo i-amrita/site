@@ -1,0 +1,23 @@
+{
+  "useTabs": false,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "semi": true,
+  "experimentalSortImports": true,
+  "ignorePatterns": [
+    "node_modules",
+    ".astro",
+    "dist",
+    "public/pagefind",
+    ".agents/plans",
+    "pnpm-lock.yaml",
+    "src/components/ui/**",
+    "src/i18n/paraglide/**",
+    "**/*.md",
+    "**/*.mdx",
+    "mise.toml",
+    "AGENTS.md"
+  ]
+}

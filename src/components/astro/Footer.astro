@@ -1,0 +1,30 @@
+---
+import { m } from '@/lib/i18n';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [
+  { to: '/projects', label: m.nav_projects(), key: 'nav_projects' },
+  { to: '/posts', label: m.nav_log(), key: 'nav_log' },
+  { to: '/about', label: m.nav_about(), key: 'nav_about' },
+  { to: '/now', label: 'Now', key: undefined },
+  { to: '/search', label: m.nav_search(), key: 'nav_search' },
+];
+const link = 'hover:text-brand aria-[current=page]:text-fg aria-[current=page]:underline';---
+
+<footer class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-8 text-xs text-muted-foreground sm:px-6">
+  <p>© 2026 Amrita Nambiar</p>
+<nav aria-label="Footer" class="flex flex-wrap gap-x-3 gap-y-1">
+    {
+      links.map((l) => (
+        <a
+          class={link}
+          href={l.to}
+          data-i18n={l.key}
+          aria-current={path === l.to || path.startsWith(`${l.to}/`) ? 'page' : undefined}
+        >
+          {l.label}
+        </a>
+      ))
+    }
+    <a class={link} href="/llms.txt">llms.txt</a>
+  </nav></footer>

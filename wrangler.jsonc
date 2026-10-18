@@ -1,0 +1,6 @@
+{
+  "name": "i-amrita",
+  "compatibility_date": "2025-04-01",
+  "assets": { "directory": "./dist" },
+  "observability": { "enabled": true },
+}

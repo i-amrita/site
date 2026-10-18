@@ -1,0 +1,80 @@
+@import './tokens.css';
+@import '@fontsource/fraunces/latin-600.css';
+@import '@fontsource-variable/inter/index.css';
+@import '@fontsource/jetbrains-mono/latin-500.css';
+
+/* `dark:` follows ?theme override first, then the OS preference. */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+}
+
+@layer base {
+  html {
+    @apply bg-page text-fg font-body antialiased;
+  }
+  body {
+    @apply min-h-dvh;
+  }
+  ::selection {
+    @apply bg-brand-soft text-fg;
+  }
+}
+
+/* Keyboard hero: pulse for `?highlight=1` (1.2s on mount). */
+@theme {
+  --animate-key-glow: key-glow 0.6s ease-in-out 2;
+  @keyframes key-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+    50% {
+      box-shadow:
+        0 0 0 3px var(--c-brand-soft),
+        0 0 14px 4px var(--c-brand);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-key] * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Search pill: fades and lifts in when its label changes. */
+@theme {
+  --animate-pill-in: pill-in 0.35s ease-out;
+  @keyframes pill-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-search-pill] {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot='dialog-overlay'],
+  [data-slot='dialog-content'] {
+    animation: none !important;
+    transition: none !important;
+  }
+}

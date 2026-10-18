@@ -1,0 +1,19 @@
+---
+import ProseLayout from '@/components/astro/ProseLayout.astro';
+import { getSingleton } from '@/lib/content';
+import { personJsonLd } from '@/lib/jsonld';
+import { render } from 'astro:content';
+
+const entry = await getSingleton('about');
+if (!entry) throw new Error('Missing src/content/about.mdx');
+const { Content } = await render(entry);
+---
+
+<ProseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  mdHref="/about.md"
+  jsonLd={personJsonLd(entry)}
+>
+  <Content />
+</ProseLayout>

@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+
+/* Semantic tokens. Components use `bg-page`, `text-fg`, `text-brand`, `bg-key-light`; never raw var() in markup. */
+@theme inline {
+  --color-page: var(--c-page);
+  --color-fg: var(--c-fg);
+  --color-surface: var(--c-surface);
+  --color-surface-muted: var(--c-surface-muted);
+  --color-border: var(--c-border);
+
+  --color-key-light: var(--c-key-light);
+  --color-key-light-fg: var(--c-key-light-fg);
+  --color-key-dark: var(--c-key-dark);
+  --color-key-dark-fg: var(--c-key-dark-fg);
+  --color-key-accent: var(--c-key-accent);
+  --color-key-accent-fg: var(--c-key-accent-fg);
+
+  --color-brand: var(--c-brand);
+  --color-brand-fg: var(--c-brand-fg);
+  --color-brand-soft: var(--c-brand-soft);
+  --color-brand-hover: var(--c-brand-hover);
+
+  /* shadcn/ui compat: vendored primitives resolve to our semantic tokens */
+  --color-background: var(--c-page);
+  --color-foreground: var(--c-fg);
+  --color-popover: var(--c-surface);
+  --color-popover-foreground: var(--c-fg);
+  --color-primary: var(--c-brand);
+  --color-primary-foreground: var(--c-brand-fg);
+  --color-secondary: var(--c-surface-muted);
+  --color-secondary-foreground: var(--c-fg);
+  --color-muted: var(--c-surface-muted);
+  --color-muted-foreground: light-dark(#6b5a62, #b9a9b0);
+  --color-accent: var(--c-surface-muted);
+  --color-accent-foreground: var(--c-fg);
+  --color-destructive: #b3261e;
+  --color-input: var(--c-border);
+  --color-ring: var(--c-brand);
+
+  --radius-key: 6px;
+  --radius-card: 14px;
+  --shadow-key: 0 1px 0 rgb(0 0 0 / 0.06), 0 0 0 1px var(--c-border);
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter Variable', system-ui, sans-serif;
+  --font-key: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: light dark;
+  --c-page: light-dark(#fff8f3, #1b1a26);
+  --c-fg: light-dark(#2a1f2f, #f5e8e1);
+  --c-surface: light-dark(#ffffff, #232132);
+  --c-surface-muted: light-dark(#f4e9e2, #2b2a3d);
+  --c-border: light-dark(#e8d7cf, #3a394b);
+
+  --c-key-light: light-dark(#e4d7d7, #4a4456);
+  --c-key-light-fg: light-dark(#8f4246, #f5e8e1);
+  --c-key-dark: light-dark(#a04b50, #5c4b5c);
+  --c-key-dark-fg: #fff8f3;
+  --c-key-accent: light-dark(#e1e1e1, #2d2a3f);
+  --c-key-accent-fg: light-dark(#8f4246, #f5c8ca);
+
+  --c-brand: #8f4246;
+  --c-brand-fg: #fff8f3;
+  --c-brand-soft: #f5c8ca;
+  --c-brand-hover: #a05558;
+}
+
+/* URL-driven theme override (?theme=dark|light) set on <html data-theme> before paint */
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}

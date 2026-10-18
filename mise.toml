@@ -1,0 +1,76 @@
+[tools]
+node = "24"
+pnpm = "12"
+go = "latest"   # optional, used for lefthook if installed via go install
+uv = "latest"   # optional, for any python helper scripts
+
+# intl-ai is installed via pnpm and surfaced through package.json scripts.
+# To bump versions: `mise use node@24`, `mise use pnpm@12`.
+
+[env]
+NODE_ENV = "development"
+# _.path puts project-local bins on PATH so `astro`, `oxlint`, `oxfmt`, `wrangler` resolve.
+_.path = ["{{config_root}}/node_modules/.bin"]
+# Public hoist keeps Astro integrations + shadcn/ui deps resolvable from the workspace root.
+BUN_FEATURE_FLAG_DISABLE_NATIVE_POSTINSTALL = "1"
+
+[settings]
+idiomatic_version_file_enable_tools = ["pnpm"]
+experimental = true
+
+[tasks.install]
+description = "Install dependencies with pnpm"
+run = "pnpm install --frozen-lockfile"
+sources = ["package.json", "pnpm-lock.yaml", "mise.toml"]
+outputs = ["node_modules/.pnpm/lock.yaml"]
+
+[tasks.dev]
+description = "Start Astro dev server"
+run = "node --run dev"
+depends = ["install"]
+
+[tasks.build]
+description = "Astro build + Pagefind index"
+run = "node --run build"
+depends = ["install"]
+
+[tasks.preview]
+description = "Serve dist/ locally"
+run = "node --run preview"
+
+[tasks.check]
+description = "astro check + tsc strict"
+run = "node --run check"
+
+[tasks.lint]
+description = "oxlint"
+run = "oxlint ."
+
+[tasks.fmt]
+description = "oxfmt --write"
+run = "oxfmt --write ."
+
+[tasks.fmt-check]
+description = "oxfmt --check"
+run = "oxfmt --check ."
+
+[tasks.test-e2e]
+description = "Run Playwright E2E via playwright-cli skill"
+run = "node --run test:e2e"
+
+[tasks.deploy]
+description = "Build + wrangler deploy"
+run = "node --run deploy"
+depends = ["build"]
+
+[tasks.intl-fill]
+description = "Translate missing locale keys via intl-ai"
+run = "node --run intl-ai:fill"
+
+[tasks.intl-check]
+description = "Audit translations via intl-ai"
+run = "node --run intl-ai:check"
+
+[tasks.ui-loop]
+description = "Generator/evaluator UI iteration"
+run = "node --run ui-loop"

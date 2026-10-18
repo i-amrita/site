@@ -1,0 +1,25 @@
+---
+import Footer from '@/components/astro/Footer.astro';
+import Hero from '@/components/astro/Hero.astro';
+import KeyboardFrame from '@/components/astro/KeyboardFrame.astro';
+import KeyboardHint from '@/components/astro/KeyboardHint.astro';
+import Navbar from '@/components/astro/Navbar.astro';
+import OverlaysIsland from '@/components/astro/OverlaysIsland.astro';
+import Socials from '@/components/astro/Socials.astro';
+import Base from '@/layouts/Base.astro';
+---
+
+<Base title="Amrita Nambiar" preloadSounds>
+  <Navbar slot="header" />
+  <main id="main" class="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8">
+    <Hero />
+    <hr class="border-border" />
+    <Socials />
+    <KeyboardFrame />
+    <KeyboardHint />
+    <!-- overlays:start -->
+    <OverlaysIsland />
+    <!-- overlays:end -->
+  </main>
+  <Footer slot="footer" />
+</Base>
