@@ -1,6 +1,7 @@
 import { useQueryStates } from 'nuqs';
 import { useLayoutEffect, useRef, useState } from 'react';
 
+import { m, useLocale } from '@/lib/i18n';
 import { urlStateParsers } from '@/lib/url-state';
 import { cn } from '@/lib/utils';
 
@@ -51,11 +52,12 @@ function Scaler({ children }: { children: React.ReactNode }) {
 }
 
 function KeyboardOptions() {
+  useLocale();
   const [state, setState] = useQueryStates(urlStateParsers);
   const box = 'size-4 accent-brand';
   return (
     <fieldset className="grid gap-2 rounded-[16px] bg-surface-muted p-4 text-sm sm:p-6">
-      <legend className="sr-only">Keyboard options</legend>
+      <legend className="sr-only">{m.keyboard_options()}</legend>
       <label className="flex cursor-pointer items-center gap-3">
         <input
           type="checkbox"
@@ -65,7 +67,7 @@ function KeyboardOptions() {
             void setState({ mute: e.target.checked ? '1' : null }, { history: 'replace' })
           }
         />
-        Mute key clicks
+        {m.settings_mute()}
       </label>
       <label className="flex cursor-pointer items-center gap-3">
         <input
@@ -76,17 +78,18 @@ function KeyboardOptions() {
             void setState({ highlight: e.target.checked ? '1' : null }, { history: 'replace' })
           }
         />
-        Highlight action keys
+        {m.settings_highlight()}
       </label>
     </fieldset>
   );
 }
 
 function KeyboardBody() {
+  useLocale();
   return (
     <div className="flex flex-col gap-6">
       <Scaler>
-        <div className={FRAME_CLASS} role="group" aria-label="Keyboard">
+        <div className={FRAME_CLASS} role="group" aria-label={m.keyboard_label()}>
           <div className={cn(BED_CLASS, 'overflow-hidden pt-1')}>
             <div className="-space-y-1 overflow-hidden rounded-[5px]">
               {KEY_ROWS.map((row, i) => (

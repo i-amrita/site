@@ -3,6 +3,7 @@
  * `patch` is the URL-state change an action applies. `null` means "remove the key".
  * Icons are lucide names (resolved to components by the consumer); never inline raw SVG.
  */
+import type { MessageKey } from './i18n';
 import type { UrlStateKey } from './url-state';
 
 export type ActionId =
@@ -19,7 +20,8 @@ export type ActionId =
 
 export interface Action {
   id: ActionId;
-  label: string;
+  /** Message key for the label. Resolve at render time with `t(action.labelKey)`; never freeze at import. */
+  labelKey: MessageKey;
   /** `KeyboardEvent.key` values (case-insensitive for single letters) that trigger this action. */
   keys: readonly string[];
   /** lucide icon name, e.g. `Search`. */
@@ -32,7 +34,7 @@ export interface Action {
 export const ACTIONS: readonly Action[] = [
   {
     id: 'close',
-    label: 'Close',
+    labelKey: 'action_close',
     keys: ['Escape'],
     icon: 'X',
     patch: { overlay: null, cmdk: null, q: null, scroll: null, filter: null },
@@ -40,7 +42,7 @@ export const ACTIONS: readonly Action[] = [
   },
   {
     id: 'about',
-    label: 'About',
+    labelKey: 'action_about',
     keys: ['F1', 'a'],
     icon: 'User',
     patch: { overlay: 'about' },
@@ -48,7 +50,7 @@ export const ACTIONS: readonly Action[] = [
   },
   {
     id: 'projects',
-    label: 'Projects',
+    labelKey: 'action_projects',
     keys: ['F2', 'p'],
     icon: 'FolderKanban',
     patch: { overlay: 'projects' },
@@ -56,7 +58,7 @@ export const ACTIONS: readonly Action[] = [
   },
   {
     id: 'log',
-    label: 'Log',
+    labelKey: 'action_log',
     keys: ['F3', 'b'],
     icon: 'NotebookPen',
     patch: { overlay: 'log' },
@@ -64,22 +66,22 @@ export const ACTIONS: readonly Action[] = [
   },
   {
     id: 'search',
-    label: 'Search',
+    labelKey: 'action_search',
     keys: ['F4', 's'],
     icon: 'Search',
     patch: { overlay: 'search' },
     kind: 'navigate',
   },
-  { id: 'mute', label: 'Mute key clicks', keys: ['F5'], icon: 'VolumeX', kind: 'toggle' },
-  { id: 'theme', label: 'Toggle theme', keys: ['F6', 't'], icon: 'SunMoon', kind: 'toggle' },
-  { id: 'locale', label: 'Cycle language', keys: ['Alt', 'l'], icon: 'Languages', kind: 'cycle' },
+  { id: 'mute', labelKey: 'action_mute', keys: ['F5'], icon: 'VolumeX', kind: 'toggle' },
+  { id: 'theme', labelKey: 'action_theme', keys: ['F6', 't'], icon: 'SunMoon', kind: 'toggle' },
+  { id: 'locale', labelKey: 'action_locale', keys: ['Alt', 'l'], icon: 'Languages', kind: 'cycle' },
   {
     id: 'cmdk',
-    label: 'Command palette',
+    labelKey: 'action_cmdk',
     keys: ['Meta', 'k', ' ', 'Enter'],
     icon: 'Command',
     patch: { cmdk: 'open' },
     kind: 'navigate',
   },
-  { id: 'copy-email', label: 'Copy email', keys: ['c'], icon: 'Mail', kind: 'effect' },
+  { id: 'copy-email', labelKey: 'action_copy_email', keys: ['c'], icon: 'Mail', kind: 'effect' },
 ];
