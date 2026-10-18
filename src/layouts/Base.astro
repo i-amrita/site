@@ -6,11 +6,14 @@ interface Props {
   description?: string;
   /** Path of the markdown companion, e.g. `/about.md`. */
   mdHref?: string;
+  /** schema.org JSON-LD object, serialized into the head. */
+  jsonLd?: object;
 }
 const {
   title,
   description = 'Amrita Nambiar: AI × community × human-centered design.',
   mdHref,
+  jsonLd,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -25,6 +28,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
+    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>
       // URL state first: ?theme=dark|light is applied before paint, no FOUC.
       const t = new URLSearchParams(location.search).get('theme');
