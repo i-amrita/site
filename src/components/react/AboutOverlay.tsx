@@ -32,7 +32,7 @@ export function AboutOverlay({ open, onClose, children }: Props) {
       onClose={onClose}
       readMore={{ href: '/about', label: COPY.readMore }}
     >
-      <div className="flex flex-col gap-4 [&_p]:leading-relaxed">{children}</div>
+      <div className="[&_p]:leading-relaxed [&_p+p]:mt-4">{children}</div>
       <ul className="mt-6 flex flex-wrap gap-2" aria-label="Links">
         <li>
           <a className={link} href={SOCIALS.linkedin} rel="noopener" target="_blank">

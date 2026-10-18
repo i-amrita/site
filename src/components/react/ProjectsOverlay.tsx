@@ -15,7 +15,7 @@ const COPY = {
 } as const;
 
 const chip =
-  'rounded-key border px-3 py-1 font-key text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring';
+  'shrink-0 rounded-key border px-3 py-1 font-key text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring';
 
 interface Props {
   open: boolean;
@@ -53,7 +53,10 @@ export function ProjectsOverlay({
       scrollTop={scroll ?? 0}
       onScrollTop={onScroll}
     >
-      <nav aria-label="Filter projects by tag" className="mb-5 flex flex-wrap gap-2">
+      <nav
+        aria-label="Filter projects by tag"
+        className="mb-5 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible"
+      >
         <button
           type="button"
           aria-pressed={!active}

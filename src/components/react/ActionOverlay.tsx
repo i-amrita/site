@@ -55,7 +55,12 @@ export function ActionOverlay({
     <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
       <DialogContent
         showCloseButton={false}
-        className="inset-x-0 top-auto bottom-0 left-0 flex h-[92dvh] max-w-full translate-x-0 translate-y-0 flex-col gap-0 rounded-b-none border-border bg-page p-0 text-fg sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[85dvh] sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card"
+        onOpenAutoFocus={(e) => {
+          // Focus the dialog itself so no control shows a focus ring on open.
+          e.preventDefault();
+          (e.target as HTMLElement | null)?.closest<HTMLElement>('[role="dialog"]')?.focus();
+        }}
+        className="inset-x-0 top-auto bottom-0 left-0 flex max-h-[92dvh] max-w-full translate-x-0 translate-y-0 flex-col gap-0 rounded-b-none border-border bg-page p-0 text-fg sm:inset-auto sm:top-1/2 sm:left-1/2 sm:h-auto sm:max-h-[85dvh] sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card"
       >
         <header className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
           <DialogTitle className="font-display text-xl">{title}</DialogTitle>
