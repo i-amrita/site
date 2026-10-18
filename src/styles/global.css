@@ -14,3 +14,26 @@
     @apply bg-brand-soft text-fg;
   }
 }
+
+/* Keyboard hero: pulse for `?highlight=1` (1.2s on mount). */
+@theme {
+  --animate-key-glow: key-glow 0.6s ease-in-out 2;
+  @keyframes key-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+    50% {
+      box-shadow:
+        0 0 0 3px var(--c-brand-soft),
+        0 0 14px 4px var(--c-brand);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-key] * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
