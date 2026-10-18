@@ -3,6 +3,18 @@
 @import '@fontsource-variable/inter/index.css';
 @import '@fontsource/jetbrains-mono/latin-500.css';
 
+/* `dark:` follows ?theme override first, then the OS preference. */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+}
+
 @layer base {
   html {
     @apply bg-page text-fg font-body antialiased;

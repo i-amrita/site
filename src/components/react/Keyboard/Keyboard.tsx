@@ -11,8 +11,8 @@ import { DESIGN_WIDTH, KEY_ROWS } from './keyboard-layout';
 import { BED_CLASS, FRAME_CLASS } from './keyboard-themes';
 
 const FRAME_PAD = 24 + 4; // p-3 on both sides + 2px borders
-const DESIGN_HEIGHT = 6 * 50 - 5 * 4 + 4 + 2 + FRAME_PAD; // rows overlap by 4px (-space-y-1), pt-1, bed border
-const MAX_SCALE = 1.25;
+const DESIGN_HEIGHT = 6 * 50 - 5 * 4 + 4 + FRAME_PAD; // rows overlap by 4px (-space-y-1), pt-1
+const MAX_SCALE = 1;
 
 /** Scales the fixed-size keyboard to the container width. */
 function Scaler({ children }: { children: React.ReactNode }) {

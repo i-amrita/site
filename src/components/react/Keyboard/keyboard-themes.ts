@@ -22,4 +22,4 @@ export const KEY_THEMES: Record<KeyVariant, KeyTheme> = {
 };
 
 export const FRAME_CLASS = 'rounded-[16px] border-2 border-border bg-surface-muted p-3 shadow-key';
-export const BED_CLASS = 'rounded-[5px] rounded-t-[8px] border border-border bg-surface';
+export const BED_CLASS = 'rounded-[5px] rounded-t-[8px] bg-surface ring-1 ring-border ring-inset';
