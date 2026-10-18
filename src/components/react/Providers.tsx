@@ -5,11 +5,18 @@ import { Toaster } from 'sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 /** Wrap every island root. nuqs shares one URL emitter across islands, so state stays in sync. */
-export function Providers({ children }: { children: ReactNode }) {
+/** Mount the `<Toaster>` in exactly one island per page (`toaster={false}` elsewhere) or toasts duplicate. */
+export function Providers({
+  children,
+  toaster = true,
+}: {
+  children: ReactNode;
+  toaster?: boolean;
+}) {
   return (
     <NuqsAdapter>
       <TooltipProvider>{children}</TooltipProvider>
-      <Toaster position="bottom-center" />
+      {toaster && <Toaster position="bottom-center" />}
     </NuqsAdapter>
   );
 }
