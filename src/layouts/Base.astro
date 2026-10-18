@@ -43,7 +43,7 @@ const soundPreload = `(() => {
   const l = document.createElement('link');
   l.rel = 'preload';
   l.as = 'fetch';
-  l.href = '/sounds/keys-${SPRITE_HASH}.' + ext;
+  l.href = '/sounds/sprite-${SPRITE_HASH}.' + ext;
   l.crossOrigin = 'anonymous';
   l.fetchPriority = 'low';
   document.head.append(l);
@@ -93,7 +93,16 @@ const ogUrl = new URL(ogImage, Astro.site);
       const t = new URLSearchParams(location.search).get('theme');
       if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
       // i18n:start (locale before paint: html lang from ?locale=; all locales are LTR)
-      const l = new URLSearchParams(location.search).get('locale');
+      const q = new URLSearchParams(location.search);
+      // A locale chosen earlier is restored (replaceState, before islands hydrate) unless the URL already carries one.
+      try {
+        const saved = localStorage.getItem('locale');
+        if (!q.has('locale') && saved && ['ms', 'hi', 'de', 'ml'].includes(saved)) {
+          q.set('locale', saved);
+          history.replaceState(history.state, '', location.pathname + '?' + q + location.hash);
+        }
+      } catch {}
+      const l = q.get('locale');
       if (l && ['ms', 'hi', 'de', 'ml'].includes(l)) document.documentElement.lang = l;
       document.documentElement.dir = 'ltr';
       // i18n:end

@@ -1,9 +1,9 @@
 /**
- * Manifest for the key-click sprite in `public/sounds/keys-<hash>.{ogg,m4a}`.
- * Trimmed from keythm's sound.ogg (Apache-2.0, see NOTICE). Offsets and durations are in seconds.
+ * Manifest for the single sound sprite in `public/sounds/sprite-<hash>.{ogg,m4a}`: 16 key clicks (keythm's sound.ogg, Apache-2.0)
+ * followed by 4 dial ticks (Kenney UI Audio, CC0), see NOTICE. Offsets and durations are in seconds.
  * The file name carries a content hash, so /sounds/* can be cached immutably. Details: `.agents/docs/audio.md`.
  */
-export const SPRITE_HASH = '4a8a26b2';
+export const SPRITE_HASH = 'f17e74f3';
 
 export type SoundName = 'down' | 'up';
 
@@ -37,7 +37,7 @@ export function soundExtension(): 'ogg' | 'm4a' {
   return probe?.canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
 }
 
-export const spriteUrl = () => `/sounds/keys-${SPRITE_HASH}.${soundExtension()}`;
+export const spriteUrl = () => `/sounds/sprite-${SPRITE_HASH}.${soundExtension()}`;
 
 /** Deterministic string hash (FNV-1a), so a key id always maps to the same sample. */
 export function hashId(id: string): number {
@@ -46,21 +46,12 @@ export function hashId(id: string): number {
   return h >>> 0;
 }
 
-/**
- * Dial detent sample slot (a 4-slice sprite, see DIAL_SPRITE): a separate tiny file so it can be swapped without touching the key sprite.
- * Drop `dial-<hash>.ogg` (Opus) and `dial-<hash>.m4a` (AAC) in `public/sounds/` and change this base path.
- * If the files are missing or fail to decode, the synthesized tick in `src/lib/audio.ts` plays instead.
- */
-export const DIAL_SAMPLE_BASE = '/sounds/dial-b690a855';
-
-/** Dial sprite slices as [start, duration] seconds: three detent variants, then a heavier one for the 0/100 stops. */
+/** Dial detent slices as [start, duration] seconds, packed after the key clicks in the same sprite: three variants, then a heavier one for the 0/100 stops. */
 export const DIAL_SPRITE = {
   tick: [
-    [0.02, 0.0216],
-    [0.0616, 0.0216],
-    [0.1031, 0.0216],
+    [2.12, 0.0216],
+    [2.1616, 0.0216],
+    [2.2031, 0.0216],
   ],
-  stop: [0.1447, 0.0216],
+  stop: [2.2447, 0.0216],
 } as const;
-
-export const dialUrl = () => `${DIAL_SAMPLE_BASE}.${soundExtension()}`;

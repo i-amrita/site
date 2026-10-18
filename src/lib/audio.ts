@@ -1,23 +1,39 @@
 /**
- * Key-click audio. One shared AudioContext, buffers decoded once and cached.
- * Playback uses `AudioBufferSourceNode.start(0, offset, duration)` so latency stays under 10ms.
- * The context is created lazily on the first user gesture (creating it at hydration cost ~190ms of main thread).
- * Browsers keep the context suspended until a user gesture, so we `resume()` on the first
- * pointerdown / touchend / mousedown / keydown (never `touchstart`, which iOS does not count as activation).
+ * Key-click audio. The sprite (keys + dial ticks) is fetched and decoded early, with no user gesture, through an
+ * `OfflineAudioContext` (see audio-preloader.ts). The realtime `AudioContext` is created lazily on the first user
+ * gesture (creating it at hydration cost ~190ms of main thread) and resumed there, so by the first key press the
+ * buffer is usually ready and that press is already audible. Until the buffer is decoded, presses are silent and
+ * instant: nothing is queued, so no burst of late clicks.
+ * Gestures that unlock: pointerdown / touchend / mousedown / keydown (never `touchstart`, which iOS does not count as activation).
  * Details: `.agents/docs/audio.md`.
  */
-import {
-  fetchSoundBytes,
-  loadDialSample,
-  loadSounds,
-  type SoundName,
-} from '@/components/react/Keyboard/audio-preloader';
+import { decodeSprite, type SoundName } from '@/components/react/Keyboard/audio-preloader';
 import { DIAL_SPRITE, hashId, SPRITE } from '@/components/react/Keyboard/key-sprite';
 
 let ctx: AudioContext | null = null;
 let unlockBound = false;
+let warmStarted = false;
 let muted = false;
-let dialBuffer: AudioBuffer | undefined;
+let buffer: AudioBuffer | undefined;
+let gestureAt = 0;
+
+/** `loading` until the sprite is decoded or has failed (failure falls back to synthesized clicks). */
+export type AudioStatus = 'loading' | 'ready';
+let status: AudioStatus = 'loading';
+const listeners = new Set<() => void>();
+
+export const subscribeAudioStatus = (cb: () => void) => {
+  listeners.add(cb);
+  return () => void listeners.delete(cb);
+};
+export const getAudioStatus = (): AudioStatus => status;
+export const getServerAudioStatus = (): AudioStatus => 'loading';
+
+function setStatus(next: AudioStatus) {
+  if (status === next) return;
+  status = next;
+  for (const l of listeners) l();
+}
 
 const UNLOCK_EVENTS = ['pointerdown', 'touchend', 'mousedown', 'keydown'] as const;
 
@@ -33,28 +49,37 @@ export function getAudioContext(): AudioContext | null {
   return ctx;
 }
 
-/** First gesture: create the context (costly, so never at hydration), decode, resume. */
+/** First gesture: create the realtime context and resume it (the decode already happened, or is under way). */
 function unlock() {
+  gestureAt = performance.now();
+  warm();
   const c = getAudioContext();
   if (!c) return;
-  void loadSounds(c);
-  void loadDialSample(c).then((b) => {
-    dialBuffer = b;
-  });
   void c.resume().then(() => {
     if (c.state === 'running')
       for (const e of UNLOCK_EVENTS) window.removeEventListener(e, unlock, true);
   });
 }
 
-/** Start fetching the files and arm the gesture unlock. No AudioContext yet. Safe to call repeatedly. */
+/** Decode the sprite (its bytes come from the early preload). */
+function warm() {
+  if (warmStarted) return;
+  warmStarted = true;
+  void decodeSprite(getAudioContext).then((b) => {
+    buffer = b;
+    setStatus('ready');
+  });
+}
+
+/** Arm the gesture unlock and start the sprite decode. No AudioContext yet. Safe to call repeatedly. */
 export function initAudio(): void {
   if (typeof window === 'undefined') return;
-  void fetchSoundBytes();
   if (unlockBound) return;
   unlockBound = true;
   for (const e of UNLOCK_EVENTS)
     window.addEventListener(e, unlock, { capture: true, passive: true });
+  // Runs from an effect, i.e. after the pad painted; the bytes are already in flight from the head preload and decoding is off-thread.
+  warm();
 }
 
 export function setMuted(value: boolean): void {
@@ -63,6 +88,16 @@ export function setMuted(value: boolean): void {
 
 export function isMuted(): boolean {
   return muted;
+}
+
+/**
+ * The context can play when running, or when a gesture just asked for resume (sources queued on a suspended
+ * context start the moment it runs, which keeps the very first press audible without a stale backlog).
+ */
+function canPlay(): boolean {
+  if (!ctx || status !== 'ready') return false;
+  if (ctx.state === 'running') return true;
+  return ctx.state === 'suspended' && performance.now() - gestureAt < 120;
 }
 
 /** Synth fallback used when the sprite failed to fetch or decode: a ~25ms filtered noise tick. */
@@ -89,21 +124,17 @@ function playSynthClick(c: AudioContext, name: SoundName): void {
  * random jitter. No-op when muted, not yet decoded, or the context is still locked.
  */
 export function playClick(name: SoundName, id = ''): void {
-  if (muted || !ctx || ctx.state !== 'running') return;
-  void loadSounds(ctx).then((buffer) => {
-    const c = ctx;
-    if (!c) return;
-    if (!buffer) return playSynthClick(c, name);
-    const samples = SPRITE[name];
-    const [start, dur] = samples[hashId(id) % samples.length]!;
-    const src = c.createBufferSource();
-    src.buffer = buffer;
-    src.playbackRate.value = 0.95 + Math.random() * 0.1;
-    const gain = c.createGain();
-    gain.gain.value = 0.85 + Math.random() * 0.25;
-    src.connect(gain).connect(c.destination);
-    src.start(0, start, dur);
-  });
+  if (muted || !canPlay() || !ctx) return;
+  if (!buffer) return playSynthClick(ctx, name);
+  const samples = SPRITE[name];
+  const [start, dur] = samples[hashId(id) % samples.length]!;
+  const src = ctx.createBufferSource();
+  src.buffer = buffer;
+  src.playbackRate.value = 0.95 + Math.random() * 0.1;
+  const gain = ctx.createGain();
+  gain.gain.value = 0.85 + Math.random() * 0.25;
+  src.connect(gain).connect(ctx.destination);
+  src.start(0, start, dur);
 }
 
 let lastTick = 0;
@@ -114,13 +145,13 @@ let lastTick = 0;
  * Respects mute, needs the unlocked context, and is rate-limited to one tick per 30ms.
  */
 export function playTick(value: number, strong = false): void {
-  if (muted || !ctx || ctx.state !== 'running') return;
+  if (muted || !canPlay() || !ctx) return;
   const now = performance.now();
   if (now - lastTick < 30) return;
   lastTick = now;
-  if (dialBuffer) {
+  if (buffer) {
     const src = ctx.createBufferSource();
-    src.buffer = dialBuffer;
+    src.buffer = buffer;
     const [off, len] = strong
       ? DIAL_SPRITE.stop
       : DIAL_SPRITE.tick[Math.floor(Math.random() * DIAL_SPRITE.tick.length)]!;

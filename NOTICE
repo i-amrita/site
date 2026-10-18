@@ -2,14 +2,14 @@ This project includes keycap visual styling and key sounds adapted from
 AayushBharti/keythm (https://github.com/AayushBharti/keythm),
 licensed under the Apache License, Version 2.0.
 
-The key sound sprite (public/sounds/keys-*.ogg and keys-*.m4a) is derived from
+The key sound sprite (the first 2s of public/sounds/sprite-*.ogg and sprite-*.m4a) is derived from
 keythm's public/sounds/sound.ogg: individual keypresses were cut out, trimmed,
 loudness-normalized and re-encoded (Ogg Opus and AAC). It is a modified work.
 
 Modifications by Amrita Nambiar, 2026.
 Original copyright: 2026 AAYUSH BHARTI
 
-The dial detent sprite (public/sounds/dial-*.ogg and dial-*.m4a) is built from Kenney's
+The dial detent sprite (the tail of public/sounds/sprite-*.ogg and sprite-*.m4a) is built from Kenney's
 "UI Audio" pack (click2, click4, click5, switch5), https://kenney.nl/assets/ui-audio,
 by Kenney Vleugels, licensed CC0 1.0 (verified from the pack's License.txt).
 Slices were trimmed to about 22ms, pitched down 3 semitones, high-passed at 180Hz,
