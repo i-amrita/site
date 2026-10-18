@@ -44,11 +44,38 @@ export default defineConfig({
   // Static meta-refresh pages for the old /projects URLs (no Pages Functions needed).
   redirects: { '/projects': '/work', '/projects/[slug]': '/work/[slug]' },
   integrations: [
-    react({ include: ['**/react/**', '**/components/ui/**'] }),
+    react({
+      include: ['**/react/**', '**/components/ui/**'],
+      // React Compiler, opt-in per component with 'use memo'. Compiling everything memoized Paraglide `m.*()` calls
+      // (zero args, so the compiler treats them as constants) and froze island text in the first locale.
+      babel: { plugins: [['babel-plugin-react-compiler', { compilationMode: 'annotation' }]] },
+    }),
     mdx(),
     sitemap({ filter: (page) => !page.includes('/dev/') && !page.includes('/404') }),
   ],
   vite: {
+    // Pre-bundle every island dependency up front. When nuqs and friends were discovered lazily, Vite re-optimized mid-session
+    // and produced a second React copy ("Invalid hook call", islands never hydrate, the keypad is dead in dev).
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'nuqs',
+        'nuqs/adapters/react',
+        'sonner',
+        'clsx',
+        'tailwind-merge',
+        'class-variance-authority',
+        'cmdk',
+        'vaul',
+        'radix-ui',
+        'lucide-react',
+      ],
+    },
+    resolve: { dedupe: ['react', 'react-dom'] },
     plugins: [
       tailwindcss(),
       // `~icons/ph/<name>` imports compile to React components at build time (also used, SSR-only, inside .astro files).
