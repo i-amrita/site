@@ -1,0 +1,18 @@
+{
+  "rules": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn",
+    "style": "warn",
+    "nursery": "warn",
+    "restriction": "off"
+  },
+  "ignorePatterns": [
+    "node_modules",
+    ".astro",
+    "dist",
+    "public/pagefind",
+    ".agents/plans",
+    "pnpm-lock.yaml"
+  ]
+}

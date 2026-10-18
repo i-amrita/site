@@ -1,0 +1,39 @@
+# lefthook config — runs on every commit + push.
+# Pre-commit = fast feedback on staged files.
+# Pre-push = full gate (build, test, link audit, intl-ai check).
+
+pre-commit:
+  piped: true
+  parallel: true
+  commands:
+    oxfmt:
+      glob: "**/*.{ts,tsx,js,jsx,astro,md,mdx,json,css,yaml,yml,toml}"
+      run: "pnpm exec oxfmt --write {staged_files}"
+      stage_fixed: true
+    oxlint:
+      glob: "**/*.{ts,tsx,js,jsx,astro}"
+      run: "pnpm exec oxlint {staged_files}"
+    astro-check:
+      glob: "**/*.{astro,ts,tsx}"
+      run: "pnpm exec astro check"
+    commitlint:
+      run: "pnpm exec commitlint --edit {1}"
+
+pre-push:
+  parallel: true
+  commands:
+    build:
+      run: "pnpm exec astro build"
+    pagefind:
+      run: "pnpm exec pagefind --site dist"
+    intl-check:
+      run: "pnpm exec intl-ai check"
+    e2e:
+      run: "pnpm exec playwright test"
+    link-audit:
+      run: "pnpm exec static-link-sentinel scan --dir dist"
+
+commit-msg:
+  commands:
+    commitlint:
+      run: "pnpm exec commitlint --edit {1}"
