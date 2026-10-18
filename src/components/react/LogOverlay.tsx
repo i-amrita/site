@@ -1,12 +1,6 @@
 import { ActionOverlay } from '@/components/react/ActionOverlay';
 import type { PostItem } from '@/components/react/overlay-types';
-
-const COPY = {
-  title: 'Log',
-  description: 'Recent notes and posts.',
-  seeAll: 'See all posts',
-  empty: 'Nothing here yet. Check back soon.',
-} as const;
+import { m, useLocale } from '@/lib/i18n';
 
 interface Props {
   open: boolean;
@@ -15,16 +9,17 @@ interface Props {
 }
 
 export function LogOverlay({ open, posts, onClose }: Props) {
+  useLocale();
   return (
     <ActionOverlay
       open={open}
-      title={COPY.title}
-      description={COPY.description}
+      title={m.overlay_log_title()}
+      description={m.overlay_log_description()}
       onClose={onClose}
-      readMore={{ href: '/posts', label: COPY.seeAll }}
+      readMore={{ href: '/posts', label: m.overlay_log_see_all() }}
     >
       {posts.length === 0 ? (
-        <p className="text-muted-foreground">{COPY.empty}</p>
+        <p className="text-muted-foreground">{m.log_empty()}</p>
       ) : (
         <ul role="list" className="flex flex-col gap-4">
           {posts.map((p) => (

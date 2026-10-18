@@ -2,17 +2,9 @@ import { ArrowRight } from 'lucide-react';
 
 import { ActionOverlay } from '@/components/react/ActionOverlay';
 import type { ProjectItem } from '@/components/react/overlay-types';
+import { m, useLocale } from '@/lib/i18n';
 import { tagSlug } from '@/lib/tags';
 import { href } from '@/lib/url-state';
-
-const COPY = {
-  title: 'Projects',
-  description: 'Selected projects. Filter by tag, or open one for the full story.',
-  all: 'all',
-  readMore: 'Read more',
-  seeAll: 'See all projects',
-  empty: 'No projects match this filter.',
-} as const;
 
 const chip =
   'shrink-0 rounded-key border px-3 py-1 font-key text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring';
@@ -38,6 +30,7 @@ export function ProjectsOverlay({
   onFilter,
   onScroll,
 }: Props) {
+  useLocale();
   const active = filter ? tagSlug(filter) : null;
   const visible = active
     ? projects.filter((p) => p.tags.some((t) => tagSlug(t) === active))
@@ -46,15 +39,15 @@ export function ProjectsOverlay({
   return (
     <ActionOverlay
       open={open}
-      title={COPY.title}
-      description={COPY.description}
+      title={m.overlay_projects_title()}
+      description={m.overlay_projects_description()}
       onClose={onClose}
-      readMore={{ href: '/projects', label: COPY.seeAll }}
+      readMore={{ href: '/projects', label: m.overlay_projects_see_all() }}
       scrollTop={scroll ?? 0}
       onScrollTop={onScroll}
     >
       <nav
-        aria-label="Filter projects by tag"
+        aria-label={m.projects_filter_aria()}
         className="mb-5 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible"
       >
         <button
@@ -63,7 +56,7 @@ export function ProjectsOverlay({
           onClick={() => onFilter(null)}
           className={`${chip} ${active ? 'border-border bg-surface text-fg hover:bg-surface-muted' : 'border-brand bg-brand text-brand-fg'}`}
         >
-          {COPY.all}
+          {m.projects_filter_all()}
         </button>
         {tags.map((tag) => {
           const on = active === tagSlug(tag);
@@ -81,7 +74,7 @@ export function ProjectsOverlay({
         })}
       </nav>
       {visible.length === 0 ? (
-        <p className="text-muted-foreground">{COPY.empty}</p>
+        <p className="text-muted-foreground">{m.projects_empty_filter()}</p>
       ) : (
         <ul role="list" className="flex flex-col gap-4">
           {visible.map((p) => (
@@ -107,7 +100,7 @@ export function ProjectsOverlay({
                     href={href(`/projects/${p.id}`)}
                     className="inline-flex items-center gap-1 text-sm font-medium text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   >
-                    {COPY.readMore}
+                    {m.projects_read_more()}
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </a>
                 </div>
