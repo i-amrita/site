@@ -5,6 +5,7 @@
  * Layout adapted from the hairline list style of the sibling illo.fyi log and work pages.
  */
 import { ArrowRight, FileText, FlaskConical, Link as LinkIcon } from 'lucide-react';
+import type { CSSProperties } from 'react';
 
 import type { PostItem, ProjectItem } from '@/components/react/overlay-types';
 import { SOCIALS } from '@/lib/site';
@@ -15,6 +16,9 @@ const focusRing =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring';
 
 export const chipClass = `shrink-0 rounded-key border px-3 py-1 font-key text-sm transition-colors ${focusRing}`;
+
+/** Stagger index for `.rise` rows, capped so long lists never wait. */
+const rowStyle = (i: number) => ({ '--i': Math.min(i, 8) }) as CSSProperties;
 
 export function WorkList({
   projects,
@@ -27,15 +31,19 @@ export function WorkList({
 }) {
   return (
     <ul role="list" className="divide-y divide-border border-y border-border">
-      {projects.map((p) => (
+      {projects.map((p, i) => (
         <li
           key={p.id}
+          style={rowStyle(i)}
           data-project-card
           data-tags={p.tags.map(tagSlug).join(' ')}
-          className="group relative grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-4"
+          className="rise group relative grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-4"
         >
           <h3 className="font-display text-lg leading-snug">
-            <a href={href(`${linkBase}/${p.id}`)} className="after:absolute after:inset-0">
+            <a
+              href={href(`${linkBase}/${p.id}`)}
+              className="transition-colors duration-300 ease-(--ease-spring) after:absolute after:inset-0 group-hover:text-brand"
+            >
               {p.title}
             </a>
           </h3>
@@ -59,7 +67,10 @@ export function WorkList({
             </ul>
             <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-brand group-hover:text-brand-hover">
               {readMore}
-              <ArrowRight className="size-4" aria-hidden="true" />
+              <ArrowRight
+                className="size-4 transition-transform duration-300 ease-(--ease-spring) group-hover:translate-x-0.5 group-active:scale-90 motion-reduce:transition-none motion-reduce:transform-none"
+                aria-hidden="true"
+              />
             </span>
           </div>
         </li>
@@ -82,6 +93,7 @@ export function LogList({ posts, linkBase = '/posts' }: { posts: PostItem[]; lin
     const year = p.date.slice(0, 4);
     byYear.set(year, [...(byYear.get(year) ?? []), p]);
   }
+  const order = new Map(posts.map((p, i) => [p.id, i]));
   const years = [...byYear.keys()].toSorted((a, b) => Number(b) - Number(a));
   return (
     <div className="flex flex-col gap-8">
@@ -95,7 +107,11 @@ export function LogList({ posts, linkBase = '/posts' }: { posts: PostItem[]; lin
           </h2>
           <ul role="list" className="divide-y divide-border border-y border-border">
             {(byYear.get(year) ?? []).map((p) => (
-              <li key={p.id} className="group relative grid grid-cols-[4.5rem_1fr] gap-x-3 py-3.5">
+              <li
+                key={p.id}
+                style={rowStyle(order.get(p.id) ?? 0)}
+                className="rise group relative grid grid-cols-[4.5rem_1fr] gap-x-3 py-3.5"
+              >
                 <time
                   dateTime={p.date}
                   className="pt-0.5 font-key text-xs tracking-wide text-muted-foreground uppercase"
@@ -106,7 +122,7 @@ export function LogList({ posts, linkBase = '/posts' }: { posts: PostItem[]; lin
                   <h3 className="font-display text-lg leading-snug">
                     <a
                       href={`${linkBase}/${p.id}`}
-                      className="after:absolute after:inset-0 group-hover:text-brand"
+                      className="transition-colors duration-300 ease-(--ease-spring) after:absolute after:inset-0 group-hover:text-brand"
                     >
                       {p.title}
                     </a>

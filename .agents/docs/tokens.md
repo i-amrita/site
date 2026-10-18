@@ -67,11 +67,17 @@ Legacy `key-light`, `key-dark`, `key-accent` tokens still exist for the old keyb
 | `--ease-key` | `cubic-bezier(0.2, 0, 0.38, 0.9)` | Key press, 60ms |
 | `--shadow-lift` | `0 24px 60px -12px rgb(28 16 18 / 0.35)` | Tinted diffused shadow (`shadow-lift`) |
 
+Hover and press micro-interactions use `transition-[color,transform] duration-300 ease-(--ease-spring)` with a small translate or `active:scale-90..95`, plus `motion-reduce:` fallbacks. Never animate layout properties.
+
 Never use `linear`, `ease-in-out`, `shadow-md` or pure black shadows.
 
 Utilities in `global.css`:
 
 - `.rise`: fade up 1rem with a 4px blur resolving over 700ms on `--ease-spring`. Stagger with `style="--i: n"` (60ms each). Uses transform, opacity and filter only, so the layout box never changes. Disabled under `prefers-reduced-motion`.
+- `.item-in`: 6px fade up over 360ms for items that arrive asynchronously (search results). Stagger with `style="--i: n"` at 40ms each, cap at 6. Opacity and transform only. Disabled under `prefers-reduced-motion`.
+- `.progress-sweep`: 2px indeterminate sliver, absolutely positioned on a `relative` parent, moved with `transform`. Used while the CmdK and `/search` embedding model warms. Reduced motion shows a static half-opacity bar.
+- Page transitions: `@view-transition { navigation: auto }` (cross-document, no router, no JS) inside `prefers-reduced-motion: no-preference`. The root crossfades (180ms out, 320ms in) and the navbar `header` has `view-transition-name: site-nav` so the pill stays put. Movement comes from `.rise` on the new page, so the transition itself is opacity only. Unsupported browsers navigate normally.
+- Overlay motion is set by slot selector in `global.css`, overriding the vendored tw-animate classes without editing `ui/`: scrim fade (`dialog-overlay`, `drawer-overlay`), `pop-in`/`pop-out` (4px lift plus 0.97 scale) for `dialog-content`, `popover-content`, `tooltip-content`, and `dock-in`/`dock-out` (slide from the right) for `[data-overlay-panel]`. Exit animations must always exist so Radix waits before unmounting. The vaul drawer keeps its own transform transition, which already uses the spring curve. Under reduced motion every overlay becomes a 100 to 120ms opacity fade.
 - `.key-glow` (alias `.animate-key-glow`): steady brand box-shadow for `?highlight=1`.
 - `body::after`: one fixed grain layer at 0.03 opacity above the body dot grid.
 

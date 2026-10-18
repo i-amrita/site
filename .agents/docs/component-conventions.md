@@ -57,6 +57,14 @@ Every island root is wrapped in `Providers` from `react/Providers.tsx`. It provi
 - Use `cn()` from `src/lib/utils.ts` to merge class names. It wraps `clsx` and `tailwind-merge`.
 - Home hero chips, navbar pill and keypad icons use `unplugin-icons` with the Phosphor set (`@iconify-json/ph`, `-light` variants). Import statically: `import Mail from '~icons/ph/envelope-simple-light'`, then `<Mail class="size-4" aria-hidden="true" />` (`className` in React). Vite registers one `jsx`/react compiler in `astro.config.mjs` (the `astro` compiler cannot coexist with it, so `.astro` files render the React icon statically with no `client:*`); types come from `src/env.d.ts`. Keypad icons map name to component in `Key.tsx`; no dynamic string imports. Overlays, CmdK, ProjectCard and `ui/*` still use `lucide-react` / `@lucide/astro`.
 
+## Motion conventions
+
+- Never edit `ui/` to change motion. Override by `[data-slot=...][data-state=...]` selector in `global.css` (see the motion section of `tokens.md`).
+- List rows in `content-blocks.tsx` use `rise` with `--i` capped at 8 (`rowStyle`). Rows in the drawers re-run it each time the drawer opens, which is intended.
+- Async arrivals (search results) use `item-in`, loading uses `progress-sweep`. Do not add text-only "loading..." states.
+- Every new animation uses transform, opacity or filter only, gets a `prefers-reduced-motion` branch (none or opacity), and must not change the box size, so CLS stays 0 and the 375x667 fit holds.
+- SSR markup must equal first paint: animate in with CSS on first render, never gate visibility on hydration.
+
 ## Checklist for a new component
 
 1. Pick the folder with the decision tree.

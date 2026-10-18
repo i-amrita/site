@@ -10,7 +10,7 @@ import { Providers } from './Providers';
 
 /** Shared look for navbar pill items: 28px visible, 44px hit area via `::after`, hairline focus ring. */
 export const PILL_ITEM =
-  'relative inline-flex items-center justify-center rounded-full text-muted-foreground outline-none transition-colors duration-300 ease-(--ease-spring) after:absolute after:-inset-2 after:content-[""] hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-brand aria-[current=page]:text-fg data-[state=open]:text-brand';
+  'relative inline-flex items-center justify-center rounded-full text-muted-foreground outline-none transition-[color,background-color,transform] duration-300 ease-(--ease-spring) active:scale-90 motion-reduce:transition-colors motion-reduce:active:scale-100 after:absolute after:-inset-2 after:content-[""] hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-brand aria-[current=page]:text-fg data-[state=open]:text-brand';
 
 /** Bare button, for use inside an existing `<Providers>` tree. `code` renders the current locale code for the navbar pill. */
 export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' }) {

@@ -27,14 +27,15 @@ const { title, description, mdHref, jsonLd, eyebrow, back, kind = "page", ogImag
   {...jsonLd && { jsonLd }}
 >
   <main id="main" class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12" data-pagefind-body data-pagefind-meta={`type:${kind}`}>
-    {back && <a data-pagefind-ignore href={back.href} class="text-sm text-muted-foreground hover:text-brand">&larr; {back.label}</a>}
-    <header class="flex flex-col gap-3">
+    {back && <a data-pagefind-ignore href={back.href} class="w-fit text-sm text-muted-foreground transition-[color,transform] duration-300 ease-(--ease-spring) hover:-translate-x-0.5 hover:text-brand active:scale-95 motion-reduce:transition-colors">&larr; {back.label}</a>}
+    <header class="rise flex flex-col gap-3">
       {eyebrow && <p class="font-key text-xs uppercase tracking-wide text-muted-foreground">{eyebrow}</p>}
       <h1 class="font-display text-4xl">{title}</h1>
       <slot name="meta" />
     </header>
     <div
-      class="flex flex-col gap-4 leading-relaxed [&_a]:text-brand [&_a]:underline [&_a:hover]:text-brand-hover [&_h2]:mt-4 [&_h2]:font-display [&_h2]:text-2xl [&_h3]:mt-2 [&_h3]:font-display [&_h3]:text-xl [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6 [&_blockquote]:border-l-2 [&_blockquote]:border-brand [&_blockquote]:pl-4 [&_code]:rounded-key [&_code]:bg-surface-muted [&_code]:px-1 [&_code]:font-key [&_pre]:overflow-x-auto [&_pre]:rounded-card [&_pre]:bg-surface-muted [&_pre]:p-4 [&_img]:rounded-card"
+      style="--i:1"
+      class="rise flex flex-col gap-4 leading-relaxed [&_a]:text-brand [&_a]:underline [&_a:hover]:text-brand-hover [&_h2]:mt-4 [&_h2]:font-display [&_h2]:text-2xl [&_h3]:mt-2 [&_h3]:font-display [&_h3]:text-xl [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6 [&_blockquote]:border-l-2 [&_blockquote]:border-brand [&_blockquote]:pl-4 [&_code]:rounded-key [&_code]:bg-surface-muted [&_code]:px-1 [&_code]:font-key [&_pre]:overflow-x-auto [&_pre]:rounded-card [&_pre]:bg-surface-muted [&_pre]:p-4 [&_img]:rounded-card [&_img]:bg-surface-muted"
     >
       <slot />
     </div>

@@ -10,7 +10,7 @@ import {
   Volume2,
 } from 'lucide-react';
 import { useQueryStates } from 'nuqs';
-import { useRef } from 'react';
+import { type CSSProperties, useRef } from 'react';
 
 import {
   Command,
@@ -128,7 +128,7 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
             />
           </div>
           <div
-            className="flex items-center justify-between gap-2 border-b border-border px-3 py-1"
+            className="relative flex items-center justify-between gap-2 border-b border-border px-3 py-1"
             data-cmdk-mode-bar
           >
             <div className="flex min-w-0 items-center gap-2">
@@ -170,6 +170,12 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
               })}
             </div>
           </div>
+          {/* Indeterminate sliver while the embedding model downloads; keyword results stay usable. */}
+          {searching && status === 'warming' && !keywordOnly && (
+            <div className="relative" aria-hidden="true" data-search-loading>
+              <span className="progress-sweep" />
+            </div>
+          )}
           <p className="sr-only" aria-live="polite" role="status">
             {searching && status !== 'idle'
               ? m.search_results({ count: results.length, query: trimmed })
@@ -221,12 +227,13 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
             )}
             {searching && (
               <CommandGroup heading={m.cmdk_section_results()}>
-                {results.map((r) => (
+                {results.map((r, i) => (
                   <CommandItem
                     key={r.url}
+                    style={{ '--i': Math.min(i, 6) } as CSSProperties}
                     value={`res-${r.url}`}
                     onSelect={() => go(r.url)}
-                    className="items-start"
+                    className="item-in items-start"
                   >
                     <ResultIcon type={r.type} className="mt-0.5" />
                     <ResultBody result={r} />

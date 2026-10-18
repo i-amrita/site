@@ -91,7 +91,7 @@
 
 /* Search pill: fades and lifts in when its label changes. */
 @theme {
-  --animate-pill-in: pill-in 0.35s ease-out;
+  --animate-pill-in: pill-in 300ms var(--ease-spring) both;
   @keyframes pill-in {
     from {
       opacity: 0;
@@ -110,14 +110,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-slot='dialog-overlay'],
-  [data-slot='dialog-content'] {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
 /* Work/Log/About panels are non-modal and docked right from 640px. From `lg` there is room to shift the page so the pad stays uncovered. */
 @media (min-width: 1024px) {
   html[data-overlay-open] body {
@@ -127,5 +119,170 @@
 @media (prefers-reduced-motion: no-preference) {
   body {
     transition: padding-right 0.2s ease;
+  }
+}
+
+/* ---------- Page transitions (cross-document, static; no router, no JS) ---------- */
+/* Root crossfades, the navbar pill keeps its own layer so it never blinks. `.rise` on the new page supplies the movement. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  header:has(> nav) {
+    view-transition-name: site-nav;
+  }
+  ::view-transition-group(root) {
+    animation-duration: 320ms;
+    animation-timing-function: var(--ease-spring);
+  }
+  ::view-transition-old(root) {
+    animation: vt-out 180ms var(--ease-spring) both;
+  }
+  ::view-transition-new(root) {
+    animation: vt-in 320ms var(--ease-spring) both;
+  }
+  ::view-transition-group(site-nav) {
+    animation-duration: 0s;
+  }
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---------- Overlays: dialog, drawer scrim, cmdk, popover, tooltip ---------- */
+/* Overrides the vendored tw-animate classes by slot. Exit animations must exist so Radix waits for them before unmounting. */
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes scrim-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+}
+@keyframes pop-out {
+  to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+@keyframes dock-in {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
+}
+@keyframes dock-out {
+  to {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+}
+[data-slot='dialog-overlay'][data-state='open'],
+[data-slot='drawer-overlay'][data-state='open'] {
+  animation: scrim-in 300ms var(--ease-spring) both;
+}
+[data-slot='dialog-overlay'][data-state='closed'],
+[data-slot='drawer-overlay'][data-state='closed'] {
+  animation: scrim-out 200ms var(--ease-spring) both;
+}
+[data-slot='dialog-content'][data-state='open'],
+[data-slot='popover-content'][data-state='open'],
+[data-slot='tooltip-content'][data-state='open'] {
+  animation: pop-in 320ms var(--ease-spring) both;
+}
+[data-slot='dialog-content'][data-state='closed'],
+[data-slot='popover-content'][data-state='closed'],
+[data-slot='tooltip-content'][data-state='closed'] {
+  animation: pop-out 180ms var(--ease-spring) both;
+}
+[data-overlay-panel][data-state='open'] {
+  animation: dock-in 420ms var(--ease-spring) both;
+}
+[data-overlay-panel][data-state='closed'] {
+  animation: dock-out 220ms var(--ease-spring) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot='dialog-overlay'][data-state='open'],
+  [data-slot='drawer-overlay'][data-state='open'],
+  [data-slot='dialog-content'][data-state='open'],
+  [data-slot='popover-content'][data-state='open'],
+  [data-slot='tooltip-content'][data-state='open'],
+  [data-overlay-panel][data-state='open'] {
+    animation: scrim-in 120ms var(--ease-spring) both;
+  }
+  [data-slot='dialog-overlay'][data-state='closed'],
+  [data-slot='drawer-overlay'][data-state='closed'],
+  [data-slot='dialog-content'][data-state='closed'],
+  [data-slot='popover-content'][data-state='closed'],
+  [data-slot='tooltip-content'][data-state='closed'],
+  [data-overlay-panel][data-state='closed'] {
+    animation: scrim-out 100ms var(--ease-spring) both;
+  }
+}
+
+/* ---------- Loading ---------- */
+/* Indeterminate progress sliver (CmdK while the embedding model downloads). Moves with transform only. */
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+@utility progress-sweep {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  &::after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, transparent, var(--c-brand), transparent);
+    animation: sweep 1400ms var(--ease-spring) infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress-sweep::after {
+    width: 100%;
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Lighter entrance for list items that arrive asynchronously (search results). Stagger with style="--i: n", cap at 6. */
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@utility item-in {
+  animation: item-in 360ms var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .item-in {
+    animation: none;
   }
 }
