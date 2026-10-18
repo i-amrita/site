@@ -6,6 +6,8 @@ interface Props {
   description?: string;
   /** Path of the markdown companion, e.g. `/about.md`. */
   mdHref?: string;
+  /** Preload key-click sounds (home hero only). */
+  preloadSounds?: boolean;
   /** schema.org JSON-LD object, serialized into the head. */
   jsonLd?: object;
 }
@@ -13,6 +15,7 @@ const {
   title,
   description = 'Amrita Nambiar: AI × community × human-centered design.',
   mdHref,
+  preloadSounds = false,
   jsonLd,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -28,6 +31,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
+    {
+      preloadSounds && (
+        <>
+          <link rel="preload" as="fetch" href="/sounds/click-down.ogg" type="audio/ogg" crossorigin="anonymous" />
+          <link rel="preload" as="fetch" href="/sounds/click-up.ogg" type="audio/ogg" crossorigin="anonymous" />
+        </>
+      )
+    }
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>
       // URL state first: ?theme=dark|light is applied before paint, no FOUC.
@@ -36,6 +47,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
+    <slot name="header" />
     <slot />
+    <slot name="footer" />
   </body>
 </html>
