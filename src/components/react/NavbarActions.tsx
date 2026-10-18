@@ -3,6 +3,7 @@ import { Command, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { m, useLocale } from '@/lib/i18n';
 
+import { LocaleSwitchButton } from './LocaleSwitch';
 import { Providers } from './Providers';
 import { ThemeToggle } from './ThemeToggle';
 import { useActions } from './use-actions';
@@ -30,6 +31,7 @@ function Right() {
       >
         <Search className="size-4" />
       </Button>
+      <LocaleSwitchButton />
       <ThemeToggle />
     </div>
   );
