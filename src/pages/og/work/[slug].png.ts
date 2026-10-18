@@ -13,9 +13,9 @@ export const GET: APIRoute<InferGetStaticPropsType<typeof getStaticPaths>> = asy
   const d = props.entry.data;
   return pngResponse(
     await renderOg({
-      eyebrow: `${d.role} · ${formatPeriod(d.period)}`,
+      eyebrow: [d.role, formatPeriod(d.period)].filter(Boolean).join(' · '),
       title: d.title,
-      ...(d.org !== d.title && { subtitle: d.org }),
+      ...(d.org && d.org !== d.title && { subtitle: d.org }),
     }),
   );
 };

@@ -4,6 +4,7 @@ import {
   Languages,
   Mail,
   NotebookPen,
+  Rocket,
   Search,
   SunMoon,
   User,
@@ -42,6 +43,8 @@ interface Entry {
   keywords: string;
   /** Navigation targets that exist as pages when the overlay island is not on the current route. */
   overlay?: 'about' | 'projects' | 'log';
+  /** Item-type preset for the work overlay. */
+  kind?: 'work' | 'projects';
 }
 
 const NAVIGATION: Entry[] = [
@@ -51,6 +54,15 @@ const NAVIGATION: Entry[] = [
     Icon: FolderKanban,
     keywords: 'work portfolio',
     overlay: 'projects',
+    kind: 'work',
+  },
+  {
+    id: 'side-projects',
+    labelKey: 'cmdk_go_side_projects',
+    Icon: Rocket,
+    keywords: 'side projects builds research',
+    overlay: 'projects',
+    kind: 'projects',
   },
   { id: 'about', labelKey: 'cmdk_go_about', Icon: User, keywords: 'bio me', overlay: 'about' },
   {
@@ -93,8 +105,9 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
 
   const select = (entry: Entry) => {
     if (entry.overlay) {
-      if (onHome()) void setState({ cmdk: null, q: null, overlay: entry.overlay });
-      else go(href('/', { overlay: entry.overlay }));
+      const kind = entry.kind ?? null;
+      if (onHome()) void setState({ cmdk: null, q: null, overlay: entry.overlay, kind });
+      else go(href('/', { overlay: entry.overlay, kind }));
       return;
     }
     close();

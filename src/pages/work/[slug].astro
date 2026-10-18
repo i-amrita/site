@@ -23,12 +23,12 @@ const { Content } = await render(entry);
   title={d.title}
   description={d.summary}
   mdHref={`/work/${entry.id}.md`}
-  eyebrow={d.role}
+  eyebrow={d.role ?? 'Project'}
   back={{ href: '/work', label: 'All work' }}
 >
   <Fragment slot="meta">
     <p class="text-muted-foreground">
-      {d.org} · {formatPeriod(d.period)}{d.location ? ` · ${d.location}` : ''}
+      {[d.org, formatPeriod(d.period), d.location].filter(Boolean).join(' · ')}
     </p>
     <p>{d.summary}</p>
     <TagList tags={d.tags} linked />

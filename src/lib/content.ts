@@ -4,7 +4,7 @@
  */
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
-import type { PostItem, ProjectItem } from '@/components/react/overlay-types';
+import type { PostItem, ProjectItem, ResearchItem } from '@/components/react/overlay-types';
 
 export const SITE_URL = 'https://amrita.nambiar.my';
 export const SITE_NAME = 'Amrita Nambiar';
@@ -12,6 +12,7 @@ export const SITE_SUMMARY =
   'Personal portfolio of Amrita Nambiar: AI, community and human-centered design. MIMS 2027 at UC Berkeley.';
 
 export type ProjectEntry = CollectionEntry<'project'>;
+export type ResearchEntry = CollectionEntry<'research'>;
 export type PostEntry = CollectionEntry<'post'>;
 export type SingletonEntry = CollectionEntry<'singletons'>;
 
@@ -23,6 +24,12 @@ export async function getProjects(): Promise<ProjectEntry[]> {
   return all.toSorted(
     (a, b) => a.data.order - b.data.order || b.data.period.start.localeCompare(a.data.period.start),
   );
+}
+
+/** Non-draft publications, newest first. */
+export async function getResearch(): Promise<ResearchEntry[]> {
+  const all = await getCollection('research', (r) => !r.data.draft);
+  return all.toSorted((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
 /** Non-draft posts, newest first. */
@@ -71,8 +78,8 @@ const bullets = (items: string[]) => items.map((i) => `- ${i}`).join('\n');
 export function projectMarkdown(p: ProjectEntry): string {
   const d = p.data;
   const meta = [
-    `Role: ${d.role}`,
-    `Organization: ${d.org}`,
+    ...(d.role ? [`Role: ${d.role}`] : []),
+    ...(d.org ? [`Organization: ${d.org}`] : []),
     `Period: ${formatPeriod(d.period)}`,
     ...(d.location ? [`Location: ${d.location}`] : []),
     ...(d.tags.length ? [`Tags: ${d.tags.join(', ')}`] : []),
@@ -99,13 +106,37 @@ export function singletonMarkdown(s: SingletonEntry): string {
   return [`# ${s.data.title}`, mdxToMarkdown(s.body)].filter(Boolean).join('\n\n');
 }
 
+const projectLine = (p: ProjectEntry) => {
+  const who = [p.data.role, p.data.org].filter(Boolean).join(', ');
+  return `- [${p.data.title}](${abs(`/work/${p.id}.md`)}): ${who ? `${who} ` : ''}(${formatPeriod(p.data.period)}). ${p.data.summary}`;
+};
+
+const section = (heading: string, items: string[], empty: string) =>
+  [`## ${heading}`, items.length ? items.join('\n') : empty].join('\n\n');
+
 export async function workIndexMarkdown(): Promise<string> {
-  const projects = await getProjects();
-  const items = projects.map(
-    (p) =>
-      `- [${p.data.title}](${abs(`/work/${p.id}.md`)}): ${p.data.role}, ${p.data.org} (${formatPeriod(p.data.period)}). ${p.data.summary}`,
-  );
-  return ['# Work', items.length ? items.join('\n') : 'No work yet.'].join('\n\n');
+  const [projects, research] = await Promise.all([getProjects(), getResearch()]);
+  return [
+    '# Work',
+    section(
+      'Work',
+      projects.filter((p) => p.data.kind === 'work').map(projectLine),
+      'No work yet.',
+    ),
+    section(
+      'Projects',
+      projects.filter((p) => p.data.kind === 'project').map(projectLine),
+      'No projects yet.',
+    ),
+    section(
+      'Research',
+      research.map(
+        (r) =>
+          `- [${r.data.title}](${r.data.href}): ${r.data.venue} (${formatDate(r.data.date)}). ${r.data.description}`,
+      ),
+      'No research yet.',
+    ),
+  ].join('\n\n');
 }
 
 export async function logIndexMarkdown(): Promise<string> {
@@ -183,12 +214,24 @@ const truncate = (s: string, max = 200) =>
 export function toProjectItem(p: ProjectEntry): ProjectItem {
   return {
     id: p.id,
+    kind: p.data.kind,
     title: p.data.title,
-    role: p.data.role,
-    org: p.data.org,
+    ...(p.data.role && { role: p.data.role }),
+    ...(p.data.org && { org: p.data.org }),
     period: formatPeriod(p.data.period),
     summary: truncate(p.data.summary),
     tags: p.data.tags,
+  };
+}
+
+export function toResearchItem(r: ResearchEntry): ResearchItem {
+  return {
+    id: r.id,
+    title: r.data.title,
+    venue: r.data.venue,
+    date: formatDate(r.data.date),
+    description: truncate(r.data.description),
+    href: r.data.href,
   };
 }
 

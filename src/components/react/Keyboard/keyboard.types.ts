@@ -13,7 +13,7 @@ export interface MacroKeyDef {
   legendKey?:
     | 'key_work'
     | 'key_about'
-    | 'key_research'
+    | 'key_projects'
     | 'key_log'
     | 'key_find'
     | 'key_sound'

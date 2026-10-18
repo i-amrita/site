@@ -5,7 +5,7 @@ import { getProjects } from '@/lib/content';
 const projects = (await getProjects()).map((p) => ({
   slug: p.id,
   title: p.data.title,
-  org: p.data.org,
+  org: p.data.org ?? '',
 }));
 ---
 
