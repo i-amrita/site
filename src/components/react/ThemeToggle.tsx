@@ -1,18 +1,27 @@
-import { Moon, Sun } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
 import { m, useLocale } from '@/lib/i18n';
+import { cn } from '@/lib/utils';
 
+import { PILL_ITEM } from './LocaleSwitch';
 import { useActions } from './use-actions';
 
-/** Icon button: toggles `?theme=`. Renders both icons and lets CSS pick by `color-scheme`. */
+/** Brand dot with a radar ping: toggles `?theme=`. The ping is off under `prefers-reduced-motion`. */
 export function ThemeToggle() {
   const { run } = useActions();
   useLocale();
   return (
-    <Button variant="ghost" size="icon" aria-label={m.action_theme()} onClick={() => run('theme')}>
-      <Sun className="hidden size-4 dark:block" />
-      <Moon className="size-4 dark:hidden" />
-    </Button>
+    <button
+      type="button"
+      aria-label={m.action_theme()}
+      onClick={() => run('theme')}
+      className={cn(PILL_ITEM, 'size-7')}
+    >
+      <span className="relative flex size-2.5">
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 animate-ping rounded-full bg-brand/60 [animation-duration:1.6s] motion-reduce:animate-none"
+        />
+        <span className="relative size-2.5 rounded-full bg-brand" />
+      </span>
+    </button>
   );
 }

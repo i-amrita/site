@@ -1,4 +1,4 @@
-import { Languages } from 'lucide-react';
+import Languages from '~icons/ph/translate-light';
 
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -7,15 +7,29 @@ import { cn } from '@/lib/utils';
 
 import { Providers } from './Providers';
 
-/** Bare button, for use inside an existing `<Providers>` tree. */
-export function LocaleSwitchButton() {
+/** Shared look for navbar pill items: 28px visible, 44px hit area via `::after`, hairline focus ring. */
+export const PILL_ITEM =
+  'relative inline-flex items-center justify-center rounded-full text-muted-foreground outline-none transition-colors duration-300 ease-(--ease-spring) after:absolute after:-inset-2 after:content-[""] hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-brand aria-[current=page]:text-fg data-[state=open]:text-brand';
+
+/** Bare button, for use inside an existing `<Providers>` tree. `code` renders the current locale code for the navbar pill. */
+export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' }) {
   const { locale, setLocale } = useLocale();
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={m.locale_switch_label()}>
-          <Languages />
-        </Button>
+        {variant === 'code' ? (
+          <button
+            type="button"
+            aria-label={`${locale.toUpperCase()} ${m.locale_switch_label()}`}
+            className={cn(PILL_ITEM, 'h-7 px-2 font-mono text-xs uppercase')}
+          >
+            {locale}
+          </button>
+        ) : (
+          <Button variant="ghost" size="icon" aria-label={m.locale_switch_label()}>
+            <Languages className="size-4" aria-hidden="true" />
+          </Button>
+        )}
       </PopoverTrigger>
       <PopoverContent align="end" className="w-48 p-1">
         <ul role="listbox" aria-label={m.locale_switch_label()} className="flex flex-col">
