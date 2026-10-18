@@ -37,11 +37,13 @@ export function AboutOverlay({ open, onClose, children }: Props) {
             <FlaskConical className="size-4" aria-hidden="true" /> {m.socials_research()}
           </a>
         </li>
-        <li>
-          <a className={link} href={SOCIALS.cv}>
-            <FileText className="size-4" aria-hidden="true" /> {m.socials_cv()}
-          </a>
-        </li>
+        {SOCIALS.cv && (
+          <li>
+            <a className={link} href={SOCIALS.cv}>
+              <FileText className="size-4" aria-hidden="true" /> {m.socials_cv()}
+            </a>
+          </li>
+        )}
       </ul>
     </ActionOverlay>
   );
