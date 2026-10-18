@@ -375,6 +375,13 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-18T14:00:00Z"
 
+[entries.keyboard_sound_blocked]
+value = "Bunyi dimatikan pada peranti ini. Kekunci masih berfungsi."
+source_hash = "07ac82f7c46a94c2cfba6db882eb4b82eb02d403"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-18T14:19:09Z"
+
 [entries.kind_aria]
 value = "Tapis mengikut jenis"
 source_hash = "e55aa1d9ecaa45f22295276bfb55666f846c4c3a"

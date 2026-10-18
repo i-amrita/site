@@ -20,6 +20,8 @@ let gestureAt = 0;
 /** `loading` until the sprite is decoded or has failed (failure falls back to synthesized clicks). */
 export type AudioStatus = 'loading' | 'ready';
 let status: AudioStatus = 'loading';
+/** True once a gesture tried to start audio and the context still is not running (iOS silent/locked cases). */
+let blocked = false;
 const listeners = new Set<() => void>();
 
 export const subscribeAudioStatus = (cb: () => void) => {
@@ -28,47 +30,109 @@ export const subscribeAudioStatus = (cb: () => void) => {
 };
 export const getAudioStatus = (): AudioStatus => status;
 export const getServerAudioStatus = (): AudioStatus => 'loading';
+export const getAudioBlocked = (): boolean => blocked;
+export const getServerAudioBlocked = (): boolean => false;
+
+function emit() {
+  for (const l of listeners) l();
+}
 
 function setStatus(next: AudioStatus) {
   if (status === next) return;
   status = next;
-  for (const l of listeners) l();
+  emit();
 }
+
+function setBlocked(next: boolean) {
+  if (blocked === next) return;
+  blocked = next;
+  emit();
+}
+
+/** Longest the startup state may last: a stalled fetch must not leave the loading UI up forever. */
+const LOAD_TIMEOUT_MS = 8000;
+/** How long after a gesture the context may stay non-running before we call it blocked. */
+const BLOCKED_AFTER_MS = 1500;
 
 const UNLOCK_EVENTS = ['pointerdown', 'touchend', 'mousedown', 'keydown'] as const;
 
 export function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') return null;
   if (!ctx) {
-    const Ctor =
-      window.AudioContext ??
-      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!Ctor) return null;
-    ctx = new Ctor({ latencyHint: 'interactive' });
+    try {
+      const Ctor =
+        window.AudioContext ??
+        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!Ctor) return null;
+      ctx = new Ctor({ latencyHint: 'interactive' });
+      ctx.addEventListener('statechange', () => {
+        if (ctx?.state === 'running') setBlocked(false);
+      });
+    } catch {
+      return null;
+    }
   }
   return ctx;
 }
 
-/** First gesture: create the realtime context and resume it (the decode already happened, or is under way). */
+/**
+ * iOS mutes Web Audio under the hardware silent switch unless the page's audio session is `playback`
+ * (Safari 16.4+ `navigator.audioSession`). Best effort, no-op elsewhere.
+ */
+function setPlaybackSession() {
+  try {
+    const session = (navigator as unknown as { audioSession?: { type: string } }).audioSession;
+    if (session && session.type !== 'playback') session.type = 'playback';
+  } catch {
+    // Unsupported value or locked-down browser: sound just follows the default policy.
+  }
+}
+
+/**
+ * A gesture: create the realtime context if needed and resume it. Safari reports `suspended` before the first
+ * gesture and `interrupted` after a call or tab switch; both need `resume()` from a gesture, so the listeners stay
+ * armed for the page's life (an early return makes them free while the context is running). Playing a one-frame
+ * silent buffer inside the gesture is the classic iOS unlock. Never throws.
+ */
 function unlock() {
-  gestureAt = performance.now();
-  warm();
-  const c = getAudioContext();
-  if (!c) return;
-  void c.resume().then(() => {
-    if (c.state === 'running')
-      for (const e of UNLOCK_EVENTS) window.removeEventListener(e, unlock, true);
-  });
+  try {
+    gestureAt = performance.now();
+    warm();
+    if (ctx?.state === 'running') return;
+    setPlaybackSession();
+    const c = getAudioContext();
+    if (!c) return setBlocked(true);
+    void c.resume().catch(() => undefined);
+    try {
+      const src = c.createBufferSource();
+      src.buffer = c.createBuffer(1, 1, 22050);
+      src.connect(c.destination);
+      src.start(0);
+    } catch {
+      // The silent poke is optional.
+    }
+    setTimeout(() => {
+      if (c.state !== 'running') setBlocked(true);
+    }, BLOCKED_AFTER_MS);
+  } catch {
+    // Audio must never break the keypad.
+  }
 }
 
 /** Decode the sprite (its bytes come from the early preload). */
 function warm() {
   if (warmStarted) return;
   warmStarted = true;
-  void decodeSprite(getAudioContext).then((b) => {
-    buffer = b;
-    setStatus('ready');
-  });
+  const timer = setTimeout(() => setStatus('ready'), LOAD_TIMEOUT_MS);
+  void decodeSprite(getAudioContext)
+    .then((b) => {
+      buffer = b;
+    })
+    .catch(() => undefined)
+    .finally(() => {
+      clearTimeout(timer);
+      setStatus('ready');
+    });
 }
 
 /** Arm the gesture unlock and start the sprite decode. No AudioContext yet. Safe to call repeatedly. */
@@ -97,7 +161,10 @@ export function isMuted(): boolean {
 function canPlay(): boolean {
   if (!ctx || status !== 'ready') return false;
   if (ctx.state === 'running') return true;
-  return ctx.state === 'suspended' && performance.now() - gestureAt < 120;
+  return (
+    (ctx.state === 'suspended' || ctx.state === ('interrupted' as AudioContextState)) &&
+    performance.now() - gestureAt < 120
+  );
 }
 
 /** Synth fallback used when the sprite failed to fetch or decode: a ~25ms filtered noise tick. */
@@ -124,6 +191,14 @@ function playSynthClick(c: AudioContext, name: SoundName): void {
  * random jitter. No-op when muted, not yet decoded, or the context is still locked.
  */
 export function playClick(name: SoundName, id = ''): void {
+  try {
+    clickNow(name, id);
+  } catch {
+    // A failed sound must never break a key press.
+  }
+}
+
+function clickNow(name: SoundName, id: string): void {
   if (muted || !canPlay() || !ctx) return;
   if (!buffer) return playSynthClick(ctx, name);
   const samples = SPRITE[name];
@@ -145,6 +220,14 @@ let lastTick = 0;
  * Respects mute, needs the unlocked context, and is rate-limited to one tick per 30ms.
  */
 export function playTick(value: number, strong = false): void {
+  try {
+    tickNow(value, strong);
+  } catch {
+    // A failed sound must never break the dial.
+  }
+}
+
+function tickNow(value: number, strong: boolean): void {
   if (muted || !canPlay() || !ctx) return;
   const now = performance.now();
   if (now - lastTick < 30) return;

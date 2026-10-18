@@ -1,6 +1,12 @@
 import { useEffect, useState, useSyncExternalStore, type CSSProperties } from 'react';
 
-import { getAudioStatus, getServerAudioStatus, subscribeAudioStatus } from '@/lib/audio';
+import {
+  getAudioBlocked,
+  getAudioStatus,
+  getServerAudioBlocked,
+  getServerAudioStatus,
+  subscribeAudioStatus,
+} from '@/lib/audio';
 import { m, useLocale } from '@/lib/i18n';
 
 import { Providers } from '../Providers';
@@ -9,12 +15,17 @@ import { KeyboardProvider, useKeyboard } from './keyboard-context';
 import { PAD_KEYS } from './keyboard-layout';
 import { CHASSIS_CLASS, PLATE_CLASS } from './keyboard-themes';
 
+/** How long the one-time "sound is off" hint stays up. */
+const HINT_MS = 6000;
+let hintShown = false;
+
 /**
- * Startup indicator: a small pulsing dot under the pad while the sounds load (present in the SSR HTML, so it shows
- * before hydration too), plus sr-only status text. Once the sprite is decoded it fades out and leaves the DOM, so a
- * fully loaded pad shows nothing extra. Absolutely positioned: no layout shift. Keys never wait for it.
+ * Startup state, shown only while the sounds load (present in the SSR HTML, so it appears before hydration too):
+ * a soft light sweep over the pad plus a small status pill. Once the sprite is decoded (or failed, or timed out) both
+ * fade out and leave the DOM, so a loaded pad shows nothing extra. Everything is absolutely positioned and
+ * pointer-events-none: no layout shift, and keys never wait for it.
  */
-function StartupIndicator() {
+function StartupSkeleton() {
   const status = useSyncExternalStore(subscribeAudioStatus, getAudioStatus, getServerAudioStatus);
   const [gone, setGone] = useState(false);
   const ready = status === 'ready';
@@ -26,19 +37,61 @@ function StartupIndicator() {
   }, [ready]);
   if (gone) return null;
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      data-startup-indicator
-      data-state={ready ? 'ready' : 'loading'}
-      className={`pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 transition-opacity duration-300 motion-reduce:transition-none ${ready ? 'opacity-0' : 'opacity-100'}`}
-    >
-      <span className="sr-only">{ready ? '' : m.keyboard_loading()}</span>
-      <span
+    <>
+      <div
         aria-hidden="true"
-        className="block size-1.5 animate-pulse rounded-full bg-brand/60 motion-reduce:animate-none"
-      />
-    </div>
+        data-startup-skeleton
+        className={`pointer-events-none absolute inset-0 overflow-hidden rounded-[28px] transition-opacity duration-300 motion-reduce:transition-none ${ready ? 'opacity-0' : 'opacity-100'}`}
+      >
+        <div
+          data-startup-sheen
+          className="absolute inset-0 animate-sheen bg-linear-to-r from-transparent via-white/10 to-transparent motion-reduce:animate-none"
+        />
+      </div>
+      <div
+        role="status"
+        aria-live="polite"
+        data-startup-indicator
+        data-state={ready ? 'ready' : 'loading'}
+        className={`pointer-events-none absolute -bottom-9 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap text-xs text-fg/60 transition-opacity duration-300 motion-reduce:transition-none ${ready ? 'opacity-0' : 'opacity-100'}`}
+      >
+        <span
+          aria-hidden="true"
+          className="block size-1.5 animate-pulse rounded-full bg-brand/60 motion-reduce:animate-none"
+        />
+        <span>{ready ? '' : m.keyboard_loading()}</span>
+      </div>
+    </>
+  );
+}
+
+/**
+ * Subtle one-time hint when a tap could not start audio (hardware silent switch, locked or unsupported Web Audio).
+ * Keys, haptics, visuals and URL state are unaffected; sound is simply unavailable.
+ */
+function SoundHint() {
+  const blocked = useSyncExternalStore(
+    subscribeAudioStatus,
+    getAudioBlocked,
+    getServerAudioBlocked,
+  );
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (!blocked || hintShown) return;
+    hintShown = true;
+    setVisible(true);
+    const t = setTimeout(() => setVisible(false), HINT_MS);
+    return () => clearTimeout(t);
+  }, [blocked]);
+  if (!visible) return null;
+  return (
+    <p
+      role="status"
+      data-sound-hint
+      className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 animate-pill-in whitespace-nowrap text-xs text-fg/60 motion-reduce:animate-none"
+    >
+      {m.keyboard_sound_blocked()}
+    </p>
   );
 }
 
@@ -65,7 +118,8 @@ function KeyboardBody() {
             ))}
           </div>
         </div>
-        <StartupIndicator />
+        <StartupSkeleton />
+        <SoundHint />
       </div>
     </div>
   );

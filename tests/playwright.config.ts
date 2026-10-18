@@ -20,7 +20,15 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    // iOS engine, limited to the audio-resilience sample (WebKit is a ~80MB extra download; `pnpm exec playwright install webkit`).
+    {
+      name: 'webkit',
+      testMatch: /home-audio-resilience\.spec\.ts/,
+      use: { ...devices['iPhone 15'] },
+    },
+  ],
   ...(remote
     ? {}
     : {

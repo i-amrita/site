@@ -31,13 +31,28 @@ export const SPRITE: Record<SoundName, ReadonlyArray<readonly [number, number]>>
   ],
 };
 
-/** Ogg Opus where the browser can play it, AAC in m4a otherwise (Safari before 18.4). */
-export function soundExtension(): 'ogg' | 'm4a' {
-  const probe = typeof Audio === 'undefined' ? null : new Audio();
-  return probe?.canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
+export type SoundExt = 'ogg' | 'm4a';
+
+/** Any WebKit engine: Safari and every iOS browser (CriOS/FxiOS wrap WebKit), but not Blink-based Chrome/Edge. */
+export function isWebKit(
+  ua = typeof navigator === 'undefined' ? '' : navigator.userAgent,
+): boolean {
+  return /AppleWebKit/.test(ua) && !/(Chrome|Chromium|Edg|OPR)\//.test(ua) && !/Android/.test(ua);
 }
 
-export const spriteUrl = () => `/sounds/sprite-${SPRITE_HASH}.${soundExtension()}`;
+/**
+ * AAC in m4a on WebKit, Ogg Opus elsewhere (AAC when Opus is unplayable). WebKit gets m4a even when `canPlayType`
+ * claims Opus: that probe describes `<audio>` and has been optimistic where `decodeAudioData` is not, and m4a is
+ * the one format every iOS version decodes. `audio-preloader.ts` also retries the other format if decode fails.
+ * Base.astro repeats this rule inline for the head preload; keep them in sync.
+ */
+export function soundExtension(): SoundExt {
+  if (typeof Audio === 'undefined' || isWebKit()) return 'm4a';
+  return new Audio().canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
+}
+
+export const spriteUrl = (ext: SoundExt = soundExtension()) =>
+  `/sounds/sprite-${SPRITE_HASH}.${ext}`;
 
 /** Deterministic string hash (FNV-1a), so a key id always maps to the same sample. */
 export function hashId(id: string): number {
