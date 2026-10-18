@@ -148,7 +148,7 @@ export async function semanticSearch(query: string): Promise<SearchResult[]> {
       url: normalizeUrl(item.url),
       title: item.title,
       type: item.type,
-      excerpt: item.s,
+      excerpt: item.s.replace(/&/g, '&amp;').replace(/</g, '&lt;'),
       sources: ['semantic'],
     }));
 }

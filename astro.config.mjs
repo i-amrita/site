@@ -25,9 +25,20 @@ const searchIndexInDev = {
   },
 };
 
+/**
+ * onnxruntime-web's 27 MB wasm is emitted into `_astro/` by Vite, which exceeds Cloudflare Pages' 25 MiB file limit.
+ * transformers.js loads the runtime from jsDelivr by default, so the bundled copy is a dead fallback. Drop it.
+ */
+const dropOrtWasm = {
+  name: 'drop-ort-wasm',
+  generateBundle(_options, bundle) {
+    for (const key of Object.keys(bundle)) if (/ort-wasm.*\.wasm$/.test(key)) delete bundle[key];
+  },
+};
+
 export default defineConfig({
   site: 'https://amrita.nambiar.my',
   output: 'static',
   integrations: [react({ include: ['**/react/**', '**/components/ui/**'] }), mdx(), sitemap()],
-  vite: { plugins: [tailwindcss(), searchIndexInDev] },
+  vite: { plugins: [tailwindcss(), searchIndexInDev, dropOrtWasm] },
 });
