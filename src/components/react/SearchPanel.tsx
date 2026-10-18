@@ -2,13 +2,15 @@ import { Search } from 'lucide-react';
 import { useQueryStates } from 'nuqs';
 
 import { Button } from '@/components/ui/button';
+import { m, useLocale } from '@/lib/i18n';
 import { urlStateParsers } from '@/lib/url-state';
 
-import { COPY, ResultBody, ResultIcon, SearchEmpty, SearchPill } from './SearchParts';
+import { ResultBody, ResultIcon, SearchEmpty, SearchPill } from './SearchParts';
 import { useSearch } from './use-search';
 
 /** Input, mode toggle, status pill and result links. Shared by the overlay and the `/search` page. */
 export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
+  useLocale();
   const [{ q, mode }, setState] = useQueryStates(urlStateParsers);
   const keywordOnly = mode === 'keyword';
   const query = q ?? '';
@@ -31,8 +33,8 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
             value={query}
             autoFocus={autoFocus}
             autoComplete="off"
-            placeholder="Search projects, posts, pages"
-            aria-label="Search"
+            placeholder={m.search_placeholder()}
+            aria-label={m.action_search()}
             onChange={(e) => void setState({ q: e.target.value || null })}
             className="h-11 w-full bg-transparent text-sm text-fg outline-none placeholder:text-muted-foreground"
           />
@@ -50,7 +52,7 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
               aria-pressed={!keywordOnly}
               onClick={() => void setState({ mode: 'ai' })}
             >
-              AI
+              {m.search_mode_ai()}
             </Button>
             <Button
               type="button"
@@ -59,13 +61,13 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
               aria-pressed={keywordOnly}
               onClick={() => void setState({ mode: 'keyword' })}
             >
-              Keyword
+              {m.search_mode_keyword()}
             </Button>
           </div>
         </div>
       </form>
       {status === 'idle' ? (
-        <p className="px-1 text-sm text-muted-foreground">{COPY.hint}</p>
+        <p className="px-1 text-sm text-muted-foreground">{m.search_hint()}</p>
       ) : results.length === 0 ? (
         <SearchEmpty query={query} indexAvailable={indexAvailable} />
       ) : (
