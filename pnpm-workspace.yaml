@@ -1,4 +1,5 @@
 allowBuilds:
+  '@casoon/astro-post-audit': true
   esbuild: true
   intl-ai: true
   lefthook: true

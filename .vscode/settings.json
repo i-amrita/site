@@ -1,0 +1,11 @@
+{
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+  "[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" },
+  "[markdown]": { "editor.formatOnSave": false },
+  "oxc.enable": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "tailwindCSS.experimental.classRegex": [["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]],
+  "files.associations": { "*.css": "tailwindcss" },
+  "search.exclude": { "pnpm-lock.yaml": true, "dist": true, "src/i18n/paraglide": true }
+}

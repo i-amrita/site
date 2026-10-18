@@ -28,5 +28,9 @@ pre-push:
   commands:
     build:
       run: 'pnpm build'
+    # link-audit and e2e need dist/ from `build`, and pre-push runs in parallel, so they would race it.
+    # CI runs both (see .github/workflows/ci.yml). Run locally with: pnpm build && pnpm audit:links && SKIP_BUILD=1 pnpm test:e2e
+    # link-audit:
+    #   run: 'pnpm audit:links'
     intl-check:
       run: 'pnpm exec intl-ai check'
