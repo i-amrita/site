@@ -1,25 +1,20 @@
 import { FileText, FolderKanban, NotebookPen, Sparkles } from 'lucide-react';
 
+import { m, useLocale } from '@/lib/i18n';
 import type { SearchResult, SearchStatus, SearchType } from '@/lib/search';
 import { cn } from '@/lib/utils';
-
-export const COPY = {
-  pillIdle: 'AI search',
-  pillWarming: 'AI search (loading model...)',
-  pillHybrid: "Here's what I found",
-  pillKeyword: 'Keyword search',
-  noIndex:
-    'The search index is built by pnpm build. Run it, then restart pnpm dev or use pnpm preview.',
-  empty: 'No results for',
-  hint: 'Type at least 2 characters to search projects, posts and pages.',
-} as const;
 
 const TYPE_ICON: Record<SearchType, typeof FileText> = {
   page: FileText,
   project: FolderKanban,
   post: NotebookPen,
 };
-const TYPE_LABEL: Record<SearchType, string> = { page: 'Page', project: 'Project', post: 'Post' };
+const typeLabel = (type: SearchType) =>
+  type === 'page'
+    ? m.search_type_page()
+    : type === 'project'
+      ? m.search_type_project()
+      : m.search_type_post();
 
 /** Header pill. Changes label once the model is warm; `key` re-triggers the entrance animation. */
 export function SearchPill({
@@ -29,13 +24,14 @@ export function SearchPill({
   status: SearchStatus;
   keywordOnly?: boolean;
 }) {
+  useLocale();
   const label = keywordOnly
-    ? COPY.pillKeyword
+    ? m.search_pill_keyword()
     : status === 'hybrid'
-      ? COPY.pillHybrid
+      ? m.search_found()
       : status === 'warming'
-        ? COPY.pillWarming
-        : COPY.pillIdle;
+        ? m.search_pill_warming()
+        : m.search_pill_ai();
   return (
     <span
       key={label}
@@ -65,12 +61,13 @@ export function ResultIcon({ type, className }: { type: SearchType; className?: 
 }
 
 export function ResultBody({ result }: { result: SearchResult }) {
+  useLocale();
   return (
     <span className="flex min-w-0 flex-1 flex-col gap-0.5 text-left">
       <span className="flex items-center gap-2">
         <span className="truncate font-medium text-fg">{result.title}</span>
         <span className="rounded-key bg-surface-muted px-1.5 font-key text-[10px] uppercase text-muted-foreground">
-          {TYPE_LABEL[result.type]}
+          {typeLabel(result.type)}
         </span>
       </span>
       <span
@@ -83,9 +80,10 @@ export function ResultBody({ result }: { result: SearchResult }) {
 }
 
 export function SearchEmpty({ query, indexAvailable }: { query: string; indexAvailable: boolean }) {
+  useLocale();
   return (
     <p className="px-3 py-6 text-center text-sm text-muted-foreground">
-      {!indexAvailable ? COPY.noIndex : `${COPY.empty} "${query}".`}
+      {!indexAvailable ? m.search_no_index() : m.search_empty({ query })}
     </p>
   );
 }

@@ -2,28 +2,29 @@
 import { FileText, FlaskConical, Link } from '@lucide/astro';
 
 import { CopyEmail } from '@/components/react/CopyEmail';
+import { m } from '@/lib/i18n';
 import { SOCIALS } from '@/lib/site';
 
 const link =
   'inline-flex items-center gap-2 rounded-key border border-border bg-surface px-3 py-1.5 text-sm text-fg transition-colors hover:border-brand hover:text-brand';
 ---
 
-<ul class="flex flex-wrap gap-2" aria-label="Links">
+<ul class="flex flex-wrap gap-2" aria-label={m.socials_aria()} data-i18n-aria="socials_aria">
   <li>
     <a class={link} href={SOCIALS.linkedin} rel="noopener" target="_blank"
-      ><Link class="size-4" aria-hidden="true" /> LinkedIn</a
+      ><Link class="size-4" aria-hidden="true" /> <span data-i18n="socials_linkedin">{m.socials_linkedin()}</span></a
     >
   </li>
   <li>
     <a class={link} href={SOCIALS.research} rel="noopener" target="_blank"
-      ><FlaskConical class="size-4" aria-hidden="true" /> Research</a
+      ><FlaskConical class="size-4" aria-hidden="true" /> <span data-i18n="socials_research">{m.socials_research()}</span></a
     >
   </li>
   <li><CopyEmail client:idle /></li>
   {
     SOCIALS.cv && (
       <li>
-        <a class={link} href={SOCIALS.cv}><FileText class="size-4" aria-hidden="true" /> CV / Resume</a>
+        <a class={link} href={SOCIALS.cv}><FileText class="size-4" aria-hidden="true" /> <span data-i18n="socials_cv">{m.socials_cv()}</span></a>
       </li>
     )
   }

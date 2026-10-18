@@ -1,497 +1,753 @@
 version = 1
 
 [entries.action_about]
-value = "കുറിപ്പുകൾ"
+value = "എന്നെക്കുറിച്ച്"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_close]
 value = "അടയ്ക്കുക"
 source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_cmdk]
 value = "കമാൻഡ് പാലറ്റ്"
 source_hash = "7b6b539e73d9d03f40764fe99b8ec0e594a69d8f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_copy_email]
 value = "ഇമെയിൽ പകർത്തുക"
 source_hash = "e89e8c5e42169491392a376ac6516e3fcac04dc0"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_locale]
 value = "ഭാഷ മാറ്റുക"
 source_hash = "b307cb57ba08af0dbe386cd4d3e88c63d1d39d00"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_log]
 value = "ലോഗ്"
 source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_mute]
-value = "കീ ക്ലിക്കുകൾ നിറയ്ക്കുക"
+value = "കീ ക്ലിക്ക് ശബ്ദം മ്യൂട്ട് ചെയ്യുക"
 source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_projects]
 value = "പ്രോജക്ടുകൾ"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_search]
 value = "തിരയുക"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_theme]
-value = "ഥീം മാറ്റുക"
+value = "തീം മാറ്റുക"
 source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_description]
+value = "ഒരു കമാൻഡ് പ്രവർത്തിപ്പിക്കുക, ഒരു പേജിലേക്ക് പോകുക, അല്ലെങ്കിൽ സൈറ്റിൽ തിരയുക."
+source_hash = "6cf856769c6a0d8db0ab779c60906dd1e036605f"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_empty]
 value = "ഫലങ്ങൾ കണ്ടെത്താനായില്ല."
 source_hash = "e9cc6d0e9a61da7cff0e049a68c0ecfd422d901c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_go_about]
+value = "എന്നെക്കുറിച്ച് പേജിലേക്ക് പോകുക"
+source_hash = "cc605c707215e936b5123dedc8e83d55013aedf8"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_go_log]
+value = "ലോഗിലേക്ക് പോവുക"
+source_hash = "2e3b89a4a6332e55c152cf707a9df9851b2fd220"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_go_projects]
+value = "പ്രോജെക്റ്റുകളിലേക്ക് പോവുക"
+source_hash = "19ac0c7e580f8e696729f76bad4c7771b870e222"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_open_search]
+value = "തിരയൽ തുറക്കുക"
+source_hash = "5b003aff8e463bd2c5a66113841743e124263afb"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_placeholder]
-value = "ഒരു കമാൻഡ് ടൈപ്പ് ചെയ്യുക അല്ലെങ്കിൽ തിരയുക..."
+value = "കമാൻഡ് ടൈപ്പ് ചെയ്യുക അല്ലെങ്കിൽ തിരയുക..."
 source_hash = "af381432b21075e75b09489c2cb92f9c20cba274"
-origin = "ai"
-reviewed = false
+origin = "human"
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:33:28Z"
+
+[entries.cmdk_search_all]
+value = '"{query}" എന്നതിനായി പൂർണ്ണ തിരയൽ തുറക്കുക'
+source_hash = "636f240a0bc3aeddb2d303b209d97436c887bab6"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_section_actions]
 value = "പ്രവർത്തനങ്ങൾ"
 source_hash = "c3cd636a585b20c40ac2df5ffb403e83cb2eef51"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_section_commands]
+value = "കമാൻഡുകൾ"
+source_hash = "45e5f3f72e961cb70134ba35f7a27a9620e515f7"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_section_navigation]
 value = "നാവിഗേഷൻ"
 source_hash = "cf03cf2e9cdf95a20af09137dfb9071db0c31bf2"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_section_projects]
 value = "പ്രോജക്ടുകൾ"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_section_results]
+value = "ഫലങ്ങൾ"
+source_hash = "612e12d29278b5519294bc25cdaddffec6d0f1c6"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_toggle_clicks]
+value = "കീ ക്ലിക്കുകൾ മാറ്റുക"
+source_hash = "555f83d18927ffb0e855673e16bcd77d3347a8ff"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.error_back_home]
-value = "ഹോം തിരികെ പോകുക"
+value = "ഹോമിലേക്ക് മടങ്ങുക"
 source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.error_not_found]
 value = "പേജ് കണ്ടെത്താനായില്ല"
 source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.footer_license]
-value = "പോളി ഫോർം നോൺകമർശ്യമായ 1.0.0 കീഴിൽ സൗജന്യമായി ലഭ്യമാണ്"
+value = "PolyForm Noncommercial 1.0.0 പ്രകാരം സോഴ്സ് ലഭ്യമാണ്"
 source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.hero_affiliation]
+value = "ഇപ്പോൾ MIMS '27 @ UC Berkeley · മുൻ TPM @ Google (Singapore)"
+source_hash = "5dafdc10303ed2969705dba5b35f59889b30e348"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_greeting]
 value = "ഞാൻ"
 source_hash = "e3683d0554cb0566d1ea09e88f1975e3362becec"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_hint]
-value = "ഒരു കീ അഴുത്തുക, അല്ലെങ്കിൽ ഒന്നിൽ ക്ലിക്ക് ചെയ്യുക."
+value = "ഒരു കീ അമർത്തുക, അല്ലെങ്കിൽ ഒന്നിൽ ക്ലിക്ക് ചെയ്യുക."
 source_hash = "3802f301460737b1f00e4dee668a685f83a4839f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_name]
 value = "അമൃത"
 source_hash = "4a4d78b1fd2fdfd2005f286a74946f7bbeef3c00"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_subtitle]
-value = "ആളുകൾക്കും യന്ത്രങ്ങൾക്കും കൂടെ നല്ല രീതിയിൽ പ്രവർത്തിക്കാൻ പഠിക്കാൻ സഹായിക്കുന്ന ഉൽപ്പന്നങ്ങൾ ഞാൻ രൂപപ്പെടുത്തുന്നു."
-source_hash = "b11a612a9fefbbb16fdec70d7f63fd2f04af441d"
+value = "സാങ്കേതിക സങ്കീർണ്ണതയും യഥാർത്ഥ ലോകത്തെ സ്വാധീനവും തമ്മിലുള്ള വിടവ് ഞാൻ നികത്തുന്നു."
+source_hash = "7d2ed84c8e1b8fce8d8ebdfa0ccd7d3ae212b68b"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_title]
-value = "എഐ × സമൂഹം × മനുഷ്യകേന്ദ്രീകൃത രൂപകൽപ്പന"
-source_hash = "33be8b71accb2117427be83da042b15ab5d6284f"
+value = "AI × സമൂഹം × മനുഷ്യകേന്ദ്രിക ഡിസൈൻ."
+source_hash = "ed88d00e98129df97f377f5459be5989b6454378"
 origin = "ai"
 reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:44:45Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.keyboard_hint]
-value = "കീബോർഡ് ഉപയോഗിക്കുക: {action} തുറക്കാൻ {key} അമർത്തുക"
-source_hash = "2bd20ec11a32f4ece56451b81753590508255c2c"
+value = "ആക്ഷൻ കീകൾ: Esc (അടയ്ക്കുക), F1 എന്നെക്കുറിച്ച്, F2 പ്രോജക്ടുകൾ, F3 ലോഗ്, F4 തിരയുക, F5 മ്യൂട്ട്, F6 തീം, Option ഭാഷ, Cmd കമാൻഡ് പാലറ്റ്."
+source_hash = "9ebabf87e3dd5a2c322f6c4e066499037ecf7993"
 origin = "ai"
 reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:44:45Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.keyboard_hint_touch]
-value = "പരഖേലിപ്പിക്കാൻ ഒരു കീ അഴുത്തുക"
-source_hash = "10929c6bb90ee4a25c39ffe648887b9970777618"
+value = "നാവിഗേറ്റ് ചെയ്യാൻ ആക്ഷൻ കീകളിൽ (Esc, F1, Cmd) തൊടുക. തിരയാൻ തിരയൽ ഐക്കണിൽ തൊടുക."
+source_hash = "cd9cde8d693f5c0b43b51bc8c8d1ff3a63d6de74"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.keyboard_label]
-value = "സ്വയംചലന"
+value = "കീബോർഡ്"
 source_hash = "6662c40bac78a8fe5e23219b77087fbe7647cb15"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.keyboard_options]
+value = "കീബോർഡ് ഓപ്ഷനുകൾ"
+source_hash = "192f34867896c1d84b8d4fb5d625c9ba9f7efa49"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.locale_switch_label]
 value = "ഭാഷ തിരഞ്ഞെടുക്കുക"
 source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.log_empty]
-value = "ഇതുവരെ പോസ്റ്റുകൾ ഇല്ല."
-source_hash = "8c82b5ea66e2793de3088d71e88d69791ad93b05"
+value = "ഇവിടെ ഇതുവരെ ഒന്നുമില്ല. ഉടൻ വീണ്ടും വരൂ."
+source_hash = "e883e714c4db2a64048d91bb8c72a06fd95f3037"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.log_read_more]
-value = "കൂടുതൽ വായ്ക്കുക"
+value = "കൂടുതൽ വായിക്കുക"
 source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_about]
-value = "കുറിപ്പുകൾ"
+value = "എന്നെക്കുറിച്ച്"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_home]
 value = "ഹോം"
 source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_locale]
 value = "ഭാഷ"
 source_hash = "89b86ab0e66f527166d98df92ddbcf5416ed58f6"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_log]
 value = "ലോഗ്"
 source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_mute]
-value = "കീ ക്ലിക്കുകൾ നിറയ്ക്കുക"
+value = "കീ ക്ലിക്ക് ശബ്ദം മ്യൂട്ട് ചെയ്യുക"
 source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.nav_primary]
+value = "പ്രധാനം"
+source_hash = "a9a96ec019494d5b8b041c1d2468061ae66e35d5"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_projects]
 value = "പ്രോജക്ടുകൾ"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_search]
 value = "തിരയുക"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_theme]
-value = "ഥീം മാറ്റുക"
+value = "തീം മാറ്റുക"
 source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_about_description]
+value = "ഒരു ചെറു ജീവചരിത്രവും ബന്ധപ്പെടാനുള്ള ലിങ്കുകളും."
+source_hash = "4af6495af1ed4d04b7f4fa0251e02592a8234ca3"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_about_read_more]
+value = "മുഴുവൻ ബയോ വായിക്കുക"
+source_hash = "037b15481d9ab45951db389a1dbf9a07137d28ed"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_about_title]
-value = "കുറിപ്പുകൾ"
+value = "എന്നെക്കുറിച്ച്"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_close]
 value = "ഓവർലേ അടയ്ക്കുക"
 source_hash = "113040593472f11aef44085d6bcd1d2bf6c1e981"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_log_description]
+value = "പുതിയ കുറിപ്പുകളും പോസ്റ്റുകളും."
+source_hash = "21d0f64695e4943141d6fd8f6012937bada02f99"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_log_see_all]
+value = "എല്ലാ പോസ്റ്റുകളും കാണുക"
+source_hash = "91f5b645cd6b514582a0efd651f0665387d54e38"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_log_title]
 value = "ലോഗ്"
 source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_projects_description]
+value = "തിരഞ്ഞെടുത്ത പ്രോജക്ടുകൾ. ടാഗ് അനുസരിച്ച് ഫിൽട്ടർ ചെയ്യുക, അല്ലെങ്കിൽ പൂർണ്ണ കഥയ്ക്കായി ഒന്ന് തുറക്കുക."
+source_hash = "714d647c68cc0f85d86a195ddf56bb0fabf02934"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_projects_see_all]
+value = "എല്ലാ പ്രോജെക്റ്റുകളും കാണുക"
+source_hash = "81895f60b3dacca65adbca0f90f3f615463e6004"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_projects_title]
 value = "പ്രോജക്ടുകൾ"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_search_title]
 value = "തിരയുക"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_empty]
 value = "ഇതുവരെ പ്രോജക്ടുകൾ ഇല്ല."
 source_hash = "313557a7de2c8c92ad6245b6f8274c4f9a193127"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.projects_empty_filter]
+value = "ഈ ഫിൽട്ടറുമായി പൊരുത്തപ്പെടുന്ന പ്രോജക്ടുകളില്ല."
+source_hash = "809d12ff2eb37370859aa3d36f01cf5299312f8f"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_filter_all]
 value = "എല്ലാം"
 source_hash = "6a72085653e4c5be8c7640c868ef787cbcf063d1"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.projects_filter_aria]
+value = "ടാഗ് അനുസരിച്ച് പ്രോജക്ടുകൾ ഫിൽട്ടർ ചെയ്യുക"
+source_hash = "fa60669dd0af8f76ae2aa1f147bc2d8bc2a4992b"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.projects_read_more]
+value = "കൂടുതൽ വായിക്കുക"
+source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_description]
+value = "പ്രോജക്ടുകൾ, പോസ്റ്റുകൾ, പേജുകൾ എന്നിവ തിരയുക."
+source_hash = "6e4aa3aa2bb250af9a9cbe4440570d94c23c629b"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_empty]
-value = '"{query}" നെ താൽക്കിച്ചിരുത്തിയില്ല. കുറഞ്ഞ അല്ലെങ്കിൽ വ്യത്യസ്ത വാക്കുകൾ പരീക്ഷിക്കുക.'
+value = '"{query}" എന്നതിന് പൊരുത്തമൊന്നുമില്ല. കുറച്ച് അല്ലെങ്കിൽ വ്യത്യസ്ത വാക്കുകൾ പരീക്ഷിക്കുക.'
 source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_found]
-value = "ഇതാ ഞാൻ കണ്ടത്"
+value = "ഇതാ ഞാൻ കണ്ടെത്തിയത്"
 source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_hint]
+value = "പ്രോജക്ടുകൾ, പോസ്റ്റുകൾ, പേജുകൾ എന്നിവ തിരയാൻ കുറഞ്ഞത് 2 അക്ഷരങ്ങൾ ടൈപ്പ് ചെയ്യുക."
+source_hash = "a0b6f40a9c204d3d2c46ee14dfee79a728726310"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_loading]
 value = "തിരയൽ മോഡൽ ലോഡ് ചെയ്യുന്നു..."
 source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_mode_ai]
+value = "AI"
+source_hash = "560040c54a3bfeaf24c4a4096cee1de719cd87cd"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_mode_keyword]
+value = "കീവേഡ്"
+source_hash = "a3926e039fd753c472f6e172496fda0574369261"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_no_index]
+value = "pnpm build ആണ് തിരയൽ സൂചിക നിർമ്മിക്കുന്നത്. അത് പ്രവർത്തിപ്പിക്കുക, തുടർന്ന് pnpm dev പുനരാരംഭിക്കുക അല്ലെങ്കിൽ pnpm preview ഉപയോഗിക്കുക."
+source_hash = "6549e6cfb9234c5525801946155621ca861252b7"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_pill_ai]
-value = "എൻ ഐ യി തിരയൽ"
+value = "AI തിരയൽ"
 source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_pill_keyword]
 value = "കീവർഡ് തിരയൽ"
 source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_pill_warming]
+value = "AI സെർച്ച് (മോഡൽ ലോഡ് ചെയ്യുന്നു...)"
+source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_placeholder]
-value = "പ്രോജക്ടുകൾ, പോസ്റ്റുകൾ മുതലായവ തിരയുക"
-source_hash = "ef187a8c1f9afa9e85018b42939d403d66a946a9"
+value = "പ്രോജക്ടുകൾ, പോസ്റ്റുകൾ, പേജുകൾ തിരയുക"
+source_hash = "a2b8d59ad47990502dc5598e35aa7b99c3428e7f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_results]
-value = "{count} ഫലങ്ങൾ {query} ക്കായി"
+value = "{query}-നായി {count} ഫലങ്ങൾ"
 source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_type_page]
+value = "പേജ്"
+source_hash = "fb06270f7c212baabc8749ffc36e49dc8f321548"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_type_post]
+value = "പോസ്റ്റ്"
+source_hash = "7858ac3ff63354f37161bd349efe11edd13b89cb"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_type_project]
+value = "പ്രോജക്ട്"
+source_hash = "f6f4da8d93e88a08220e03b7810451d3ba540a34"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.settings_highlight]
-value = "അഴുത്ത കീകൾ ഹൈലൈറ്റ് ചെയ്യുക"
-source_hash = "9f09c24f9ba7f5f7ea2688046d01e130dd5ca654"
+value = "ആക്ഷൻ കീകൾ ഹൈലൈറ്റ് ചെയ്യുക"
+source_hash = "4307fce29a0b5f6f626e0fc85662940c9c324fb2"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.settings_mute]
-value = "കീ ശബ്ദങ്ങൾ നിറയ്ക്കുക"
+value = "കീ ശബ്ദങ്ങൾ മ്യൂട്ട് ചെയ്യുക"
 source_hash = "69776754eb1923f72a2214dc68237e09756915a0"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_aria]
-value = "സാമൂഹിക കണ്ണികൾ"
+value = "സോഷ്യൽ ലിങ്കുകൾ"
 source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.socials_cv]
+value = "CV / റെസ്യൂമെ"
+source_hash = "b2112b102caf5a665cb2a17ab5c902e6ef44ebf7"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_email]
 value = "ഇമെയിൽ"
 source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_github]
-value = "ഗിറ്റ് ഹബ്"
+value = "GitHub"
 source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_linkedin]
-value = "ലിംക്ഡിൻ"
+value = "LinkedIn"
 source_hash = "6b6390a4416131f82b6ffb509f6e779e5dd9630f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.socials_research]
+value = "ഗവേഷണം"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_email_copied]
 value = "ഇമെയിൽ പകർത്തി"
 source_hash = "47a1583c3d749d63ab4b950d434fe8290d897645"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_email_failed]
-value = "ഇമെയിൽ പകർത്താൻ കഴിഞ്ഞിട്ടില്ല"
+value = "ഇമെയിൽ പകർത്താൻ കഴിഞ്ഞില്ല"
 source_hash = "2842e750ce2697dd0ccc23d908a75374c288ef1d"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_locale]
 value = "ഭാഷ: {language}"
 source_hash = "a99ac5e0e1be53c4f8fa9ffb7574d016dea5aeca"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_muted]
-value = "കീ ക്ലിക്കുകൾ നിറയ്ക്കപ്പെട്ടു"
+value = "കീ ക്ലിക്കുകൾ മ്യൂട്ട് ചെയ്തു"
 source_hash = "e5bb3031b9d5b969636b4a0da4c106d6be22ec59"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_unmuted]
-value = "കീ ക്ലിക്കുകൾ പ്രവർത്തനത്തിൽ"
+value = "കീ ക്ലിക്കുകൾ ഓൺ"
 source_hash = "f1c0eb5895662df78a72b61f87c09d207c92d2e4"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:43:55Z"
+updated_at = "2026-10-18T01:24:57Z"

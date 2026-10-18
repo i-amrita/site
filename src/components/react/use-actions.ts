@@ -14,6 +14,7 @@ import { useCallback } from 'react';
 import { toast } from 'sonner';
 
 import { ACTIONS, type ActionId } from '@/lib/actions';
+import { t } from '@/lib/i18n';
 import { EMAIL } from '@/lib/site';
 import { applyTheme, currentTheme } from '@/lib/theme';
 import { historyFor, LOCALES, urlStateParsers, type UrlStateKey } from '@/lib/url-state';
@@ -54,8 +55,8 @@ export function useActions() {
         case 'copy-email':
           void navigator.clipboard
             ?.writeText(EMAIL)
-            .then(() => toast.success('Email copied'))
-            .catch(() => toast.error('Could not copy email'));
+            .then(() => toast.success(t('toast_email_copied')))
+            .catch(() => toast.error(t('toast_email_failed')));
           return;
         default:
           if (action.patch) apply(action.patch);

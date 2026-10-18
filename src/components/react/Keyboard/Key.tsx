@@ -22,6 +22,7 @@ import {
 import type { PointerEvent } from 'react';
 
 import { ACTIONS } from '@/lib/actions';
+import { t } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 import { useKeyboard } from './keyboard-context';
@@ -50,7 +51,11 @@ const ICONS: Record<string, LucideIcon> = {
   X,
 };
 
-const LABELS = new Map(ACTIONS.map((a) => [a.id, a.label]));
+const LABEL_KEYS = new Map(ACTIONS.map((a) => [a.id, a.labelKey]));
+const labelFor = (id: string | undefined, fallback: string) => {
+  const key = LABEL_KEYS.get(id as never);
+  return key ? t(key) : fallback;
+};
 
 export function Key({ def }: { def: KeyDef }) {
   const { pressed, highlight, press, release, runAction } = useKeyboard();
@@ -65,7 +70,7 @@ export function Key({ def }: { def: KeyDef }) {
   const variant = binding?.primary ? 'accent' : def.variant;
   const theme = KEY_THEMES[variant];
   const w = def.width;
-  const name = binding ? (LABELS.get(binding.actionId) ?? def.code) : def.code;
+  const name = binding ? labelFor(binding.actionId, def.code) : def.code;
   // WCAG 2.5.3: the accessible name starts with the visible legend ("F1 About").
   const ariaLabel = def.label && binding ? `${def.label} ${name}` : name;
 

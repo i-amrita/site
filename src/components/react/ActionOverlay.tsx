@@ -2,8 +2,7 @@ import { ArrowRight, X } from 'lucide-react';
 import { useCallback, useEffect, useRef, type ReactNode } from 'react';
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-
-const COPY = { close: 'Close' } as const;
+import { m, useLocale } from '@/lib/i18n';
 
 const SCROLL_THROTTLE_MS = 200;
 
@@ -32,6 +31,7 @@ export function ActionOverlay({
   scrollTop = 0,
   onScrollTop,
 }: Props) {
+  useLocale();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const initial = useRef(scrollTop);
   initial.current = scrollTop;
@@ -71,7 +71,7 @@ export function ActionOverlay({
             className="rounded-key p-1.5 text-muted-foreground transition-colors hover:bg-surface-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             <X className="size-5" aria-hidden="true" />
-            <span className="sr-only">{COPY.close}</span>
+            <span className="sr-only">{m.overlay_close()}</span>
           </button>
         </header>
         <div

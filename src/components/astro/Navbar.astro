@@ -1,12 +1,14 @@
 ---
 import { NavbarActions } from '@/components/react/NavbarActions';
+import { m } from '@/lib/i18n';
 import { SITE_NAME } from '@/lib/site';
 ---
 
 <header class="px-4 pt-4 sm:px-6">
   <nav
     class="mx-auto flex max-w-5xl items-center justify-between rounded-card border border-border bg-surface-muted px-3 py-2"
-    aria-label="Primary"
+    aria-label={m.nav_primary()}
+    data-i18n-aria="nav_primary"
   >
     <NavbarActions side="left" client:idle />
     <a href="/" class="font-display text-lg text-fg" aria-current={Astro.url.pathname === "/" ? "page" : undefined}>{SITE_NAME}</a>

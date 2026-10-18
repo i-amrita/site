@@ -20,7 +20,7 @@ function Demo() {
       <ul className="list-disc pl-6">
         <li>{m.nav_search()}</li>
         <li>{m.cmdk_placeholder()}</li>
-        <li>{m.keyboard_hint({ key: 'P', action: m.action_projects() })}</li>
+        <li>{m.keyboard_hint()}</li>
         <li>{m.toast_locale({ language: m.nav_locale() })}</li>
         <li>{m.search_empty({ query: 'foo' })}</li>
       </ul>

@@ -21,9 +21,10 @@ import {
 } from '@/components/ui/command';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import type { ActionId } from '@/lib/actions';
+import { m, type MessageKey, t, useLocale } from '@/lib/i18n';
 import { href, urlStateParsers } from '@/lib/url-state';
 
-import { COPY as SEARCH_COPY, ResultBody, ResultIcon, SearchPill } from './SearchParts';
+import { ResultBody, ResultIcon, SearchPill } from './SearchParts';
 import { useActions } from './use-actions';
 import { useSearch } from './use-search';
 
@@ -33,22 +34,9 @@ export interface CmdKProject {
   org: string;
 }
 
-const COPY = {
-  title: 'Command palette',
-  description: 'Run a command, jump to a page, or search the site.',
-  placeholder: 'Type a command or search...',
-  navigation: 'Navigation',
-  actions: 'Actions',
-  projects: 'Projects',
-  commands: 'Commands',
-  results: 'Results',
-  empty: 'Nothing matches.',
-  searchAll: 'Open full search for',
-} as const;
-
 interface Entry {
   id: ActionId;
-  label: string;
+  labelKey: MessageKey;
   Icon: typeof User;
   keywords: string;
   /** Navigation targets that exist as pages when the overlay island is not on the current route. */
@@ -58,26 +46,26 @@ interface Entry {
 const NAVIGATION: Entry[] = [
   {
     id: 'projects',
-    label: 'Go to projects',
+    labelKey: 'cmdk_go_projects',
     Icon: FolderKanban,
     keywords: 'work portfolio',
     overlay: 'projects',
   },
-  { id: 'about', label: 'Go to about', Icon: User, keywords: 'bio me', overlay: 'about' },
+  { id: 'about', labelKey: 'cmdk_go_about', Icon: User, keywords: 'bio me', overlay: 'about' },
   {
     id: 'log',
-    label: 'Go to log',
+    labelKey: 'cmdk_go_log',
     Icon: NotebookPen,
     keywords: 'posts blog writing',
     overlay: 'log',
   },
 ];
 const ACTIONS: Entry[] = [
-  { id: 'search', label: 'Open search', Icon: Search, keywords: 'find ai' },
-  { id: 'theme', label: 'Toggle theme', Icon: SunMoon, keywords: 'dark light mode' },
-  { id: 'locale', label: 'Cycle language', Icon: Languages, keywords: 'locale translate' },
-  { id: 'mute', label: 'Toggle key clicks', Icon: Volume2, keywords: 'sound audio mute' },
-  { id: 'copy-email', label: 'Copy email', Icon: Mail, keywords: 'contact' },
+  { id: 'search', labelKey: 'cmdk_open_search', Icon: Search, keywords: 'find ai' },
+  { id: 'theme', labelKey: 'action_theme', Icon: SunMoon, keywords: 'dark light mode' },
+  { id: 'locale', labelKey: 'action_locale', Icon: Languages, keywords: 'locale translate' },
+  { id: 'mute', labelKey: 'cmdk_toggle_clicks', Icon: Volume2, keywords: 'sound audio mute' },
+  { id: 'copy-email', labelKey: 'action_copy_email', Icon: Mail, keywords: 'contact' },
 ];
 
 const onHome = () => window.location.pathname === '/';
@@ -87,6 +75,7 @@ const matches = (q: string, ...parts: string[]) =>
   !q || parts.join(' ').toLowerCase().includes(q.toLowerCase());
 
 export function CmdK({ projects }: { projects: CmdKProject[] }) {
+  useLocale();
   const [{ cmdk, q }, setState] = useQueryStates(urlStateParsers);
   const { run } = useActions();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -112,8 +101,8 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
     run(entry.id);
   };
 
-  const navigation = NAVIGATION.filter((e) => matches(trimmed, e.label, e.keywords));
-  const actions = ACTIONS.filter((e) => matches(trimmed, e.label, e.keywords));
+  const navigation = NAVIGATION.filter((e) => matches(trimmed, t(e.labelKey), e.keywords));
+  const actions = ACTIONS.filter((e) => matches(trimmed, t(e.labelKey), e.keywords));
   const projectItems = searching ? [] : projects.filter((p) => matches(trimmed, p.title, p.org));
 
   return (
@@ -122,8 +111,8 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
         showCloseButton={false}
         className="top-[12%] translate-y-0 gap-0 overflow-hidden p-0 sm:max-w-xl"
       >
-        <DialogTitle className="sr-only">{COPY.title}</DialogTitle>
-        <DialogDescription className="sr-only">{COPY.description}</DialogDescription>
+        <DialogTitle className="sr-only">{m.action_cmdk()}</DialogTitle>
+        <DialogDescription className="sr-only">{m.cmdk_description()}</DialogDescription>
         <Command shouldFilter={false} className="bg-surface">
           <div className="flex items-center gap-2 border-b border-border px-3">
             <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
@@ -134,7 +123,7 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
               onKeyDown={(e) => {
                 if (e.key === 'Backspace' && !query) close();
               }}
-              placeholder={COPY.placeholder}
+              placeholder={m.cmdk_placeholder()}
               className="h-12 w-full bg-transparent text-sm text-fg outline-none placeholder:text-muted-foreground"
             />
           </div>
@@ -147,37 +136,37 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
             </div>
           )}
           <CommandList className="max-h-[min(24rem,60dvh)] p-1">
-            <CommandEmpty>{COPY.empty}</CommandEmpty>
+            <CommandEmpty>{m.cmdk_empty()}</CommandEmpty>
             {searching && (
-              <CommandGroup heading={COPY.commands}>
+              <CommandGroup heading={m.cmdk_section_commands()}>
                 <CommandItem
                   value="cmd-search-all"
                   onSelect={() => void setState({ cmdk: null, overlay: 'search', q: trimmed })}
                 >
-                  <Search /> {COPY.searchAll} &quot;{trimmed}&quot;
+                  <Search /> {m.cmdk_search_all({ query: trimmed })}
                 </CommandItem>
               </CommandGroup>
             )}
             {navigation.length > 0 && (
-              <CommandGroup heading={COPY.navigation}>
+              <CommandGroup heading={m.cmdk_section_navigation()}>
                 {navigation.map((e) => (
                   <CommandItem key={e.id} value={`nav-${e.id}`} onSelect={() => select(e)}>
-                    <e.Icon /> {e.label}
+                    <e.Icon /> {t(e.labelKey)}
                   </CommandItem>
                 ))}
               </CommandGroup>
             )}
             {actions.length > 0 && (
-              <CommandGroup heading={COPY.actions}>
+              <CommandGroup heading={m.cmdk_section_actions()}>
                 {actions.map((e) => (
                   <CommandItem key={e.id} value={`act-${e.id}`} onSelect={() => select(e)}>
-                    <e.Icon /> {e.label}
+                    <e.Icon /> {t(e.labelKey)}
                   </CommandItem>
                 ))}
               </CommandGroup>
             )}
             {projectItems.length > 0 && (
-              <CommandGroup heading={COPY.projects}>
+              <CommandGroup heading={m.cmdk_section_projects()}>
                 {projectItems.map((p) => (
                   <CommandItem
                     key={p.slug}
@@ -191,7 +180,7 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
               </CommandGroup>
             )}
             {searching && (
-              <CommandGroup heading={COPY.results}>
+              <CommandGroup heading={m.cmdk_section_results()}>
                 {results.map((r) => (
                   <CommandItem
                     key={r.url}
@@ -205,7 +194,7 @@ export function CmdK({ projects }: { projects: CmdKProject[] }) {
                 ))}
                 {results.length === 0 && (
                   <p className="px-2 py-3 text-xs text-muted-foreground">
-                    {indexAvailable ? COPY.empty : SEARCH_COPY.noIndex}
+                    {indexAvailable ? m.cmdk_empty() : m.search_no_index()}
                   </p>
                 )}
               </CommandGroup>

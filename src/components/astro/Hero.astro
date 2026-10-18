@@ -1,15 +1,12 @@
 ---
+import { m } from '@/lib/i18n';
 ---
 
 <section class="flex flex-col gap-4">
   <h1 class="font-display text-4xl leading-[1.05] sm:text-6xl">
-    I am <span class="text-brand dark:text-brand-soft">Amrita</span>
+    <span data-i18n="hero_greeting">{m.hero_greeting()}</span> <span class="text-brand dark:text-brand-soft">Amrita</span>
   </h1>
-  <p class="max-w-2xl text-base leading-snug sm:text-2xl">
-    I bridge the gap between technical complexity and real-world impact.
-  </p>
-  <p class="text-base font-medium">AI × community × human-centered design.</p>
-  <p class="text-sm text-muted-foreground">
-    Currently MIMS '27 @ UC Berkeley · ex-TPM @ Google (Singapore)
-  </p>
+  <p class="max-w-2xl text-base leading-snug sm:text-2xl" data-i18n="hero_subtitle">{m.hero_subtitle()}</p>
+  <p class="text-base font-medium" data-i18n="hero_title">{m.hero_title()}</p>
+  <p class="text-sm text-muted-foreground" data-i18n="hero_affiliation">{m.hero_affiliation()}</p>
 </section>

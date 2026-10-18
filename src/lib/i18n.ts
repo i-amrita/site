@@ -24,9 +24,7 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   ml: 'മലയാളം',
 };
 
-type Messages = typeof paraglideMessages.m;
-export type MessageKey = keyof Messages;
-type ParamsOf<K extends MessageKey> = Parameters<Messages[K]>[0];
+export type MessageKey = keyof typeof paraglideMessages.m;
 
 function isLocale(value: unknown): value is Locale {
   return typeof value === 'string' && (LOCALES as readonly string[]).includes(value);
@@ -49,12 +47,9 @@ defineCustomClientStrategy('custom-query', {
 });
 
 /** Resolve a message by key. Prefer `m.key()` for static keys; use `t` for dynamic keys (e.g. action ids). */
-export function t<K extends MessageKey>(
-  key: K,
-  ...args: ParamsOf<K> extends undefined ? [] : [ParamsOf<K>]
-): string {
+export function t(key: MessageKey, params?: Record<string, string | number>): string {
   const fn = paraglideMessages.m[key] as (params?: unknown) => string;
-  return fn(args[0]);
+  return fn(params);
 }
 
 export const m = paraglideMessages.m;
