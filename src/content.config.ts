@@ -7,8 +7,10 @@ const project = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      role: z.string(),
-      org: z.string(),
+      /** `work` is a job or engagement (role and org shown); `project` is a self-initiated build. */
+      kind: z.enum(['work', 'project']).default('work'),
+      role: z.string().optional(),
+      org: z.string().optional(),
       period: z.object({ start: z.string(), end: z.string().optional() }),
       location: z.string().optional(),
       summary: z.string().max(280),
@@ -19,6 +21,20 @@ const project = defineCollection({
       featured: z.boolean().default(false),
       order: z.number().int().default(0),
     }),
+});
+
+/** Publications. Each is a card that links out to the paper; there is no detail page. */
+const research = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/research' }),
+  schema: z.object({
+    title: z.string(),
+    /** Journal or conference, e.g. `JCDL '26`. */
+    venue: z.string(),
+    date: z.coerce.date(),
+    description: z.string().max(280),
+    href: z.url(),
+    draft: z.boolean().default(false),
+  }),
 });
 
 const post = defineCollection({
@@ -43,4 +59,4 @@ const singletons = defineCollection({
   }),
 });
 
-export const collections = { project, post, singletons };
+export const collections = { project, research, post, singletons };

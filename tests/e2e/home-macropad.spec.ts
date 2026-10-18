@@ -8,7 +8,7 @@ async function openHome(page: Page, url = '/') {
 
 // Locator assumptions (contract from the macropad redesign, not yet verified against the built UI):
 // - The pad is a role=group whose aria-label is m.keyboard_label() (en: "Keyboard"); matched loosely.
-// - 7 keys are real buttons, the dial is a role=slider, and 3 (Research, LinkedIn, Let's build) are real links; each accessible name starts with the visible legend.
+// - 8 keys are real buttons, the dial is a role=slider, and 2 (LinkedIn, Let's build) are real links; each accessible name starts with the visible legend.
 // - The dial is a role=slider named "Highlight action keys" (0..100, `?highlight=`).
 // - A pressed pad key exposes aria-pressed="true" while a physical key is held (see the F2 test).
 
@@ -42,9 +42,9 @@ test.describe('macropad at 375x667', () => {
     await openHome(page);
     const controls = padOf(page).locator('button, a, [role="slider"]');
     await expect(controls.first()).toBeVisible();
-    expect(await padOf(page).getByRole('button').count()).toBe(7);
+    expect(await padOf(page).getByRole('button').count()).toBe(8);
     expect(await padOf(page).getByRole('slider').count()).toBe(1);
-    expect(await padOf(page).getByRole('link').count()).toBe(3);
+    expect(await padOf(page).getByRole('link').count()).toBe(2);
     const count = await controls.count();
     expect(count).toBe(11);
     const boxes = await Promise.all(
@@ -53,10 +53,17 @@ test.describe('macropad at 375x667', () => {
     for (const box of boxes) expect(box!.width).toBeGreaterThanOrEqual(44);
   });
 
-  test('tapping Work sets ?overlay=projects', async ({ page }) => {
+  test('tapping Work presets ?kind=work and Projects presets ?kind=projects', async ({ page }) => {
     await openHome(page);
     await key(page, /^Work/).click();
     await expect(page).toHaveURL(/overlay=projects/);
+    await expect(page).toHaveURL(/kind=work/);
+    await page.keyboard.press('Escape');
+    await expect(page).not.toHaveURL(/overlay=/);
+    await key(page, /^Projects/).click();
+    await expect(page).toHaveURL(/kind=projects/);
+    await page.keyboard.press('Escape');
+    await expect(page).not.toHaveURL(/kind=/);
   });
 
   test('tapping Sound toggles ?mute=1', async ({ page }) => {
@@ -73,22 +80,15 @@ test.describe('macropad at 375x667', () => {
     await expect(page).toHaveURL(/cmdk=open/);
   });
 
-  test('link keys point at mail, LinkedIn and research', async ({ page }) => {
+  test('link keys point at mail and LinkedIn', async ({ page }) => {
     await openHome(page);
     const build = link(page, /^Let's build Email/);
     await expect(build).toHaveAttribute('href', /^mailto:.+@.+/);
     await expect(build).not.toHaveAttribute('target', '_blank');
     const linkedin = link(page, /^LinkedIn/);
-    const research = link(page, /^Research/);
-    const external = [linkedin, research];
     await expect(linkedin).toHaveAttribute('href', /linkedin\.com/);
-    await expect(research).toHaveAttribute('href', /^https?:\/\//);
-    await Promise.all(
-      external.flatMap((a) => [
-        expect(a).toHaveAttribute('target', '_blank'),
-        expect(a).toHaveAttribute('rel', /noopener/),
-      ]),
-    );
+    await expect(linkedin).toHaveAttribute('target', '_blank');
+    await expect(linkedin).toHaveAttribute('rel', /noopener/);
   });
 
   test('dial keyboard control writes ?highlight=', async ({ page }) => {

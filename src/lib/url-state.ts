@@ -6,11 +6,14 @@
 import { parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs';
 
 export const OVERLAYS = ['about', 'projects', 'log'] as const;
+/** Item types shown by the work overlay and `/work`. Absent = all. */
+export const KINDS = ['work', 'projects', 'research'] as const;
 export const LOCALES = ['en', 'ms', 'hi', 'de', 'ml'] as const;
 export const THEMES = ['light', 'dark'] as const;
 export const FLAGS = ['1', '0'] as const;
 
 export type Overlay = (typeof OVERLAYS)[number];
+export type Kind = (typeof KINDS)[number];
 export type Locale = (typeof LOCALES)[number];
 export type Theme = (typeof THEMES)[number];
 
@@ -21,6 +24,7 @@ export const urlStateParsers = {
   overlay: parseAsStringLiteral(OVERLAYS),
   scroll: parseAsInteger,
   filter: parseAsString,
+  kind: parseAsStringLiteral(KINDS),
   mute: parseAsStringLiteral(FLAGS),
   /** Action-key highlight intensity, 0..100. Absent = 0. Clamp on read with `clampHighlight`. */
   highlight: parseAsInteger.withDefault(0),
@@ -41,6 +45,7 @@ export const historyFor: Record<UrlStateKey, 'push' | 'replace'> = {
   overlay: 'push',
   scroll: 'replace',
   filter: 'replace',
+  kind: 'replace',
   mute: 'replace',
   highlight: 'replace',
   theme: 'replace',
