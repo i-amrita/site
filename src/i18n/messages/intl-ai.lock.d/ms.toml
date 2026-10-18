@@ -1,497 +1,753 @@
 version = 1
 
 [entries.action_about]
-value = "Mengenai"
+value = "Tentang"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_close]
 value = "Tutup"
 source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_cmdk]
 value = "Palet perintah"
 source_hash = "7b6b539e73d9d03f40764fe99b8ec0e594a69d8f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_copy_email]
 value = "Salin emel"
 source_hash = "e89e8c5e42169491392a376ac6516e3fcac04dc0"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_locale]
 value = "Kitar bahasa"
 source_hash = "b307cb57ba08af0dbe386cd4d3e88c63d1d39d00"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_log]
 value = "Log"
 source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_mute]
-value = "Demkan bunyi klik kunci"
+value = "Senyapkan bunyi klik kekunci"
 source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_projects]
 value = "Projek"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_search]
 value = "Carian"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.action_theme]
 value = "Tukar tema"
 source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_description]
+value = "Jalankan perintah, lompat ke halaman atau cari di laman."
+source_hash = "6cf856769c6a0d8db0ab779c60906dd1e036605f"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_empty]
 value = "Tiada keputusan dijumpai."
 source_hash = "e9cc6d0e9a61da7cff0e049a68c0ecfd422d901c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_go_about]
+value = "Pergi ke tentang"
+source_hash = "cc605c707215e936b5123dedc8e83d55013aedf8"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_go_log]
+value = "Pergi ke log"
+source_hash = "2e3b89a4a6332e55c152cf707a9df9851b2fd220"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_go_projects]
+value = "Pergi ke projek"
+source_hash = "19ac0c7e580f8e696729f76bad4c7771b870e222"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_open_search]
+value = "Buka carian"
+source_hash = "5b003aff8e463bd2c5a66113841743e124263afb"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_placeholder]
 value = "Ketik perintah atau carian..."
 source_hash = "af381432b21075e75b09489c2cb92f9c20cba274"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_search_all]
+value = 'Buka carian penuh untuk "{query}"'
+source_hash = "636f240a0bc3aeddb2d303b209d97436c887bab6"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_section_actions]
 value = "Tindakan"
 source_hash = "c3cd636a585b20c40ac2df5ffb403e83cb2eef51"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_section_commands]
+value = "Perintah"
+source_hash = "45e5f3f72e961cb70134ba35f7a27a9620e515f7"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_section_navigation]
 value = "Navigasi"
 source_hash = "cf03cf2e9cdf95a20af09137dfb9071db0c31bf2"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.cmdk_section_projects]
 value = "Projek"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_section_results]
+value = "Keputusan"
+source_hash = "612e12d29278b5519294bc25cdaddffec6d0f1c6"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.cmdk_toggle_clicks]
+value = "Togol bunyi klik kekunci"
+source_hash = "555f83d18927ffb0e855673e16bcd77d3347a8ff"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.error_back_home]
 value = "Kembali ke laman utama"
 source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.error_not_found]
 value = "Halaman tidak dijumpai"
 source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.footer_license]
 value = "Sumber tersedia di bawah PolyForm Noncommercial 1.0.0"
 source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.hero_affiliation]
+value = "Kini MIMS '27 @ UC Berkeley · bekas TPM @ Google (Singapore)"
+source_hash = "5dafdc10303ed2969705dba5b35f59889b30e348"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_greeting]
 value = "Saya"
 source_hash = "e3683d0554cb0566d1ea09e88f1975e3362becec"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_hint]
 value = "Tekan kunci, atau klik salah satu."
 source_hash = "3802f301460737b1f00e4dee668a685f83a4839f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_name]
 value = "Amrita"
 source_hash = "4a4d78b1fd2fdfd2005f286a74946f7bbeef3c00"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_subtitle]
-value = "Saya merancang produk di mana orang dan mesin belajar untuk bekerja bersama dengan baik."
-source_hash = "b11a612a9fefbbb16fdec70d7f63fd2f04af441d"
+value = "Saya jambatan jurang antara kerumitan teknikal dan impak dunia sebenar."
+source_hash = "7d2ed84c8e1b8fce8d8ebdfa0ccd7d3ae212b68b"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.hero_title]
-value = "AI × komuniti × reka bentuk berpusatkan manusia"
-source_hash = "33be8b71accb2117427be83da042b15ab5d6284f"
+value = "AI × komuniti × reka bentuk berpusatkan manusia."
+source_hash = "ed88d00e98129df97f377f5459be5989b6454378"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.keyboard_hint]
-value = "Gunakan papan kekunci anda: tekan {key} untuk membuka {action}"
-source_hash = "2bd20ec11a32f4ece56451b81753590508255c2c"
+value = "Kunci aksi: Esc (tutup), F1 Tentang, F2 Projek, F3 Log, F4 Carian, F5 Senyap, F6 Tema, Option Bahasa, Cmd Palet Perintah."
+source_hash = "9ebabf87e3dd5a2c322f6c4e066499037ecf7993"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.keyboard_hint_touch]
-value = "Sentuh kunci untuk menjejaki"
-source_hash = "10929c6bb90ee4a25c39ffe648887b9970777618"
+value = "Ketuk kunci aksi (Esc, F1, Cmd) untuk navigasi. Ketuk ikon carian untuk mencari."
+source_hash = "cd9cde8d693f5c0b43b51bc8c8d1ff3a63d6de74"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.keyboard_label]
 value = "Papan kekunci"
 source_hash = "6662c40bac78a8fe5e23219b77087fbe7647cb15"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.keyboard_options]
+value = "Pilihan papan kekunci"
+source_hash = "192f34867896c1d84b8d4fb5d625c9ba9f7efa49"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.locale_switch_label]
 value = "Pilih bahasa"
 source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.log_empty]
-value = "Belum ada pos."
-source_hash = "8c82b5ea66e2793de3088d71e88d69791ad93b05"
+value = "Belum ada apa-apa di sini. Semak semula kelak."
+source_hash = "e883e714c4db2a64048d91bb8c72a06fd95f3037"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.log_read_more]
 value = "Baca lebih lanjut"
 source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_about]
-value = "Mengenai"
+value = "Tentang"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_home]
 value = "Laman utama"
 source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_locale]
 value = "Bahasa"
 source_hash = "89b86ab0e66f527166d98df92ddbcf5416ed58f6"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_log]
 value = "Log"
 source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_mute]
-value = "Demkan bunyi klik kunci"
+value = "Senyapkan bunyi klik kekunci"
 source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.nav_primary]
+value = "Utama"
+source_hash = "a9a96ec019494d5b8b041c1d2468061ae66e35d5"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_projects]
 value = "Projek"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_search]
 value = "Carian"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.nav_theme]
 value = "Tukar tema"
 source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_about_description]
+value = "Biodata ringkas dan pautan perhubungan."
+source_hash = "4af6495af1ed4d04b7f4fa0251e02592a8234ca3"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_about_read_more]
+value = "Baca biodata penuh"
+source_hash = "037b15481d9ab45951db389a1dbf9a07137d28ed"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_about_title]
-value = "Mengenai"
+value = "Tentang"
 source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_close]
-value = "Tutup skrin timbalan"
+value = "Tutup tindanan"
 source_hash = "113040593472f11aef44085d6bcd1d2bf6c1e981"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_log_description]
+value = "Nota dan pos terkini."
+source_hash = "21d0f64695e4943141d6fd8f6012937bada02f99"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_log_see_all]
+value = "Lihat semua pos"
+source_hash = "91f5b645cd6b514582a0efd651f0665387d54e38"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_log_title]
 value = "Log"
 source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_projects_description]
+value = "Projek pilihan. Tapis mengikut teg, atau buka satu untuk cerita penuh."
+source_hash = "714d647c68cc0f85d86a195ddf56bb0fabf02934"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.overlay_projects_see_all]
+value = "Lihat semua projek"
+source_hash = "81895f60b3dacca65adbca0f90f3f615463e6004"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_projects_title]
 value = "Projek"
 source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.overlay_search_title]
 value = "Carian"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_empty]
 value = "Belum ada projek."
 source_hash = "313557a7de2c8c92ad6245b6f8274c4f9a193127"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.projects_empty_filter]
+value = "Tiada projek sepadan dengan penapis ini."
+source_hash = "809d12ff2eb37370859aa3d36f01cf5299312f8f"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.projects_filter_all]
 value = "Semua"
 source_hash = "6a72085653e4c5be8c7640c868ef787cbcf063d1"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.projects_filter_aria]
+value = "Tapis projek mengikut teg"
+source_hash = "fa60669dd0af8f76ae2aa1f147bc2d8bc2a4992b"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.projects_read_more]
+value = "Baca lagi"
+source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_description]
+value = "Cari projek, pos dan halaman."
+source_hash = "6e4aa3aa2bb250af9a9cbe4440570d94c23c629b"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_empty]
 value = 'Tiada yang sepadan dengan "{query}". Cuba perkataan yang lebih sedikit atau berbeza.'
 source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_found]
 value = "Ini yang saya jumpai"
 source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_hint]
+value = "Taip sekurang-kurangnya 2 aksara untuk mencari projek, pos dan halaman."
+source_hash = "a0b6f40a9c204d3d2c46ee14dfee79a728726310"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_loading]
 value = "Memuatkan model carian..."
 source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_mode_ai]
+value = "AI"
+source_hash = "560040c54a3bfeaf24c4a4096cee1de719cd87cd"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_mode_keyword]
+value = "Kata kunci"
+source_hash = "a3926e039fd753c472f6e172496fda0574369261"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_no_index]
+value = "Indeks carian dibina oleh pnpm build. Jalankannya, kemudian mulakan semula pnpm dev atau guna pnpm preview."
+source_hash = "6549e6cfb9234c5525801946155621ca861252b7"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_pill_ai]
 value = "Carian AI"
 source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_pill_keyword]
 value = "Carian kata kunci"
 source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_pill_warming]
+value = "Carian AI (memuatkan model...)"
+source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_placeholder]
-value = "Carian projek, pos dan nota"
-source_hash = "ef187a8c1f9afa9e85018b42939d403d66a946a9"
+value = "Cari projek, pos, halaman"
+source_hash = "a2b8d59ad47990502dc5598e35aa7b99c3428e7f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.search_results]
 value = "{count} keputusan untuk {query}"
 source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_type_page]
+value = "Halaman"
+source_hash = "fb06270f7c212baabc8749ffc36e49dc8f321548"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_type_post]
+value = "Pos"
+source_hash = "7858ac3ff63354f37161bd349efe11edd13b89cb"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.search_type_project]
+value = "Projek"
+source_hash = "f6f4da8d93e88a08220e03b7810451d3ba540a34"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.settings_highlight]
-value = "Sorotan kunci yang ditekan"
-source_hash = "9f09c24f9ba7f5f7ea2688046d01e130dd5ca654"
+value = "Sorot kunci aksi"
+source_hash = "4307fce29a0b5f6f626e0fc85662940c9c324fb2"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.settings_mute]
-value = "Demkan bunyi kunci"
+value = "Senyapkan bunyi kekunci"
 source_hash = "69776754eb1923f72a2214dc68237e09756915a0"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_aria]
 value = "Pautan sosial"
 source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.socials_cv]
+value = "CV / Resume"
+source_hash = "b2112b102caf5a665cb2a17ab5c902e6ef44ebf7"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_email]
 value = "Emel"
 source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_github]
 value = "GitHub"
 source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.socials_linkedin]
 value = "LinkedIn"
 source_hash = "6b6390a4416131f82b6ffb509f6e779e5dd9630f"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
+
+[entries.socials_research]
+value = "Penyelidikan"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "ai"
+reviewed = true
+model = "openrouter/free"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_email_copied]
 value = "Emel disalin"
 source_hash = "47a1583c3d749d63ab4b950d434fe8290d897645"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_email_failed]
 value = "Tidak dapat menyalin emel"
 source_hash = "2842e750ce2697dd0ccc23d908a75374c288ef1d"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_locale]
 value = "Bahasa: {language}"
 source_hash = "a99ac5e0e1be53c4f8fa9ffb7574d016dea5aeca"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_muted]
-value = "Bunyi klik kunci di-denkan"
+value = "Bunyi klik kekunci disenyapkan"
 source_hash = "e5bb3031b9d5b969636b4a0da4c106d6be22ec59"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
 
 [entries.toast_unmuted]
 value = "Bunyi klik kunci diaktifkan"
 source_hash = "f1c0eb5895662df78a72b61f87c09d207c92d2e4"
 origin = "ai"
-reviewed = false
+reviewed = true
 model = "openrouter/free"
-updated_at = "2026-10-18T00:40:33Z"
+updated_at = "2026-10-18T01:24:57Z"
