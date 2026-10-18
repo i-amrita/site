@@ -1,0 +1,21 @@
+version = 1
+locale_dir = "src/i18n/messages"
+source = "en"
+targets = ["ms", "hi", "de", "ml"]
+
+# OpenAI-compatible endpoint (OpenRouter). Model and key come from .env (AI_MODEL_ID, AI_API_KEY).
+# The .env AI_BASE_URL ends in /v1, which 404s on this host, so the working base is pinned here.
+[provider]
+kind = "http"
+base_url = "https://openrouter.ai/api/v1"
+model = "${env:AI_MODEL_ID:-unset}"
+api_key = "${env:AI_API_KEY:-unset}"
+
+[check]
+fail_on = ["missing", "stale", "invalid"]
+
+[[checks]]
+id = "icu"
+
+[[checks]]
+id = "placeholder-parity"
